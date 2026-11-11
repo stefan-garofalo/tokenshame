@@ -2,7 +2,7 @@
 title: "Usage Roast Share"
 domain: "tokenshame"
 type: spec
-status: compiled
+status: implemented
 readiness: agent-ready
 links:
   - "https://github.com/stefan-garofalo/tokenshame/blob/a2cf7b78dbf1ac6d217fb20c4ba4d1837ad5fc87/apps/wiki/content/docs/project/specs/tokenshame/usage-roast-share/ARCHITECTURE.md"
