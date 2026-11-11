@@ -1,0 +1,36 @@
+---
+title: "Tokenshame Glossary"
+surface: project
+permission: project
+---
+
+# Tokenshame Glossary
+
+Source: [grill status](../grilling/tokenshame-grill-status.md), [grill log](../grilling/tokenshame-grill-log.md).
+
+## Terms
+
+- **Usage Source**: one local folder or file where a coding agent writes token counts.
+- **Usage Summary**: the small set of numbers the CLI computes from Usage Sources. It holds no prompt text.
+- **Share Link**: a public URL on the share domain that carries the Usage Summary inside itself.
+- **Share Page**: the HTML page a Share Link opens.
+- **Share Card**: the 1200×630 image for a Share Link; X shows it as the link card and the user can paste it into a post.
+- **Roast Line**: one generated sentence that turns a Usage Summary number into a joke comparison.
+- **Impact Estimate**: a real-world quantity derived from token counts with a stated assumption and source, shown as a dreadful comparison.
+- **Tokens Processed**: the public headline number; the raw total of all tokens. Public copy never says "cache".
+- **Consent Prompt**: the CLI step that shows the exact Usage Summary and asks before the browser opens a Share Link.
+
+## Relationships
+
+- A Usage Summary is computed from one or more Usage Sources.
+- A Share Link encodes exactly one Usage Summary.
+- A Share Page and its Share Card render from the same Share Link.
+- A Roast Line states one Impact Estimate or one Usage Summary number.
+
+## Axioms
+
+- No prompt or message text leaves the user's machine.
+- The CLI never asks for a login, API key, or admin key.
+- The CLI makes no network request; only the user's browser contacts the share domain.
+- The share domain stores nothing; a Share Link alone renders its Share Page and Share Card.
+- Every `apps/web` page is built with the `/design-taste-frontend` skill.
