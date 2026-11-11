@@ -1,0 +1,1 @@
+../../.agents/hooks/format-edited-file.mjs

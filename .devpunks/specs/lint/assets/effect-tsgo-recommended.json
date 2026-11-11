@@ -1,0 +1,28 @@
+{
+  "description": "Effect tsgo recommended type-aware Oxlint rules.",
+  "id": "effect-tsgo-recommended",
+  "jsPlugins": [],
+  "oxlintConfigExtensions": [
+    {
+      "exportName": "recommended",
+      "specifier": "@effect/tsgo/oxlint-presets"
+    }
+  ],
+  "oxlintPresets": [],
+  "plugins": [],
+  "requiredDevDependencies": [
+    "@effect/tsgo",
+    "oxlint-tsgolint"
+  ],
+  "requiredDevDependencyVersions": {
+    "@effect/tsgo": "0.67.0",
+    "oxfmt": "0.72.0",
+    "oxlint": "1.90.0",
+    "oxlint-tsgolint": "7.0.2005",
+    "ultracite": "7.12.4"
+  },
+  "rules": {
+    "typescript/promise-function-async": "off"
+  },
+  "settings": {}
+}

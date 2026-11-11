@@ -1,0 +1,270 @@
+# Plan Schema
+
+Use this reference to normalize `PLAN.md` for execution.
+
+## Plan contract
+
+The generated `PLAN.md` is the execution handoff. It must stand alone without hidden context.
+
+Include:
+
+- Context Pointers to the current retained `ARCHITECTURE.md` and `SPEC.md`, with
+  immutable blob URLs, exact source identities, required decision selectors and
+  freshness rules. Each task carries its relevant spec codes, architecture block/flow
+  selectors and source Q evidence through the canonical architecture traceability
+  mapping, so workers can reconstruct accepted decisions. Use the existing
+  Context Pointer contract in the installed `delivery-phase` skill's
+  `references/context-continuity.md`
+- `architecture_applicability: local | architecture-bearing` with evidence
+- initial situation
+- issue or problem statement
+- proposed solution shape
+- resolved decision ledger
+- assumptions and constraints
+- codebase findings
+- `## Wiki Context`, in the [Wiki Context](#wiki-context) format
+- external research used
+- dependency graph
+- parallel execution waves
+- testing strategy
+- risks and mitigations
+- validation gates per `Tn` task and dependency wave
+- unresolved questions
+
+When `architecture_applicability: architecture-bearing`, also include the normative **Target Ownership
+Topology**, **Declared Dependency Graph**, **Responsibility Acceptance Criteria**, **Architecture Waves**,
+**Public Seam Contract**, and **Migration Ledger** defined in
+[architecture-convergence.md](architecture-convergence.md). Persist each view using `$show-me`; the migration
+ledger starts with every planned temporary seam and final closure requires it to be empty.
+
+`unresolved questions` is not a hiding place for skipped planning. Include only `$grilling`-deferred, externally blocked, or non-blocking questions, and state why each remains open.
+
+Each wave labels an earliest Execution Frontier, not a whole-wave release barrier.
+Record every eligible task under dependency, write/read, runtime and architecture
+constraints; actual capacity determines dispatch. Planning must expose those
+constraints so independent work can proceed after its own parent Task Gates.
+One plan creates at most one pull request per Touched Repository; split or stack
+PRs only when the user explicitly asks. The task graph never proposes per-Story
+or per-Task PRs; its waves stay inside the one branch per Touched Repository.
+
+## Wiki Context
+
+`## Wiki Context` records the project wiki knowledge that shapes the plan. The
+wiki contract, discovery-map entries and freshness classes come from the
+installed `docs-ingest-phase` skill's `references/wiki-contract.md`,
+`references/fumadocs-routing.md` and `references/wiki-ingest.md`.
+
+Record:
+
+- **Knowledge used**: one entry per routed page: its link; the "Applies when"
+  cue or search query that selected it; the claims the plan uses; its freshness
+  (_fresh_, _stale_ or _freshness unknown_); and each claim's status, proposal
+  or verified implementation, with the primary evidence checked.
+- **Stale or contradictory claims**: each claim, the primary evidence that
+  disagrees, and its resolution in this plan or the unresolved question that
+  carries it.
+- **Returned findings**: each novel, evidence-backed finding sent to
+  `docs-ingest-phase`, or the knowledge no-op with the evidence compared.
+
+When no routed page applies, write `No applicable context` with the discovery
+entrypoints and searches checked. When the wiki contract has a gap, record its
+missing fields and `No applicable context`.
+
+## Task contract
+
+Every task must include:
+
+- stable task id
+- `depends_on`
+- `location`
+- `owned_paths`
+- `read_dependencies`
+- `shared_runtime_resources`
+- `relevant_input_set`
+- `wave_boundary`
+- `description`
+- `validation`
+- `status`
+- `log`
+- `files edited/created`
+- `task_identity_mode`
+- `backlog_item_id`
+- `backlog_item_url`
+- `relation_mode`
+- `backlog_sync_skip_reason`
+- `assigned_skills`
+- `implementation_skill_guidance`
+- `tdd_status`
+- `tdd_target`
+- `red_command`
+- `expected_red_failure`
+- `green_command`
+- `reason_not_testable`
+- `red_evidence`
+- `green_evidence`
+- `test_form`
+- `invariant_refs`
+- `sensitivity_evidence`
+- `codebase_design_notes`
+- `review_mode`
+- `runtime_validation`
+- `runtime_target`
+- `runtime_evidence`
+- `runtime_cleanup`
+
+Every architecture-bearing task must also include:
+
+- `architecture_wave`
+- `behavior_owner`
+- `integration_surface`
+- `public_seam`
+- `topology_delta`
+- `forbidden_ownership`
+- `temporary_seams`
+- `responsibility_acceptance_criteria`
+
+These fields bind the task to cumulative ownership rather than file placement. Local-plan tasks omit them;
+their applicability evidence and ordinary `codebase_design_notes` replace only convergence fields. The retained architecture and pair checks still apply.
+
+`architecture_wave` is a stable architecture sequence id, for example `A2`; `wave_boundary` remains the worker
+parallelism id. `responsibility_acceptance_criteria` lists the stable criterion ids this task advances or proves.
+Every listed id must exist in the plan-level Responsibility Acceptance Criteria view, whose entry declares its
+`due_architecture_wave`. Each criterion maps to at least one task and exactly one due architecture wave.
+
+`task_identity_mode` is uniform across the plan:
+
+- `provider-task`: `backlog_item_id` records the stable provider Task identity,
+  `backlog_item_url` records that exact Task's provider URL, `relation_mode` is
+  `native` or `body-links`, and `backlog_sync_skip_reason` is blank. Each `Tn`
+  is a plan alias for one provider Task, never a second execution identity.
+  Preserve the Task's exact parent Story, same `V*`, source links, and provider
+  readback in the plan context.
+- `planning-only`: `Tn` is the execution identity. Set `backlog_item_id` and
+  `backlog_item_url` to `not_applicable`, `relation_mode` to `unprojected`, and
+  record a nonempty `backlog_sync_skip_reason`. Provider parent, milestone,
+  provenance, blocker, and readback claims are absent.
+
+In `provider-task` mode, `depends_on` preserves or mirrors native provider Task
+blocker edges through the `Tn` alias map. In `planning-only` mode, it names
+other `Tn` identities in the same plan. Worker waves derive from the applicable
+graph and disjoint ownership.
+
+`owned_paths` lists the exact Active Write Scope assigned to the task. Concurrent
+workers have disjoint reserved scopes. `read_dependencies` names paths, contracts
+and authority consumed by work or checks. `shared_runtime_resources` names shared
+processes, ports, fixtures, provider objects or databases and compatible access.
+`relevant_input_set` names the authoritative inputs and identity/readback method
+needed to detect changes before/after checks, release and finalization. Record
+explicit `none` with rationale where applicable; absence is unknown.
+
+Every task carries the pair's exact source identities and its applicable
+architecture decision selectors through Context Pointers, `read_dependencies`
+and `relevant_input_set`. Add concrete code/contract reads as needed. Preserve
+accepted detail at its source; a bounded excerpt must retain identity, selector
+and freshness. Changes invalidate affected task proof before dependent dispatch.
+Neither `local` applicability nor `planning-only` task identity waives the pair.
+
+A declared read/write or incompatible runtime conflict delays only affected work.
+Read/read overlap is safe. Changed relevant inputs invalidate affected gate proof
+and require affected checks again. Task-local gates include relevant RED/GREEN,
+typecheck, lint, parent acceptance and scope checks. Architecture Checkpoints
+remain cumulative, gating only consumers of unproved responsibilities.
+
+`wave_boundary` names the earliest planned frontier, for example `W1`. Actual
+release is recomputed after each Task Gate. Capacity priority is assumption-
+invalidating work, longest remaining chain, unlock count, then plan order.
+Capacity one still delegates; zero blocks implementation with a truthful queue.
+
+Multiple provider Tasks may share one parent Story. Planning preserves those
+separate provider identities and cannot create another Task identity for them.
+
+`assigned_skills` must list the skills used to shape the task during planning, not only skills expected during implementation. Skill guidance should be reflected in the task's boundary, validation, `tdd_target`, `codebase_design_notes`, and `review_mode`.
+
+`implementation_skill_guidance` is the executor contract for the task. Assess
+every `assigned_skills` item for implementation applicability. Every
+implementation-applicable `assigned_skills` item maps to exactly one guidance
+entry; omit planning-only items. Each entry carries the exact skill identity and
+concise applicable behavior:
+
+- `skill`: exact skill identity
+- `applicable_behavior`: concise behavior the executor must follow while
+  implementing this task
+
+Deduplicate by skill within one task. Do not replace `assigned_skills`; it
+remains planning provenance.
+
+For behavior-changing code tasks, `tdd_status` must be `required` and the task must include concrete RED/GREEN commands before implementation starts. For docs-only, formatting-only, generated-code-only, config-only, scaffold/bookkeeping-only, or truly non-testable tasks, record `tdd_status: not_applicable` or `not_testable` with an explicit `reason_not_testable`.
+
+`red_evidence` and `green_evidence` are execution fields. They should be present but blank when the plan is created, then filled by `implement-spec` before the task is marked complete.
+
+`test_form` takes one [Form](../../tdd/properties.md#form) value, or `not_applicable` when the task adds no test.
+`invariant_refs` lists the `[INV-nnn]` Spec Invariant ids the task covers, or `none`.
+[TDD shaping](tdd-shaping.md) sets both from the spec's `## Spec Invariants`.
+`sensitivity_evidence` is an execution field: blank in the plan, filled by `implement-spec` with each Sensitivity Proof or `parent_required` as [tdd/sensitivity.md](../../tdd/sensitivity.md) defines.
+
+`reason_not_testable` cannot be used for "forgot RED." If production code came first, the executor must recover by writing a real public-result RED test, capturing failure evidence, patching to GREEN, and setting `tdd_status: recovered`.
+
+`codebase_design_notes` must name the relevant module interface, seam, adapter, or test surface when the task changes code structure. Use `not_applicable` only when the task has no codebase-design consequence.
+
+`runtime_validation` must be `required` when acceptance crosses a process or infrastructure boundary that automated checks or mocks cannot faithfully prove, including workers, queues, persistence, providers, tracing, deployment wiring, or similar runtime integration. Otherwise use `not_required`.
+
+When runtime validation is required:
+
+- `runtime_target` names the supported running product surface.
+- `runtime_evidence` names the externally visible result and durable side effect or diagnostic proof required.
+- `runtime_cleanup` defines the provenance identifiers and owned-resource cleanup expectation.
+
+Use `not_applicable` for the other runtime fields when `runtime_validation: not_required`. Runtime validation is orthogonal to `review_mode`; a `cli`, `browser`, or `mixed` task may still require it. Execution mechanics are disclosed in [../../implement-spec/references/runtime-product-validation.md](../../implement-spec/references/runtime-product-validation.md).
+
+```md
+### T3: Example task
+
+- **depends_on**: [T1, T2]
+- **location**: src/example.ts
+- **owned_paths**: [src/example.ts, tests/example.test.ts]
+- **read_dependencies**: [ARCHITECTURE.md, SPEC.md, src/contracts.ts]
+- **shared_runtime_resources**: Isolated task fixture database; exclusive fixture writes.
+- **relevant_input_set**: Resolve retained Architecture/SPEC Context Pointers and applicable decision selectors; hash src/contracts.ts before/after checks; record fixture database identity.
+- **wave_boundary**: W2
+- **description**: Implement the task behavior.
+- **validation**: Public-interface behavior that proves completion.
+- **status**: Planned
+- **log**:
+- **files edited/created**:
+- **task_identity_mode**: provider-task | planning-only
+- **backlog_item_id**: CP-128
+- **backlog_item_url**: https://linear.app/workspace/issue/CP-128/example-task
+- **relation_mode**: native | body-links | unprojected
+- **backlog_sync_skip_reason**:
+- **assigned_skills**: [`effect`, `tdd`]
+- **implementation_skill_guidance**:
+  - **skill**: `effect`
+    **applicable_behavior**: Model the boundary with typed effects and preserve typed failure channels.
+  - **skill**: `tdd`
+    **applicable_behavior**: Capture the named public-result RED before implementation and preserve its GREEN evidence.
+- **tdd_status**: required
+- **tdd_target**: First failing public behavior to implement.
+- **red_command**: Exact command expected to fail before implementation.
+- **expected_red_failure**: Expected assertion, error, or mismatch.
+- **green_command**: Exact command expected to pass after implementation.
+- **reason_not_testable**:
+- **red_evidence**:
+- **green_evidence**:
+- **test_form**: property
+- **invariant_refs**: [INV-002]
+- **sensitivity_evidence**:
+- **codebase_design_notes**: Interface/seam/adapter/test-surface notes, or not_applicable.
+- **review_mode**: cli | browser | mixed
+- **runtime_validation**: required | not_required
+- **runtime_target**: Supported local API and background worker.
+- **runtime_evidence**: Public response plus correlated persisted state and worker completion.
+- **runtime_cleanup**: Tag fixtures with a unique run id; remove only resources carrying that id.
+- **architecture_wave**: A2
+- **behavior_owner**: Target domain or module responsible for the changed behavior.
+- **integration_surface**: Composition, transport, UI, or caller surface consuming the owner.
+- **public_seam**: Declared entrypoint and command/result/port contract, or unchanged.
+- **topology_delta**: Exact owner or dependency edge moved toward the target topology.
+- **forbidden_ownership**: Policy or mechanics this task must keep outside its owner.
+- **temporary_seams**: Ledger entries introduced or removed by this task, or none.
+- **responsibility_acceptance_criteria**: [RAC-2, RAC-3]
+```

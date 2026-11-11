@@ -1,0 +1,34 @@
+{
+  "lint": {
+    "exclude": [],
+    "scopes": [
+      "apps/cli",
+      "apps/web",
+      "packages/config",
+      "packages/ui"
+    ]
+  },
+  "packs": [
+    "debug",
+    "docs",
+    "effect",
+    "frontend",
+    "misc",
+    "planning",
+    "quality",
+    "react",
+    "requirements",
+    "research",
+    "security",
+    "shadcn",
+    "subagents",
+    "tanstack-query",
+    "turborepo",
+    "typescript",
+    "verification"
+  ],
+  "requiredTools": [],
+  "backlogProvider": "github",
+  "backlogProjectUrl": "https://github.com/users/stefan-garofalo/projects/7",
+  "repositoryManager": "github"
+}

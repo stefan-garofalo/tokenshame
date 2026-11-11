@@ -1,0 +1,9 @@
+assert_lefthook_installed: true
+lefthook: node_modules/.bin/lefthook
+no_auto_install: true
+pre-commit:
+  commands:
+    lint:
+      run: node .agents/scripts/commit-gate-runner.mjs --contracts
+        .devpunks/commit-gate-contracts.json
+      stage_fixed: false

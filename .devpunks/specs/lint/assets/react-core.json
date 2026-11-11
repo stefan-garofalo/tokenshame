@@ -1,0 +1,17 @@
+{
+  "categories": {
+    "correctness": "error"
+  },
+  "description": "Ultracite React preset for rendered app and shared UI code.",
+  "id": "react-core",
+  "jsPlugins": [],
+  "oxlintPresets": [
+    "react"
+  ],
+  "plugins": [
+    "react"
+  ],
+  "requiredDevDependencies": [],
+  "rules": {},
+  "settings": {}
+}

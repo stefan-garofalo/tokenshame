@@ -1,0 +1,19 @@
+{
+  "description": "Canonical lint policy for the shipped Harness CLI package.",
+  "id": "punks-cli-canonical",
+  "ignorePatterns": [
+    "src/data/lint/anti-slop/**",
+    "src/data/hooks/format-edited-file-core.mjs",
+    "src/data/hooks/format-edited-file.mjs",
+    "src/data/hooks/scaffold-update-check.mjs"
+  ],
+  "jsPlugins": [],
+  "oxlintPresets": [],
+  "plugins": [],
+  "requiredDevDependencies": [],
+  "rules": {},
+  "settings": {},
+  "targetPackageNames": [
+    "@punks/cli"
+  ]
+}

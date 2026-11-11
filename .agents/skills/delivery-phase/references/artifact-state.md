@@ -1,0 +1,126 @@
+# Artifact State
+
+Use this reference when deciding whether a phase is complete enough to skip.
+
+## Architecture/SPEC Pair Complete
+
+Require this pair for every delivery, including fresh, existing, resumed and
+local work, before planning, implementation, review, repair, debugging, docs or
+closeout dispatch. `architecture_applicability` controls plan convergence detail,
+never whether `ARCHITECTURE.md` is required.
+
+- The sibling `ARCHITECTURE.md` satisfies the
+  artifact contract in the installed `create-architecture` skill's
+  `references/artifact-contract.md`
+  with `status: compiled` and `readiness: agent-ready`; `SPEC.md` satisfies
+  **Spec Complete** below. Both name the same capability and current accepted
+  grill decisions.
+- Verify retained commit/ref, immutable blob URL and matching bytes for each
+  artifact. The spec's `Architecture Source` and `links` identify that exact
+  retained architecture, not a mutable path or a different revision.
+- Resolve architecture source identities and decision selectors against current
+  grill status/log, glossary and required evidence. Use existing
+  [Context Pointers and freshness rules](context-continuity.md), not timestamps.
+  Spec requirements, outcomes and acceptance criteria remain authoritative;
+  accepted design constraints come from the architecture companion and are
+  incorporated in the spec. Neither silently overrides the other.
+- Verify complete **Spec traceability** under that architecture contract: every
+  current `OUT-###` / `AC-###` resolves to stable architecture selectors (or its
+  justified no-structural-counterpart entry) and exact source Q/log-entry evidence
+  anchors. Check the real codes, selectors, anchors and spec backlinks against
+  the retained pair and current decisions. Pending, dangling, stale, unsupported
+  or incomplete mapping blocks dispatch; route the exact gap to Requirements.
+- Carry both source identities and required decision selectors in the action's
+  Context Pointers. Changed inputs invalidate affected dependent proof; keep
+  committed Pass Reports intact.
+- A missing, stale, conflicting or unreconstructable pair blocks its dependent
+  action and routes the exact artifact, selector and missing proof to
+  Requirements Phase / `requirements-grill`. Recompile architecture before spec
+  when accepted decisions change. Legacy/local artifacts have no exemption;
+  matching current proof adds no human approval gate.
+
+## Spec Complete
+
+- A matching agent-ready `SPEC.md` has `readiness: agent-ready`; its scope is
+  current, complete and consistent with the requested goal.
+- Verified remote retention proves the retained ref contains the exact spec commit
+  and the verified immutable blob URL resolves that commit/path with bytes matching
+  the current SPEC identity. A stored URL or local file alone is insufficient.
+- Scope includes required tracker children, acceptance criteria, constraints,
+  and non-goals.
+- Required unresolved questions or missing, stale or contradictory authority
+  prevent completion. Agent-ready compiler output needs no additional spec
+  approval or review gate.
+
+## Plan Complete
+
+Delivery entry requires this gate. Requirements Phase owns plan creation;
+a missing or stale plan routes there through `phases/spec.md`.
+
+- `PLAN.md` exists and matches the current Architecture/SPEC pair, carrying
+  both source identities and required decision selectors through Context Pointers.
+- The plan is retained: its commit is pushed or explicitly retained on a
+  verified ref, and its verified immutable blob URL resolves bytes matching the
+  current `PLAN.md`. A stored URL or local file alone is insufficient.
+- One uniform `task_identity_mode` applies. In `provider-task` mode every `Tn`
+  resolves one stable provider Task ID and URL, preserves the same `V*`, and
+  mirrors native blocker edges through `depends_on`. In `planning-only` mode
+  each `Tn` is the execution identity, provider identity slots are `not_applicable`,
+  relation mode is `unprojected`, a nonempty sync-skip reason is present, and
+  `depends_on` names plan `Tn` identities.
+- Tasks have Active Write Scopes, Read Dependencies, Shared Runtime Resources,
+  Relevant Input Set identities, validation gates and wave boundaries.
+- Each wave contains every currently unblocked task with a disjoint write scope;
+  one-task waves are justified by dependencies or ownership.
+
+## Backlog Projection Complete
+
+- The current Write Backlog result names the verified immutable spec URL and
+  identity, provider destination, exact
+  Epic and Story identities, provider Task IDs and URLs, same `V*`, native
+  blocker edges, and verified observed state.
+- Exact provider readback and projection evidence match the current retained
+  specification identity and provider state; otherwise the projection is stale.
+
+## Implementation Complete
+
+- Plan tasks are complete or explicitly deferred.
+- Implementation notes or equivalent evidence describe changed files, validation,
+  blockers, and debt.
+- Exact `write-backlog` delivery-status readback exists for each directly
+  observed work start, blocker, pull request, merge, staging deployment, or
+  production deployment. Merge is never deployment evidence.
+- Fog completion exists only when production evidence covers every accepted
+  resulting Story and Task.
+
+## Review Complete
+
+- `review.mjs status --goal <goal_dir>` reports `pass_count` of at least 1: a
+  valid Pass Report in `<goal_dir>/reviews/`, committed by `retain` on the
+  delivery branch, covers this delivery. The handoff `pass_report` names it.
+- Findings are routed by stable ids from the Pass Report `route`. Review itself
+  entered no repair state.
+- Accepted repair follows [review transition](../phases/review.md): retain Focused
+  Repair Validation and affected Verification evidence; only a risk-triggered
+  pass adds a Pass Report.
+- In `provider-task` mode, exact `write-backlog` delivery-status readback shows
+  review started, the review result, and the routed state on every linked Task
+  ([Ticket Live State](../phases/review.md#ticket-live-state)).
+
+## Debug Complete
+
+- Runtime evidence was investigated.
+- Fix or blocker is recorded.
+- Relevant validation was rerun.
+
+## Docs Complete
+
+- Docs-affecting changes were ingested, or an explicit no-op reason exists.
+
+## Closeout Complete
+
+- Final report names what ran, what was skipped, validation evidence, docs
+  outcome, stack state when relevant, and remaining blockers.
+- The final path-limited commit includes review and docs-ingest changes while
+  preserving unrelated dirty user files. Required release classification and
+  exact-tree provider proof match that final tree.

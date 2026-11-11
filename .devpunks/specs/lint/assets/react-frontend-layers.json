@@ -1,0 +1,39 @@
+{
+  "description": "First-party frontend-domain-structure rules enforcing the layer model: routes, composition, features, entities, modules, integrations, ui.",
+  "id": "react-frontend-layers",
+  "ignorePatterns": [
+    "tools/oxlint/frontend-layers/**"
+  ],
+  "jsPlugins": [
+    {
+      "name": "frontend-layers",
+      "specifier": "./tools/oxlint/frontend-layers/index.mjs"
+    }
+  ],
+  "oxlintPresets": [],
+  "plugins": [],
+  "requiredDevDependencies": [
+    "@oxlint/plugins"
+  ],
+  "requiredDevDependencyVersions": {
+    "@oxlint/plugins": "1.90.0"
+  },
+  "rules": {
+    "frontend-layers/composition-shape": "error",
+    "frontend-layers/data-source-imports": "error",
+    "frontend-layers/index-reexports-only": "error",
+    "frontend-layers/known-top-level": "error",
+    "frontend-layers/layer-order": "error",
+    "frontend-layers/layout-placement": "error",
+    "frontend-layers/no-peer-entity": "error",
+    "frontend-layers/no-peer-feature": "error",
+    "frontend-layers/no-prefix-siblings": "error",
+    "frontend-layers/no-prototype-folder": "error",
+    "frontend-layers/no-self-index-import": "error",
+    "frontend-layers/public-entrypoint": "error",
+    "frontend-layers/route-imports": "error",
+    "frontend-layers/server-contract-purity": "error",
+    "frontend-layers/ui-placement": "error"
+  },
+  "settings": {}
+}

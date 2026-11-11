@@ -1,0 +1,12 @@
+{
+  "description": "Ultracite Vitest preset for repo-owned test globs.",
+  "id": "vitest-core",
+  "jsPlugins": [],
+  "oxlintPresets": [
+    "vitest"
+  ],
+  "plugins": [],
+  "requiredDevDependencies": [],
+  "rules": {},
+  "settings": {}
+}

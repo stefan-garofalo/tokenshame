@@ -1,0 +1,2969 @@
+{
+  "baseline": "2026.11.10-f8e7b4f2",
+  "dependencies": {
+    ".": [
+      "lefthook"
+    ],
+    "apps/cli": [
+      "@effect/eslint-plugin",
+      "@effect/tsgo",
+      "@oxlint/plugins",
+      "@typescript-eslint/utils",
+      "eslint",
+      "oxfmt",
+      "oxlint",
+      "oxlint-tsgolint",
+      "ultracite"
+    ],
+    "apps/web": [
+      "@oxlint/plugins",
+      "eslint-plugin-react-you-might-not-need-an-effect",
+      "oxfmt",
+      "oxlint",
+      "ultracite"
+    ],
+    "packages/config": [
+      "@oxlint/plugins",
+      "oxfmt",
+      "oxlint",
+      "ultracite"
+    ],
+    "packages/ui": [
+      "@oxlint/plugins",
+      "eslint-plugin-react-you-might-not-need-an-effect",
+      "oxfmt",
+      "oxlint",
+      "ultracite"
+    ]
+  },
+  "detectedPacks": [
+    "debug",
+    "docs",
+    "effect",
+    "frontend",
+    "misc",
+    "planning",
+    "quality",
+    "react",
+    "requirements",
+    "research",
+    "security",
+    "shadcn",
+    "subagents",
+    "tanstack-query",
+    "turborepo",
+    "typescript",
+    "verification"
+  ],
+  "failedLinks": [],
+  "items": [
+    "commit-gate",
+    "handoff",
+    "harness",
+    "hooks",
+    "lint-effect-no-barrel-imports",
+    "lint-effect-tsgo-recommended",
+    "lint-punks-anti-slop-transition",
+    "lint-punks-backoffice-canonical",
+    "lint-punks-cli-canonical",
+    "lint-react-core",
+    "lint-react-frontend-layers",
+    "lint-react-you-might-not-need-an-effect",
+    "lint-tanstack-query-core",
+    "lint-typescript-anti-slop",
+    "lint-vitest-core",
+    "managed-lint",
+    "pack-core",
+    "pack-debug",
+    "pack-docs",
+    "pack-effect",
+    "pack-frontend",
+    "pack-misc",
+    "pack-planning",
+    "pack-quality",
+    "pack-react",
+    "pack-requirements",
+    "pack-research",
+    "pack-security",
+    "pack-shadcn",
+    "pack-subagents",
+    "pack-tanstack-query",
+    "pack-turborepo",
+    "pack-typescript",
+    "pack-verification",
+    "prompts",
+    "shared-prompt",
+    "skill-agent-browser",
+    "skill-animate",
+    "skill-architect-pipeline",
+    "skill-ask-hi",
+    "skill-async-react-patterns",
+    "skill-audit-cicd-security",
+    "skill-brainstorm",
+    "skill-brandkit",
+    "skill-break-ui",
+    "skill-bug-discovery-phase",
+    "skill-bug-resolution-phase",
+    "skill-business-finder",
+    "skill-codebase-design",
+    "skill-create-architecture",
+    "skill-create-plan",
+    "skill-create-spec",
+    "skill-create-verification-skill",
+    "skill-debug-agent",
+    "skill-debugging-phase",
+    "skill-delivery-phase",
+    "skill-design-phase",
+    "skill-design-taste-frontend",
+    "skill-docs-ingest-phase",
+    "skill-docs-onboarding",
+    "skill-domain-modeling",
+    "skill-effect",
+    "skill-effect-backend-structure",
+    "skill-effect-recoverable-actions",
+    "skill-effect-service-design",
+    "skill-emil-design-eng",
+    "skill-find-animation-opportunities",
+    "skill-finder-phase",
+    "skill-flow-lenses",
+    "skill-frontend-domain-structure",
+    "skill-functional-finder",
+    "skill-goalify",
+    "skill-grilling",
+    "skill-handoff",
+    "skill-image-to-code",
+    "skill-imagegen-frontend-mobile",
+    "skill-imagegen-frontend-web",
+    "skill-implement-spec",
+    "skill-improve-codebase-architecture",
+    "skill-make-tsuite",
+    "skill-mobile-native",
+    "skill-model-checking",
+    "skill-parallel-research",
+    "skill-pr",
+    "skill-prototype",
+    "skill-prototype-phase",
+    "skill-prototype-variants",
+    "skill-quality-types",
+    "skill-react-doctor",
+    "skill-repo-asset-management",
+    "skill-requirements-grill",
+    "skill-requirements-phase",
+    "skill-resolve-debt-phase",
+    "skill-retro",
+    "skill-review-animations",
+    "skill-review-phase",
+    "skill-rule-authoring",
+    "skill-security-best-practices",
+    "skill-shadcn",
+    "skill-show-me",
+    "skill-simplify",
+    "skill-swarm-planner",
+    "skill-tanstack-query",
+    "skill-tdd",
+    "skill-turborepo",
+    "skill-update-verification-skill",
+    "skill-vercel-composition-patterns",
+    "skill-vercel-react-best-practices",
+    "skill-verify-behavior",
+    "skill-wait-what",
+    "skill-wayfinder",
+    "skill-write-backlog",
+    "skill-write-graph-based-skills",
+    "skill-writing-beats",
+    "skill-writing-for-agents",
+    "skill-writing-fragments",
+    "skill-writing-shape",
+    "source-guide-effect",
+    "source-guide-react",
+    "source-guide-tanstack-query",
+    "source-guides",
+    "subagents",
+    "tools",
+    "typegraph-runtime"
+  ],
+  "paths": {
+    ".agents/AGENTS.md": {
+      "artifact": "copied",
+      "item": "shared-prompt"
+    },
+    ".agents/hooks/format-edited-file-core.mjs": {
+      "artifact": "copied",
+      "item": "hooks"
+    },
+    ".agents/hooks/format-edited-file.mjs": {
+      "artifact": "copied",
+      "item": "hooks"
+    },
+    ".agents/hooks/scaffold-update-check.mjs": {
+      "artifact": "copied",
+      "item": "hooks"
+    },
+    ".agents/scripts/activate-git-hooks.mjs": {
+      "artifact": "copied",
+      "item": "commit-gate"
+    },
+    ".agents/scripts/commit-gate-runner.mjs": {
+      "artifact": "copied",
+      "item": "commit-gate"
+    },
+    ".agents/scripts/managed-lint-runner.mjs": {
+      "artifact": "copied",
+      "item": "managed-lint"
+    },
+    ".agents/scripts/managed-lint.mjs": {
+      "artifact": "copied",
+      "item": "managed-lint"
+    },
+    ".agents/scripts/test-resource-sweep.mjs": {
+      "artifact": "copied",
+      "item": "hooks"
+    },
+    ".agents/skills/agent-browser/.clawdhub/origin.json": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/references/authentication.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/references/commands.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/references/lightpanda.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/references/proxy-support.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/references/session-management.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/references/snapshot-refs.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/references/video-recording.md": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/templates/authenticated-session.sh": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/templates/capture-workflow.sh": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/agent-browser/templates/form-automation.sh": {
+      "artifact": "copied",
+      "item": "skill-agent-browser"
+    },
+    ".agents/skills/animate/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-animate"
+    },
+    ".agents/skills/animate/RECIPES.md": {
+      "artifact": "copied",
+      "item": "skill-animate"
+    },
+    ".agents/skills/animate/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-animate"
+    },
+    ".agents/skills/animate/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-animate"
+    },
+    ".agents/skills/architect-pipeline/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-architect-pipeline"
+    },
+    ".agents/skills/architect-pipeline/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-architect-pipeline"
+    },
+    ".agents/skills/architect-pipeline/references/infrastructure-deployment.md": {
+      "artifact": "copied",
+      "item": "skill-architect-pipeline"
+    },
+    ".agents/skills/architect-pipeline/references/security-by-design.md": {
+      "artifact": "copied",
+      "item": "skill-architect-pipeline"
+    },
+    ".agents/skills/ask-hi/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/ask-hi/references/baseline.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/ask-hi/references/delivery.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/ask-hi/references/discovery-and-docs.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/ask-hi/references/known-gaps.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/ask-hi/references/phase-graph.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/ask-hi/references/quality.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/ask-hi/references/requirements.md": {
+      "artifact": "copied",
+      "item": "skill-ask-hi"
+    },
+    ".agents/skills/async-react-patterns/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-async-react-patterns"
+    },
+    ".agents/skills/audit-cicd-security/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/argo-workflows.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/azure-pipelines.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/bitbucket-pipelines.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/buildkite.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/circleci.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/github-actions.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/gitlab-cicd.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/jenkins.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/audit-cicd-security/references/tekton.md": {
+      "artifact": "copied",
+      "item": "skill-audit-cicd-security"
+    },
+    ".agents/skills/brainstorm/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-brainstorm"
+    },
+    ".agents/skills/brandkit/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-brandkit"
+    },
+    ".agents/skills/brandkit/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-brandkit"
+    },
+    ".agents/skills/brandkit/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-brandkit"
+    },
+    ".agents/skills/break-ui/CATALOG.md": {
+      "artifact": "copied",
+      "item": "skill-break-ui"
+    },
+    ".agents/skills/break-ui/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-break-ui"
+    },
+    ".agents/skills/break-ui/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-break-ui"
+    },
+    ".agents/skills/break-ui/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-break-ui"
+    },
+    ".agents/skills/bug-discovery-phase/REFERENCE.md": {
+      "artifact": "copied",
+      "item": "skill-bug-discovery-phase"
+    },
+    ".agents/skills/bug-discovery-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-bug-discovery-phase"
+    },
+    ".agents/skills/bug-discovery-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-bug-discovery-phase"
+    },
+    ".agents/skills/bug-resolution-phase/REFERENCE.md": {
+      "artifact": "copied",
+      "item": "skill-bug-resolution-phase"
+    },
+    ".agents/skills/bug-resolution-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-bug-resolution-phase"
+    },
+    ".agents/skills/bug-resolution-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-bug-resolution-phase"
+    },
+    ".agents/skills/business-finder/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-business-finder"
+    },
+    ".agents/skills/business-finder/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-business-finder"
+    },
+    ".agents/skills/codebase-design/DEEPENING.md": {
+      "artifact": "copied",
+      "item": "skill-codebase-design"
+    },
+    ".agents/skills/codebase-design/DESIGN-IT-TWICE.md": {
+      "artifact": "copied",
+      "item": "skill-codebase-design"
+    },
+    ".agents/skills/codebase-design/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-codebase-design"
+    },
+    ".agents/skills/codebase-design/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-codebase-design"
+    },
+    ".agents/skills/codebase-design/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-codebase-design"
+    },
+    ".agents/skills/create-architecture/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-create-architecture"
+    },
+    ".agents/skills/create-architecture/assets/ARCHITECTURE-TEMPLATE.md": {
+      "artifact": "copied",
+      "item": "skill-create-architecture"
+    },
+    ".agents/skills/create-architecture/references/artifact-contract.md": {
+      "artifact": "copied",
+      "item": "skill-create-architecture"
+    },
+    ".agents/skills/create-plan/REFERENCE.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/references/architecture-convergence.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/references/backlog-sync.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/references/grill-ambiguity.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/references/plan-schema.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/references/planner-task-graph.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/references/stop-conditions.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-plan/references/tdd-shaping.md": {
+      "artifact": "copied",
+      "item": "skill-create-plan"
+    },
+    ".agents/skills/create-spec/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-create-spec"
+    },
+    ".agents/skills/create-spec/assets/SPEC-TEMPLATE.md": {
+      "artifact": "copied",
+      "item": "skill-create-spec"
+    },
+    ".agents/skills/create-spec/references/folder-naming.md": {
+      "artifact": "copied",
+      "item": "skill-create-spec"
+    },
+    ".agents/skills/create-spec/references/readiness.md": {
+      "artifact": "copied",
+      "item": "skill-create-spec"
+    },
+    ".agents/skills/create-spec/references/spec-quality-bar.md": {
+      "artifact": "copied",
+      "item": "skill-create-spec"
+    },
+    ".agents/skills/create-spec/references/wiki-bookkeeping.md": {
+      "artifact": "copied",
+      "item": "skill-create-spec"
+    },
+    ".agents/skills/create-verification-skill/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-create-verification-skill"
+    },
+    ".agents/skills/create-verification-skill/references/upstream.md": {
+      "artifact": "copied",
+      "item": "skill-create-verification-skill"
+    },
+    ".agents/skills/debug-agent/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-debug-agent"
+    },
+    ".agents/skills/debugging-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-debugging-phase"
+    },
+    ".agents/skills/delivery-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/closeout.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/debug.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/docs-ingest.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/human-steering.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/implement.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/review.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/router.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/phases/spec.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/references/artifact-state.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/references/context-continuity.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/references/failure-continuity.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/delivery-phase/references/phase-handoff.md": {
+      "artifact": "copied",
+      "item": "skill-delivery-phase"
+    },
+    ".agents/skills/design-phase/AUTHORING-HANDOFF.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/backlog.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/brand.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/compose.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/delivery-handoff.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/design-system.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/grill.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/intake.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/motion-plan.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/promote.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/quality-gate.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/router.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/variant-round.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/phases/verdict.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/references/copy-lens.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/references/design-handoff.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/references/design-md-template.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/references/image-generation.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-phase/references/shadcn-primitive-directive.md": {
+      "artifact": "copied",
+      "item": "skill-design-phase"
+    },
+    ".agents/skills/design-taste-frontend/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/README.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/assets/app.css": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/assets/base.css": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/assets/base.js": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/assets/charts.js": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/assets/scenes/stage.css": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/assets/scenes/stage.js": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/evals/evals.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/app.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/directions.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/heroes.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/motions.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/palettes.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/photos.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/sections.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/sites.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/library/type.json": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/app-screens.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/colour.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/copy.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/critique.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/imagery.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/layout.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/motion.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/research.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/scenes.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/tells.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/references/type.md": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/assets.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/draw.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/inspect.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/lib/app-draw.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/lib/cdp.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/lib/probe.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/lib/rules.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/lint.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/design-taste-frontend/scripts/scenes.mjs": {
+      "artifact": "copied",
+      "item": "skill-design-taste-frontend"
+    },
+    ".agents/skills/docs-ingest-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/phases/private-internal.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/phases/public-docs.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/phases/router.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/concept-pages.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/flow-pages.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/fumadocs-routing.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/health.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/learning-artifacts.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/legacy-root-docs.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/public-docs.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/source-capture.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/wiki-contract.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/references/wiki-ingest.md": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-ingest-phase/scripts/verify-captured-source.mjs": {
+      "artifact": "copied",
+      "item": "skill-docs-ingest-phase"
+    },
+    ".agents/skills/docs-onboarding/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-docs-onboarding"
+    },
+    ".agents/skills/docs-onboarding/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-docs-onboarding"
+    },
+    ".agents/skills/docs-onboarding/references/artifact-contract.md": {
+      "artifact": "copied",
+      "item": "skill-docs-onboarding"
+    },
+    ".agents/skills/domain-modeling/ADR-FORMAT.md": {
+      "artifact": "copied",
+      "item": "skill-domain-modeling"
+    },
+    ".agents/skills/domain-modeling/GLOSSARY-FORMAT.md": {
+      "artifact": "copied",
+      "item": "skill-domain-modeling"
+    },
+    ".agents/skills/domain-modeling/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-domain-modeling"
+    },
+    ".agents/skills/domain-modeling/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-domain-modeling"
+    },
+    ".agents/skills/domain-modeling/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-domain-modeling"
+    },
+    ".agents/skills/domain-modeling/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-domain-modeling"
+    },
+    ".agents/skills/effect-backend-structure/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-effect-backend-structure"
+    },
+    ".agents/skills/effect-backend-structure/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-effect-backend-structure"
+    },
+    ".agents/skills/effect-backend-structure/references/layout.md": {
+      "artifact": "copied",
+      "item": "skill-effect-backend-structure"
+    },
+    ".agents/skills/effect-recoverable-actions/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-effect-recoverable-actions"
+    },
+    ".agents/skills/effect-recoverable-actions/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-effect-recoverable-actions"
+    },
+    ".agents/skills/effect-recoverable-actions/references/flow-examples.md": {
+      "artifact": "copied",
+      "item": "skill-effect-recoverable-actions"
+    },
+    ".agents/skills/effect-recoverable-actions/references/source-backed-primitives.md": {
+      "artifact": "copied",
+      "item": "skill-effect-recoverable-actions"
+    },
+    ".agents/skills/effect-recoverable-actions/references/strategy-matrix.md": {
+      "artifact": "copied",
+      "item": "skill-effect-recoverable-actions"
+    },
+    ".agents/skills/effect-recoverable-actions/references/test-matrix.md": {
+      "artifact": "copied",
+      "item": "skill-effect-recoverable-actions"
+    },
+    ".agents/skills/effect-service-design/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-effect-service-design"
+    },
+    ".agents/skills/effect-service-design/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-effect-service-design"
+    },
+    ".agents/skills/effect-service-design/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-effect-service-design"
+    },
+    ".agents/skills/effect-service-design/references/AUDIT.md": {
+      "artifact": "copied",
+      "item": "skill-effect-service-design"
+    },
+    ".agents/skills/effect/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/CACHING.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/CONFIG.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/EFFECT_ATOM.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/HTTP_CLIENTS.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/OBSERVABILITY.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/PROPERTY_TESTING.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/SCHEDULING.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/SCHEMA.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/SERVICES_LAYERS.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/STREAMS.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/effect/references/TESTING.md": {
+      "artifact": "copied",
+      "item": "skill-effect"
+    },
+    ".agents/skills/emil-design-eng/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-emil-design-eng"
+    },
+    ".agents/skills/emil-design-eng/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-emil-design-eng"
+    },
+    ".agents/skills/emil-design-eng/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-emil-design-eng"
+    },
+    ".agents/skills/find-animation-opportunities/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-find-animation-opportunities"
+    },
+    ".agents/skills/find-animation-opportunities/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-find-animation-opportunities"
+    },
+    ".agents/skills/find-animation-opportunities/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-find-animation-opportunities"
+    },
+    ".agents/skills/finder-phase/AUTHORING-HANDOFF.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/ensure-fog.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/grilling.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/human-steering.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/prototype.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/reconcile.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/research.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/return-target.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/phases/router.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/references/entrypoint-contract.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/references/root-routing.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/references/runtime-handoff.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/references/state-graph.md": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/finder-phase/scripts/finder-contract.mjs": {
+      "artifact": "copied",
+      "item": "skill-finder-phase"
+    },
+    ".agents/skills/flow-lenses/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-flow-lenses"
+    },
+    ".agents/skills/frontend-domain-structure/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-frontend-domain-structure"
+    },
+    ".agents/skills/frontend-domain-structure/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-frontend-domain-structure"
+    },
+    ".agents/skills/frontend-domain-structure/references/migration.md": {
+      "artifact": "copied",
+      "item": "skill-frontend-domain-structure"
+    },
+    ".agents/skills/frontend-domain-structure/references/react/structure.md": {
+      "artifact": "copied",
+      "item": "skill-frontend-domain-structure"
+    },
+    ".agents/skills/frontend-domain-structure/references/structure.md": {
+      "artifact": "copied",
+      "item": "skill-frontend-domain-structure"
+    },
+    ".agents/skills/functional-finder/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-functional-finder"
+    },
+    ".agents/skills/functional-finder/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-functional-finder"
+    },
+    ".agents/skills/goalify/EXAMPLES.md": {
+      "artifact": "copied",
+      "item": "skill-goalify"
+    },
+    ".agents/skills/goalify/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-goalify"
+    },
+    ".agents/skills/grilling/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-grilling"
+    },
+    ".agents/skills/grilling/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-grilling"
+    },
+    ".agents/skills/grilling/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-grilling"
+    },
+    ".agents/skills/handoff/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-handoff"
+    },
+    ".agents/skills/handoff/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-handoff"
+    },
+    ".agents/skills/handoff/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-handoff"
+    },
+    ".agents/skills/image-to-code/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-image-to-code"
+    },
+    ".agents/skills/image-to-code/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-image-to-code"
+    },
+    ".agents/skills/image-to-code/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-image-to-code"
+    },
+    ".agents/skills/imagegen-frontend-mobile/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-imagegen-frontend-mobile"
+    },
+    ".agents/skills/imagegen-frontend-mobile/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-imagegen-frontend-mobile"
+    },
+    ".agents/skills/imagegen-frontend-mobile/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-imagegen-frontend-mobile"
+    },
+    ".agents/skills/imagegen-frontend-web/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-imagegen-frontend-web"
+    },
+    ".agents/skills/imagegen-frontend-web/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-imagegen-frontend-web"
+    },
+    ".agents/skills/imagegen-frontend-web/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-imagegen-frontend-web"
+    },
+    ".agents/skills/implement-spec/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/assets/IMPLEMENTATION-NOTES-TEMPLATE.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/architecture-conformance.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/lifecycle.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/parallel-orchestration.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/parallel-worker-brief.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/parallel.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/runtime-product-validation.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/ui-screenshot-evidence.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/implement-spec/references/validation-scope.md": {
+      "artifact": "copied",
+      "item": "skill-implement-spec"
+    },
+    ".agents/skills/improve-codebase-architecture/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-improve-codebase-architecture"
+    },
+    ".agents/skills/improve-codebase-architecture/REFERENCE.md": {
+      "artifact": "copied",
+      "item": "skill-improve-codebase-architecture"
+    },
+    ".agents/skills/improve-codebase-architecture/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-improve-codebase-architecture"
+    },
+    ".agents/skills/improve-codebase-architecture/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-improve-codebase-architecture"
+    },
+    ".agents/skills/make-tsuite/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-make-tsuite"
+    },
+    ".agents/skills/make-tsuite/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-make-tsuite"
+    },
+    ".agents/skills/make-tsuite/references/audit-portfolio.md": {
+      "artifact": "copied",
+      "item": "skill-make-tsuite"
+    },
+    ".agents/skills/make-tsuite/references/implement-suite.md": {
+      "artifact": "copied",
+      "item": "skill-make-tsuite"
+    },
+    ".agents/skills/make-tsuite/references/route-api-design.md": {
+      "artifact": "copied",
+      "item": "skill-make-tsuite"
+    },
+    ".agents/skills/make-tsuite/references/user-journey-design.md": {
+      "artifact": "copied",
+      "item": "skill-make-tsuite"
+    },
+    ".agents/skills/mobile-native/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-mobile-native"
+    },
+    ".agents/skills/mobile-native/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-mobile-native"
+    },
+    ".agents/skills/mobile-native/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-mobile-native"
+    },
+    ".agents/skills/model-checking/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-model-checking"
+    },
+    ".agents/skills/model-checking/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-model-checking"
+    },
+    ".agents/skills/parallel-research/DURABLE-REPORT.md": {
+      "artifact": "copied",
+      "item": "skill-parallel-research"
+    },
+    ".agents/skills/parallel-research/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-parallel-research"
+    },
+    ".agents/skills/parallel-research/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-parallel-research"
+    },
+    ".agents/skills/pr/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-pr"
+    },
+    ".agents/skills/pr/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-pr"
+    },
+    ".agents/skills/pr/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-pr"
+    },
+    ".agents/skills/prototype-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-prototype-phase"
+    },
+    ".agents/skills/prototype-phase/VERDICT-TEMPLATE.md": {
+      "artifact": "copied",
+      "item": "skill-prototype-phase"
+    },
+    ".agents/skills/prototype-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-prototype-phase"
+    },
+    ".agents/skills/prototype-variants/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-prototype-variants"
+    },
+    ".agents/skills/prototype-variants/PICKER.md": {
+      "artifact": "copied",
+      "item": "skill-prototype-variants"
+    },
+    ".agents/skills/prototype-variants/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-prototype-variants"
+    },
+    ".agents/skills/prototype-variants/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-prototype-variants"
+    },
+    ".agents/skills/prototype/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-prototype"
+    },
+    ".agents/skills/prototype/LOGIC.md": {
+      "artifact": "copied",
+      "item": "skill-prototype"
+    },
+    ".agents/skills/prototype/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-prototype"
+    },
+    ".agents/skills/prototype/UI.md": {
+      "artifact": "copied",
+      "item": "skill-prototype"
+    },
+    ".agents/skills/prototype/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-prototype"
+    },
+    ".agents/skills/quality-types/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-quality-types"
+    },
+    ".agents/skills/react-doctor/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-react-doctor"
+    },
+    ".agents/skills/react-doctor/references/explain.md": {
+      "artifact": "copied",
+      "item": "skill-react-doctor"
+    },
+    ".agents/skills/repo-asset-management/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-repo-asset-management"
+    },
+    ".agents/skills/repo-asset-management/references/acceptance.md": {
+      "artifact": "copied",
+      "item": "skill-repo-asset-management"
+    },
+    ".agents/skills/repo-asset-management/references/azure.md": {
+      "artifact": "copied",
+      "item": "skill-repo-asset-management"
+    },
+    ".agents/skills/repo-asset-management/references/bitbucket.md": {
+      "artifact": "copied",
+      "item": "skill-repo-asset-management"
+    },
+    ".agents/skills/repo-asset-management/references/github.md": {
+      "artifact": "copied",
+      "item": "skill-repo-asset-management"
+    },
+    ".agents/skills/repo-asset-management/references/gitlab.md": {
+      "artifact": "copied",
+      "item": "skill-repo-asset-management"
+    },
+    ".agents/skills/requirements-grill/AUTHORING-HANDOFF.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/phases/checkpoint.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/phases/close.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/phases/ground.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/phases/round.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/phases/router.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/references/artifact-output.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-grill/references/wiki-output.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-grill"
+    },
+    ".agents/skills/requirements-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-requirements-phase"
+    },
+    ".agents/skills/requirements-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-requirements-phase"
+    },
+    ".agents/skills/resolve-debt-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-resolve-debt-phase"
+    },
+    ".agents/skills/resolve-debt-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-resolve-debt-phase"
+    },
+    ".agents/skills/retro/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-retro"
+    },
+    ".agents/skills/retro/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-retro"
+    },
+    ".agents/skills/retro/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-retro"
+    },
+    ".agents/skills/review-animations/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-review-animations"
+    },
+    ".agents/skills/review-animations/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-review-animations"
+    },
+    ".agents/skills/review-animations/STANDARDS.md": {
+      "artifact": "copied",
+      "item": "skill-review-animations"
+    },
+    ".agents/skills/review-animations/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-review-animations"
+    },
+    ".agents/skills/review-phase/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/review-phase/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/review-phase/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/review-phase/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/review-phase/references/reviewer.md": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/review-phase/references/routing.md": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/review-phase/scripts/review-contract.mjs": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/review-phase/scripts/review.mjs": {
+      "artifact": "copied",
+      "item": "skill-review-phase"
+    },
+    ".agents/skills/rule-authoring/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-rule-authoring"
+    },
+    ".agents/skills/rule-authoring/references/migration.md": {
+      "artifact": "copied",
+      "item": "skill-rule-authoring"
+    },
+    ".agents/skills/security-best-practices/LICENSE.txt": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/golang-general-backend-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/javascript-express-web-server-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/javascript-general-web-frontend-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/javascript-jquery-web-frontend-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/javascript-typescript-nextjs-web-server-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/javascript-typescript-react-web-frontend-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/javascript-typescript-vue-web-frontend-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/python-django-web-server-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/python-fastapi-web-server-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/security-best-practices/references/python-flask-web-server-security.md": {
+      "artifact": "copied",
+      "item": "skill-security-best-practices"
+    },
+    ".agents/skills/shadcn/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/agents/openai.yml": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/assets/shadcn-small.png": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/assets/shadcn.png": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/assets/showcase/color-pair.tsx": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/assets/showcase/preview-states.css": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/assets/showcase/state-matrix.tsx": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/cli.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/customization.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/design-system-page.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/design-system.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/evals/evals.json": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/mcp.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/registry.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/rules/base-vs-radix.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/rules/chat.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/rules/composition.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/rules/forms.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/rules/icons.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/rules/styling.md": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/shadcn/scripts/showcase-coverage.mjs": {
+      "artifact": "copied",
+      "item": "skill-shadcn"
+    },
+    ".agents/skills/show-me/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-show-me"
+    },
+    ".agents/skills/show-me/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-show-me"
+    },
+    ".agents/skills/show-me/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-show-me"
+    },
+    ".agents/skills/show-me/references/inline-html.md": {
+      "artifact": "copied",
+      "item": "skill-show-me"
+    },
+    ".agents/skills/simplify/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-simplify"
+    },
+    ".agents/skills/swarm-planner/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-swarm-planner"
+    },
+    ".agents/skills/tanstack-query/.claude-plugin/plugin.json": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/assets/example-template.txt": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/references/best-practices.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/references/common-patterns.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/references/example-reference.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/references/testing.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/references/top-errors.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/references/typescript-patterns.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/references/v4-to-v5-migration.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/rules/tanstack-query.md": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/scripts/example-script.sh": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/custom-hooks-pattern.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/devtools-setup.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/error-boundary.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/package.json": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/provider-setup.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/query-client-config.ts": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/use-infinite-query.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/use-mutation-basic.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/use-mutation-optimistic.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tanstack-query/templates/use-query-basic.tsx": {
+      "artifact": "copied",
+      "item": "skill-tanstack-query"
+    },
+    ".agents/skills/tdd/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/deep-modules.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/high-signal-tests.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/interface-design.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/mocking.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/properties.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/sensitivity.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/tdd/tests.md": {
+      "artifact": "copied",
+      "item": "skill-tdd"
+    },
+    ".agents/skills/turborepo/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/command/turborepo.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/best-practices/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/best-practices/dependencies.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/best-practices/packages.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/best-practices/structure.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/boundaries/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/caching/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/caching/gotchas.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/caching/remote-cache.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/ci/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/ci/github-actions.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/ci/patterns.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/ci/vercel.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/cli/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/cli/commands.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/configuration/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/configuration/global-options.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/configuration/gotchas.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/configuration/tasks.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/environment/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/environment/gotchas.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/environment/modes.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/filtering/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/filtering/patterns.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/turborepo/references/watch/RULE.md": {
+      "artifact": "copied",
+      "item": "skill-turborepo"
+    },
+    ".agents/skills/update-verification-skill/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-update-verification-skill"
+    },
+    ".agents/skills/vercel-composition-patterns/AGENTS.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/architecture-avoid-boolean-props.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/architecture-compound-components.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/patterns-children-over-render-props.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/patterns-explicit-variants.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/react19-no-forwardref.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/state-context-interface.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/state-decouple-implementation.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-composition-patterns/rules/state-lift-state.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-composition-patterns"
+    },
+    ".agents/skills/vercel-react-best-practices/AGENTS.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/advanced-init-once.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/async-api-routes.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/async-defer-await.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/async-dependencies.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/async-parallel.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/bundle-conditional.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/bundle-preload.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/client-event-listeners.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-early-exit.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-length-check-first.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-memo.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-transitions.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-auth-actions.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-cache-lru.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-cache-react.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-dedup-props.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/vercel-react-best-practices/rules/server-serialization.md": {
+      "artifact": "copied",
+      "item": "skill-vercel-react-best-practices"
+    },
+    ".agents/skills/verify-behavior/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-verify-behavior"
+    },
+    ".agents/skills/verify-behavior/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-verify-behavior"
+    },
+    ".agents/skills/verify-behavior/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-verify-behavior"
+    },
+    ".agents/skills/verify-behavior/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-verify-behavior"
+    },
+    ".agents/skills/wait-what/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-wait-what"
+    },
+    ".agents/skills/wait-what/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-wait-what"
+    },
+    ".agents/skills/wait-what/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-wait-what"
+    },
+    ".agents/skills/wayfinder/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-wayfinder"
+    },
+    ".agents/skills/write-backlog/EXAMPLES.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/REFERENCE.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/assets/concepts/backlog-model.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/assets/concepts/story-shape.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/assets/providers/azure-devops-create-payload.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/assets/providers/github-projects-create-payload.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/assets/providers/linear-create-payload.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/assets/providers/monday-create-payload.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/backlog-initialization.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/business-projection.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/delivery-status.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/fog-intake.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/functional-projection.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/human-backlog.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/issue-reconciliation.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/normalization.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/project-context.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/providers/github.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/providers/linear.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/references/technical-projection.md": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-backlog/scripts/validate-task-blocker-graph.mjs": {
+      "artifact": "copied",
+      "item": "skill-write-backlog"
+    },
+    ".agents/skills/write-graph-based-skills/AUTHORING-HANDOFF.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/agents/openai.yaml": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/audit.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/define-authority.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/define-handoffs.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/model-state.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/qualify.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/router.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/test-routes.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/verify-disclosure.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/write-phases.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/phases/write-router.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/write-graph-based-skills/references/authoring-contract.md": {
+      "artifact": "copied",
+      "item": "skill-write-graph-based-skills"
+    },
+    ".agents/skills/writing-beats/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-writing-beats"
+    },
+    ".agents/skills/writing-beats/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-writing-beats"
+    },
+    ".agents/skills/writing-beats/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-writing-beats"
+    },
+    ".agents/skills/writing-for-agents/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-writing-for-agents"
+    },
+    ".agents/skills/writing-for-agents/SKILL-MECHANICS.md": {
+      "artifact": "copied",
+      "item": "skill-writing-for-agents"
+    },
+    ".agents/skills/writing-for-agents/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-writing-for-agents"
+    },
+    ".agents/skills/writing-for-agents/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-writing-for-agents"
+    },
+    ".agents/skills/writing-fragments/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-writing-fragments"
+    },
+    ".agents/skills/writing-fragments/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-writing-fragments"
+    },
+    ".agents/skills/writing-fragments/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-writing-fragments"
+    },
+    ".agents/skills/writing-shape/LICENSE": {
+      "artifact": "copied",
+      "item": "skill-writing-shape"
+    },
+    ".agents/skills/writing-shape/SKILL.md": {
+      "artifact": "copied",
+      "item": "skill-writing-shape"
+    },
+    ".agents/skills/writing-shape/UPSTREAM.md": {
+      "artifact": "copied",
+      "item": "skill-writing-shape"
+    },
+    ".agents/subagents/manifest.mjs": {
+      "artifact": "authored",
+      "item": "subagents"
+    },
+    ".agents/subagents/manifest.prompt.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".claude/CLAUDE.md": {
+      "artifact": "symlink",
+      "item": "harness"
+    },
+    ".claude/agents/backlog-shaper.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".claude/agents/code-review.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".claude/agents/plan-reviewer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".claude/agents/planning-discovery.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".claude/agents/requirements-synthesizer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".claude/agents/spec-reviewer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".claude/hooks/format-edited-file.mjs": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    ".claude/hooks/scaffold-update-check.mjs": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    ".claude/skills": {
+      "artifact": "symlink",
+      "item": "harness"
+    },
+    ".codex/AGENTS.md": {
+      "artifact": "symlink",
+      "item": "harness"
+    },
+    ".codex/agents/backlog-shaper.toml": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".codex/agents/code-review.toml": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".codex/agents/plan-reviewer.toml": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".codex/agents/planning-discovery.toml": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".codex/agents/requirements-synthesizer.toml": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".codex/agents/spec-reviewer.toml": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".codex/config.toml": {
+      "artifact": "authored",
+      "item": "hooks"
+    },
+    ".codex/hooks/format-edited-file.mjs": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    ".codex/hooks/scaffold-update-check.mjs": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    ".cursor/agents/backlog-shaper.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".cursor/agents/code-review.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".cursor/agents/plan-reviewer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".cursor/agents/planning-discovery.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".cursor/agents/requirements-synthesizer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".cursor/agents/spec-reviewer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".cursor/hooks/format-edited-file.mjs": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    ".cursor/hooks/scaffold-update-check.mjs": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    ".devpunks/AGENT-HANDOFF.md": {
+      "artifact": "built",
+      "item": "handoff"
+    },
+    ".devpunks/AGENT-SYSTEM-PROMPT.md": {
+      "artifact": "built",
+      "item": "handoff"
+    },
+    ".devpunks/commit-gate-contracts.json": {
+      "artifact": "built",
+      "item": "commit-gate"
+    },
+    ".devpunks/specs/lint/README.md": {
+      "artifact": "built",
+      "item": "managed-lint"
+    },
+    ".devpunks/specs/lint/assets/effect-no-barrel-imports.json": {
+      "artifact": "copied",
+      "item": "lint-effect-no-barrel-imports"
+    },
+    ".devpunks/specs/lint/assets/effect-tsgo-recommended.json": {
+      "artifact": "copied",
+      "item": "lint-effect-tsgo-recommended"
+    },
+    ".devpunks/specs/lint/assets/punks-anti-slop-transition.json": {
+      "artifact": "copied",
+      "item": "lint-punks-anti-slop-transition"
+    },
+    ".devpunks/specs/lint/assets/punks-backoffice-canonical.json": {
+      "artifact": "copied",
+      "item": "lint-punks-backoffice-canonical"
+    },
+    ".devpunks/specs/lint/assets/punks-cli-canonical.json": {
+      "artifact": "copied",
+      "item": "lint-punks-cli-canonical"
+    },
+    ".devpunks/specs/lint/assets/react-core.json": {
+      "artifact": "copied",
+      "item": "lint-react-core"
+    },
+    ".devpunks/specs/lint/assets/react-frontend-layers.json": {
+      "artifact": "copied",
+      "item": "lint-react-frontend-layers"
+    },
+    ".devpunks/specs/lint/assets/react-you-might-not-need-an-effect.json": {
+      "artifact": "copied",
+      "item": "lint-react-you-might-not-need-an-effect"
+    },
+    ".devpunks/specs/lint/assets/tanstack-query-core.json": {
+      "artifact": "copied",
+      "item": "lint-tanstack-query-core"
+    },
+    ".devpunks/specs/lint/assets/typescript-anti-slop.json": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    ".devpunks/specs/lint/assets/vitest-core.json": {
+      "artifact": "copied",
+      "item": "lint-vitest-core"
+    },
+    ".devpunks/specs/lint/selection.json": {
+      "artifact": "built",
+      "item": "managed-lint"
+    },
+    ".devpunks/specs/prompts/apps/cli/prompt.md": {
+      "artifact": "built",
+      "item": "prompts"
+    },
+    ".devpunks/specs/prompts/apps/web/prompt.md": {
+      "artifact": "built",
+      "item": "prompts"
+    },
+    ".devpunks/specs/prompts/packages/config/prompt.md": {
+      "artifact": "built",
+      "item": "prompts"
+    },
+    ".devpunks/specs/prompts/packages/ui/prompt.md": {
+      "artifact": "built",
+      "item": "prompts"
+    },
+    ".devpunks/specs/prompts/root.md": {
+      "artifact": "built",
+      "item": "prompts"
+    },
+    ".devpunks/specs/prompts/shared-agents.md": {
+      "artifact": "built",
+      "item": "prompts"
+    },
+    ".githooks/pre-commit": {
+      "artifact": "copied",
+      "item": "commit-gate"
+    },
+    ".opencode/AGENTS.md": {
+      "artifact": "symlink",
+      "item": "harness"
+    },
+    ".opencode/agents/backlog-shaper.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".opencode/agents/code-review.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".opencode/agents/plan-reviewer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".opencode/agents/planning-discovery.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".opencode/agents/requirements-synthesizer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".opencode/agents/spec-reviewer.md": {
+      "artifact": "built",
+      "item": "subagents"
+    },
+    ".opencode/plugins/format-edited-file.js": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    ".opencode/plugins/scaffold-update-check.js": {
+      "artifact": "symlink",
+      "item": "hooks"
+    },
+    "AGENTS.md": {
+      "artifact": "authored",
+      "item": "prompts"
+    },
+    "CLAUDE.md": {
+      "artifact": "symlink",
+      "item": "prompts"
+    },
+    "apps/cli/oxlint.config.ts": {
+      "artifact": "built",
+      "item": "managed-lint"
+    },
+    "apps/cli/oxlint.local.ts": {
+      "artifact": "authored",
+      "item": "managed-lint"
+    },
+    "apps/cli/tools/oxlint/anti-slop/LICENSE": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "apps/cli/tools/oxlint/anti-slop/index.mjs": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "apps/web/oxlint.config.ts": {
+      "artifact": "built",
+      "item": "managed-lint"
+    },
+    "apps/web/oxlint.local.ts": {
+      "artifact": "authored",
+      "item": "managed-lint"
+    },
+    "apps/web/tools/oxlint/anti-slop/LICENSE": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "apps/web/tools/oxlint/anti-slop/index.mjs": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "apps/web/tools/oxlint/frontend-layers/index.mjs": {
+      "artifact": "copied",
+      "item": "lint-react-frontend-layers"
+    },
+    "opensrc/README.md": {
+      "artifact": "built",
+      "item": "source-guides"
+    },
+    "opensrc/effect.md": {
+      "artifact": "copied",
+      "item": "source-guide-effect"
+    },
+    "opensrc/react.md": {
+      "artifact": "copied",
+      "item": "source-guide-react"
+    },
+    "opensrc/tanstack-query.md": {
+      "artifact": "copied",
+      "item": "source-guide-tanstack-query"
+    },
+    "packages/config/oxlint.config.ts": {
+      "artifact": "built",
+      "item": "managed-lint"
+    },
+    "packages/config/oxlint.local.ts": {
+      "artifact": "authored",
+      "item": "managed-lint"
+    },
+    "packages/config/tools/oxlint/anti-slop/LICENSE": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "packages/config/tools/oxlint/anti-slop/index.mjs": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "packages/ui/oxlint.config.ts": {
+      "artifact": "built",
+      "item": "managed-lint"
+    },
+    "packages/ui/oxlint.local.ts": {
+      "artifact": "authored",
+      "item": "managed-lint"
+    },
+    "packages/ui/tools/oxlint/anti-slop/LICENSE": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "packages/ui/tools/oxlint/anti-slop/index.mjs": {
+      "artifact": "copied",
+      "item": "lint-typescript-anti-slop"
+    },
+    "packages/ui/tools/oxlint/frontend-layers/index.mjs": {
+      "artifact": "copied",
+      "item": "lint-react-frontend-layers"
+    }
+  },
+  "schemaVersion": 1,
+  "shape": {
+    "languages": [
+      "typescript"
+    ],
+    "monorepo": true,
+    "packs": [
+      "debug",
+      "docs",
+      "effect",
+      "frontend",
+      "misc",
+      "planning",
+      "quality",
+      "react",
+      "requirements",
+      "research",
+      "security",
+      "shadcn",
+      "subagents",
+      "tanstack-query",
+      "turborepo",
+      "typescript",
+      "verification"
+    ],
+    "technologies": [
+      "effect",
+      "react",
+      "shadcn",
+      "tanstack-query",
+      "turborepo"
+    ],
+    "workspaces": [
+      {
+        "languages": [
+          "typescript"
+        ],
+        "name": "tokenshame",
+        "path": ".",
+        "technologies": [
+          "effect",
+          "react",
+          "shadcn",
+          "tanstack-query",
+          "turborepo"
+        ]
+      },
+      {
+        "languages": [
+          "typescript"
+        ],
+        "name": "tokenshame",
+        "path": "apps/cli",
+        "technologies": [
+          "effect"
+        ]
+      },
+      {
+        "languages": [
+          "typescript"
+        ],
+        "name": "web",
+        "path": "apps/web",
+        "technologies": [
+          "react",
+          "shadcn",
+          "tanstack-query"
+        ]
+      },
+      {
+        "languages": [
+          "typescript"
+        ],
+        "name": "@tokenshame/config",
+        "path": "packages/config",
+        "technologies": []
+      },
+      {
+        "languages": [
+          "typescript"
+        ],
+        "name": "@tokenshame/ui",
+        "path": "packages/ui",
+        "technologies": [
+          "react",
+          "shadcn"
+        ]
+      }
+    ]
+  }
+}

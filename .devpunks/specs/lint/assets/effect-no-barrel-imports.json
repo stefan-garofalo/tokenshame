@@ -1,0 +1,33 @@
+{
+  "description": "Effect architectural rule that blocks barrel-package imports.",
+  "id": "effect-no-barrel-imports",
+  "jsPlugins": [
+    {
+      "name": "effect-js",
+      "specifier": "@effect/eslint-plugin"
+    }
+  ],
+  "oxlintPresets": [],
+  "plugins": [],
+  "requiredDevDependencies": [
+    "@effect/eslint-plugin",
+    "@typescript-eslint/utils",
+    "eslint"
+  ],
+  "requiredDevDependencyVersions": {
+    "@effect/eslint-plugin": "0.3.2",
+    "@typescript-eslint/utils": "8.22.0",
+    "eslint": "9.39.5"
+  },
+  "rules": {
+    "effect-js/no-import-from-barrel-package": [
+      "error",
+      {
+        "packageNames": [
+          "effect"
+        ]
+      }
+    ]
+  },
+  "settings": {}
+}

@@ -1,0 +1,23 @@
+[agents]
+max_depth = 1
+
+[features]
+hooks = true
+
+[hooks]
+SessionStart = [
+  { matcher = "startup|resume", hooks = [
+    { type = "command", command = "node \"$(git rev-parse --show-toplevel)/.codex/hooks/scaffold-update-check.mjs\" codex", statusMessage = "Checking Harness scaffold", timeout = 60 },
+    { type = "command", command = "node \"$(git rev-parse --show-toplevel)/.codex/hooks/format-edited-file.mjs\" session-start", statusMessage = "Capturing edited-file baseline", timeout = 30 },
+  ] },
+]
+PostToolUse = [
+  { matcher = "Bash|apply_patch|.*apply.?patch.*|edit|write|multiedit", hooks = [
+    { type = "command", command = "node \"$(git rev-parse --show-toplevel)/.codex/hooks/format-edited-file.mjs\" post", statusMessage = "Auto-formatting edited files", timeout = 30 },
+  ] },
+]
+SessionEnd = [
+  { hooks = [
+    { type = "command", command = "node \"$(git rev-parse --show-toplevel)/.agents/scripts/test-resource-sweep.mjs\" --detach", statusMessage = "Sweeping orphaned test containers", timeout = 10 },
+  ] },
+]

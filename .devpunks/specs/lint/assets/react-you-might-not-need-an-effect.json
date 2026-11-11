@@ -1,0 +1,29 @@
+{
+  "description": "Guidance rules that push React code away from unnecessary effects.",
+  "id": "react-you-might-not-need-an-effect",
+  "jsPlugins": [
+    {
+      "name": "react-you-might-not-need-an-effect-js",
+      "specifier": "eslint-plugin-react-you-might-not-need-an-effect"
+    }
+  ],
+  "oxlintPresets": [],
+  "plugins": [],
+  "requiredDevDependencies": [
+    "eslint-plugin-react-you-might-not-need-an-effect"
+  ],
+  "requiredDevDependencyVersions": {
+    "eslint-plugin-react-you-might-not-need-an-effect": "1.0.2"
+  },
+  "rules": {
+    "react-you-might-not-need-an-effect-js/no-adjust-state-on-prop-change": "error",
+    "react-you-might-not-need-an-effect-js/no-chain-state-updates": "error",
+    "react-you-might-not-need-an-effect-js/no-derived-state": "error",
+    "react-you-might-not-need-an-effect-js/no-event-handler": "error",
+    "react-you-might-not-need-an-effect-js/no-initialize-state": "error",
+    "react-you-might-not-need-an-effect-js/no-pass-data-to-parent": "error",
+    "react-you-might-not-need-an-effect-js/no-pass-live-state-to-parent": "error",
+    "react-you-might-not-need-an-effect-js/no-reset-all-state-on-prop-change": "error"
+  },
+  "settings": {}
+}

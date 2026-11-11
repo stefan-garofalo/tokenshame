@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs Onboarding"
+  short_description: "Reconstruct project wiki/spec context"
+  default_prompt: "Use $docs-onboarding to inspect code, docs, and backlog context, build the Project Map, close the targeted requirements grill, then hand each accepted flow to $requirements-phase as an explicit human handoff with its brief and onboarding projection boundary."

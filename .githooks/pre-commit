@@ -1,0 +1,11 @@
+#!/bin/sh
+# Managed Hook Script (HI Commit Gate). Hook Activation points core.hooksPath at .githooks.
+# Runs this checkout's own lefthook; fails closed when it is not installed.
+set -eu
+
+lefthook="$(git rev-parse --show-toplevel)/node_modules/.bin/lefthook"
+if [ ! -x "$lefthook" ]; then
+  echo "Commit Gate: lefthook is not installed at $lefthook; run the package install, then commit again." >&2
+  exit 1
+fi
+exec "$lefthook" run pre-commit "$@"

@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/format-edited-file.mjs claude",
+            "timeout": 30,
+            "type": "command"
+          }
+        ],
+        "matcher": "Edit|Write|MultiEdit"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.agents/scripts/test-resource-sweep.mjs --detach",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scaffold-update-check.mjs claude",
+            "timeout": 60,
+            "type": "command"
+          }
+        ]
+      }
+    ]
+  }
+}

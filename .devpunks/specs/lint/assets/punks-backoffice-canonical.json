@@ -1,0 +1,21 @@
+{
+  "description": "Canonical lint exceptions for the Harness backoffice package.",
+  "id": "punks-backoffice-canonical",
+  "jsPlugins": [],
+  "oxlintPresetRules": {
+    "vitest": {
+      "vitest/prefer-import-in-mock": "off",
+      "vitest/prefer-importing-vitest-globals": "off"
+    }
+  },
+  "oxlintPresets": [],
+  "plugins": [],
+  "requiredDevDependencies": [],
+  "rules": {
+    "eslint/func-style": "off"
+  },
+  "settings": {},
+  "targetPackageNames": [
+    "@punks/backoffice"
+  ]
+}

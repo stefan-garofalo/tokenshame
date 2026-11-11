@@ -1,0 +1,179 @@
+{
+  "finalPacks": [
+    "debug",
+    "docs",
+    "effect",
+    "frontend",
+    "misc",
+    "planning",
+    "quality",
+    "react",
+    "requirements",
+    "research",
+    "security",
+    "shadcn",
+    "subagents",
+    "tanstack-query",
+    "turborepo",
+    "typescript",
+    "verification"
+  ],
+  "managedLint": {
+    "exclude": [],
+    "routes": [
+      {
+        "config": "apps/cli/oxlint.config.ts",
+        "inputs": [
+          ".devpunks/settings.json",
+          ".devpunks/specs/lint/selection.json",
+          "apps/cli/oxlint.config.ts",
+          "apps/cli/oxlint.local.ts",
+          "apps/cli/package.json",
+          "apps/cli/tools/oxlint/anti-slop/index.mjs",
+          "bun.lock",
+          "bun.lockb",
+          "package-lock.json",
+          "package.json",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "yarn.lock"
+        ],
+        "maxWarnings": 0,
+        "scope": "apps/cli",
+        "tool": {
+          "package": "oxlint"
+        }
+      },
+      {
+        "config": "apps/web/oxlint.config.ts",
+        "inputs": [
+          ".devpunks/settings.json",
+          ".devpunks/specs/lint/selection.json",
+          "apps/web/oxlint.config.ts",
+          "apps/web/oxlint.local.ts",
+          "apps/web/package.json",
+          "apps/web/tools/oxlint/anti-slop/index.mjs",
+          "apps/web/tools/oxlint/frontend-layers/index.mjs",
+          "bun.lock",
+          "bun.lockb",
+          "package-lock.json",
+          "package.json",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "yarn.lock"
+        ],
+        "maxWarnings": 0,
+        "scope": "apps/web",
+        "tool": {
+          "package": "oxlint"
+        }
+      },
+      {
+        "config": "packages/config/oxlint.config.ts",
+        "inputs": [
+          ".devpunks/settings.json",
+          ".devpunks/specs/lint/selection.json",
+          "bun.lock",
+          "bun.lockb",
+          "package-lock.json",
+          "package.json",
+          "packages/config/oxlint.config.ts",
+          "packages/config/oxlint.local.ts",
+          "packages/config/package.json",
+          "packages/config/tools/oxlint/anti-slop/index.mjs",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "yarn.lock"
+        ],
+        "maxWarnings": 0,
+        "scope": "packages/config",
+        "tool": {
+          "package": "oxlint"
+        }
+      },
+      {
+        "config": "packages/ui/oxlint.config.ts",
+        "inputs": [
+          ".devpunks/settings.json",
+          ".devpunks/specs/lint/selection.json",
+          "bun.lock",
+          "bun.lockb",
+          "package-lock.json",
+          "package.json",
+          "packages/ui/oxlint.config.ts",
+          "packages/ui/oxlint.local.ts",
+          "packages/ui/package.json",
+          "packages/ui/tools/oxlint/anti-slop/index.mjs",
+          "packages/ui/tools/oxlint/frontend-layers/index.mjs",
+          "pnpm-lock.yaml",
+          "pnpm-workspace.yaml",
+          "yarn.lock"
+        ],
+        "maxWarnings": 0,
+        "scope": "packages/ui",
+        "tool": {
+          "package": "oxlint"
+        }
+      }
+    ],
+    "scopes": [
+      "apps/cli",
+      "apps/web",
+      "packages/config",
+      "packages/ui"
+    ],
+    "version": 1
+  },
+  "requiredDevDependencies": [
+    "@effect/eslint-plugin",
+    "@effect/tsgo",
+    "@oxlint/plugins",
+    "@typescript-eslint/utils",
+    "eslint",
+    "eslint-plugin-react-you-might-not-need-an-effect",
+    "oxfmt",
+    "oxlint",
+    "oxlint-tsgolint",
+    "ultracite"
+  ],
+  "selectedAssetIds": [
+    "effect-no-barrel-imports",
+    "effect-tsgo-recommended",
+    "punks-anti-slop-transition",
+    "punks-backoffice-canonical",
+    "punks-cli-canonical",
+    "react-core",
+    "react-frontend-layers",
+    "react-you-might-not-need-an-effect",
+    "tanstack-query-core",
+    "typescript-anti-slop",
+    "vitest-core"
+  ],
+  "selectedAssetsByScope": {
+    "apps/cli": [
+      "effect-no-barrel-imports",
+      "effect-tsgo-recommended",
+      "typescript-anti-slop",
+      "vitest-core"
+    ],
+    "apps/web": [
+      "react-core",
+      "react-frontend-layers",
+      "react-you-might-not-need-an-effect",
+      "tanstack-query-core",
+      "typescript-anti-slop",
+      "vitest-core"
+    ],
+    "packages/config": [
+      "typescript-anti-slop",
+      "vitest-core"
+    ],
+    "packages/ui": [
+      "react-core",
+      "react-frontend-layers",
+      "react-you-might-not-need-an-effect",
+      "typescript-anti-slop",
+      "vitest-core"
+    ]
+  }
+}

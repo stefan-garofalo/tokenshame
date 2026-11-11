@@ -1,0 +1,1 @@
+../../.agents/hooks/scaffold-update-check.mjs

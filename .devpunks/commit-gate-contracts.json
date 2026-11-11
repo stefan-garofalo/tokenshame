@@ -1,0 +1,42 @@
+[
+  {
+    "execution": {
+      "formatCheck": "files",
+      "lint": "files"
+    },
+    "formatCheck": "oxfmt --check --no-error-on-unmatched-pattern {files}",
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\" --files-from {files-from}",
+    "owner": "apps/cli",
+    "path": "apps/cli"
+  },
+  {
+    "execution": {
+      "formatCheck": "files",
+      "lint": "files"
+    },
+    "formatCheck": "oxfmt --check --no-error-on-unmatched-pattern {files}",
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/web\" --files-from {files-from}",
+    "owner": "apps/web",
+    "path": "apps/web"
+  },
+  {
+    "execution": {
+      "formatCheck": "files",
+      "lint": "files"
+    },
+    "formatCheck": "oxfmt --check --no-error-on-unmatched-pattern {files}",
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"packages/config\" --files-from {files-from}",
+    "owner": "packages/config",
+    "path": "packages/config"
+  },
+  {
+    "execution": {
+      "formatCheck": "files",
+      "lint": "files"
+    },
+    "formatCheck": "oxfmt --check --no-error-on-unmatched-pattern {files}",
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"packages/ui\" --files-from {files-from}",
+    "owner": "packages/ui",
+    "path": "packages/ui"
+  }
+]

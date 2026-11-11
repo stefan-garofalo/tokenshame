@@ -1,0 +1,4 @@
+interface:
+  display_name: "Effect Recoverable Actions"
+  short_description: "Recoverable multi-step Effect action flows"
+  default_prompt: "Use $backend-recoverable-actions alongside $effect-recoverable-actions for Effect backend flows that chain multiple dependent operations and need explicit transaction, retry, rollback, compensation, or failure-path testing strategy."

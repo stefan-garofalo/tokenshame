@@ -1,0 +1,12 @@
+{
+  "description": "Ultracite TanStack preset for query/router/start framework linting.",
+  "id": "tanstack-query-core",
+  "jsPlugins": [],
+  "oxlintPresets": [
+    "tanstack"
+  ],
+  "plugins": [],
+  "requiredDevDependencies": [],
+  "rules": {},
+  "settings": {}
+}
