@@ -10,7 +10,7 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "tsdown && node dist/index.mjs --port 4747",
+    "dev": "tsdown && node dist/index.mjs",
     "build": "tsdown",
     "check-types": "tsc --noEmit",
     "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\"",
@@ -23,6 +23,7 @@
     "@effect/vitest": "catalog:",
     "@oxlint/plugins": "1.90.0",
     "@tokenshame/config": "workspace:*",
+    "@tokenshame/share-link": "workspace:*",
     "@types/node": "catalog:",
     "@typescript-eslint/utils": "8.22.0",
     "effect": "catalog:",
@@ -33,10 +34,9 @@
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "ultracite": "7.12.4",
-    "vitest": "catalog:",
-    "web": "workspace:*"
+    "vitest": "catalog:"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13"
   }
 }
