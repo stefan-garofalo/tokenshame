@@ -1,0 +1,39 @@
+{
+  "name": "tokenshame",
+  "version": "0.0.0",
+  "description": "Roast your AI token usage. Reads local Claude Code and Codex logs; nothing leaves your machine unless you share it.",
+  "bin": {
+    "tokenshame": "dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "tsdown && node dist/index.mjs --port 4747",
+    "build": "tsdown",
+    "check-types": "tsc --noEmit",
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\""
+  },
+  "devDependencies": {
+    "@effect/eslint-plugin": "0.3.2",
+    "@effect/platform-node": "catalog:",
+    "@effect/tsgo": "0.67.0",
+    "@oxlint/plugins": "1.90.0",
+    "@tokenshame/config": "workspace:*",
+    "@types/node": "catalog:",
+    "@typescript-eslint/utils": "8.22.0",
+    "effect": "catalog:",
+    "eslint": "9.39.5",
+    "oxfmt": "^0.74.0",
+    "oxlint": "1.90.0",
+    "oxlint-tsgolint": "7.0.2005",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "ultracite": "7.12.4",
+    "web": "workspace:*"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
