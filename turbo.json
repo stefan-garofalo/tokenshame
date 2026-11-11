@@ -22,6 +22,11 @@
       "cache": false,
       "persistent": true,
       "passThroughEnv": ["*"]
+    },
+    "tokenshame#dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
     }
   },
   "globalEnv": [

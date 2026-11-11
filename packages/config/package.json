@@ -1,5 +1,15 @@
 {
   "name": "@tokenshame/config",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"packages/config\""
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.90.0",
+    "oxfmt": "^0.74.0",
+    "oxlint": "1.90.0",
+    "ultracite": "7.12.4"
+  }
 }
