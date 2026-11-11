@@ -1,5 +1,5 @@
 import fixture from "@tokenshame/share-link/fixtures/v1.json";
-import { decode } from "@tokenshame/share-link/link";
+import { decode, encode } from "@tokenshame/share-link/link";
 import * as Effect from "effect/Effect";
 import { JSDOM } from "jsdom";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -81,6 +81,27 @@ describe(BrokenLinkPage, () => {
   });
 
   it("never says cache", () => {
+    expect(`${page.html} ${page.text}`.toLowerCase()).not.toContain("cache");
+  });
+});
+
+describe("SharePage of a link with no usage", () => {
+  const none = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 };
+  const empty = Effect.runSync(
+    decode(encode({ ...summary, models: [], other: none, sessions: 0 })),
+  );
+  const page = render(renderToStaticMarkup(<SharePage roast={roast(empty)} />));
+
+  it("renders a zero headline with no roast lines and no empty list", () => {
+    expect(page.document.querySelector("h1")?.textContent).toContain("0");
+    expect(page.text).toContain("tokens processed");
+    expect(page.document.querySelectorAll("[data-roast-line]")).toHaveLength(0);
+    expect(page.document.querySelector(".warnings")).toBeNull();
+  });
+
+  it("says there is nothing to roast, still shows the command, and never says cache", () => {
+    expect(page.text).toContain("Nothing to roast");
+    expect(page.document.querySelector("[data-command]")?.textContent).toBe("npx tokenshame");
     expect(`${page.html} ${page.text}`.toLowerCase()).not.toContain("cache");
   });
 });

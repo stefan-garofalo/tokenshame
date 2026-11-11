@@ -1,5 +1,5 @@
 import fixture from "@tokenshame/share-link/fixtures/v1.json";
-import { decode } from "@tokenshame/share-link/link";
+import { decode, encode } from "@tokenshame/share-link/link";
 import * as Effect from "effect/Effect";
 import { describe, expect, it } from "vitest";
 
@@ -81,5 +81,43 @@ describe("share route head of a broken link", () => {
 
     expect(content(meta, "property", "og:title")).toBe("this roast is broken");
     expect(content(meta, "property", "og:image")).toMatch(/\/r\/not-a-share-link\/og\.png$/u);
+  });
+});
+
+// The CLI cannot emit a link with no usage, but anyone can craft one.
+describe("share route of a link with no usage", () => {
+  const none = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 };
+  const link = encode({ ...summary, busiestHour: 0, models: [], other: none, sessions: 0 });
+  const params = { link };
+
+  const headOf = async () => {
+    const loaderData = await shareRoute.loader({ params });
+    return shareRoute.head({ loaderData, params }).meta;
+  };
+
+  it("is a shared roast with a zero headline in the title", async () => {
+    const loaderData = await shareRoute.loader({ params });
+    const { meta } = shareRoute.head({ loaderData, params });
+
+    expect(loaderData._tag).toBe("Shared");
+    expect(meta.find((entry) => entry.title !== undefined)?.title).toBe("0 tokens processed");
+  });
+
+  it("still has a description everywhere, without the word cache", async () => {
+    const meta = await headOf();
+    const description = content(meta, "name", "description");
+
+    expect(description).toBeDefined();
+    expect(description?.toLowerCase()).not.toContain("cache");
+    expect(content(meta, "property", "og:description")).toBe(description);
+    expect(content(meta, "name", "twitter:description")).toBe(description);
+  });
+
+  it("still has noindex and absolute card images", async () => {
+    const meta = await headOf();
+
+    expect(content(meta, "name", "robots")).toBe("noindex");
+    expect(content(meta, "property", "og:image")).toMatch(/^https?:\/\/.+\/og\.png$/u);
+    expect(content(meta, "name", "twitter:image")).toBe(content(meta, "property", "og:image"));
   });
 });

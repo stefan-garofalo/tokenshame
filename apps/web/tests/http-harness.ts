@@ -29,11 +29,15 @@ import { promisify } from "node:util";
 const run = promisify(execFile);
 
 const webRoot = fileURLToPath(new URL("..", import.meta.url));
-// Written after the build; a build by anyone else wipes it, so it proves this harness built.
-// It holds the production host baked into that build.
-const builtMarker = path.join(webRoot, ".output/.http-harness");
-const builtEntry = path.join(webRoot, ".output/server/index.mjs");
-const buildLock = path.join(webRoot, ".output.build-lock");
+// The harness builds into a folder of its own, set through WEB_BUILD_DIR (see vite.config.ts), so
+// no other build (the one behind `check-types` writes `.output`) can touch what the tests serve.
+// It stays under node_modules so the build still resolves packages, and git ignores it.
+const buildDir = path.join(webRoot, "node_modules/.http-harness");
+const outputDir = path.join(buildDir, "output");
+// Written after the build; it holds the production host baked into that build.
+const builtMarker = path.join(buildDir, "built");
+const builtEntry = path.join(outputDir, "server/index.mjs");
+const buildLock = path.join(webRoot, "node_modules/.http-harness.lock");
 const sourceRoots = [
   path.join(webRoot, "src"),
   path.join(webRoot, "../../packages/share-link/src"),
@@ -75,13 +79,11 @@ const newestSourceTime = () =>
     ),
   );
 
-// Fresh when this harness built it for `productionHost` and nothing rebuilt it since:
-// a foreign `vite build` rewrites the entry after the marker, or wipes the marker.
+// Fresh when the last build was for `productionHost` and no source changed since.
 const isBuildFresh = () =>
   existsSync(builtMarker) &&
   existsSync(builtEntry) &&
   readFileSync(builtMarker, "utf-8") === productionHost &&
-  modifiedAt(builtMarker) >= modifiedAt(builtEntry) &&
   modifiedAt(builtMarker) > newestSourceTime();
 
 const tryLockBuild = () => {
@@ -100,7 +102,7 @@ const waitForUnlock = async (): Promise<void> => {
   }
 };
 
-// A killed run can leave `.output.build-lock` behind; delete it to unblock.
+// A killed run can leave `node_modules/.http-harness.lock` behind; delete it to unblock.
 const ensureBuilt = async (): Promise<void> => {
   if (isBuildFresh()) {
     return;
@@ -111,12 +113,15 @@ const ensureBuilt = async (): Promise<void> => {
     return;
   }
   try {
+    // A build that dies half way must not leave a marker that vouches for its output.
+    rmSync(builtMarker, { force: true });
     await run("bun", ["run", "build"], {
       cwd: webRoot,
       env: {
         ...localEnv(),
         NODE_ENV: "production",
         VERCEL_PROJECT_PRODUCTION_URL: productionHost,
+        WEB_BUILD_DIR: buildDir,
       },
       maxBuffer: buildOutputLimit,
     });
@@ -176,7 +181,7 @@ export const startServer = async (): Promise<WebServer> => {
   // function sits in a folder with no node_modules above it (tools such as varlock
   // search upward from their own file). So serve a copy of the output from the temp dir.
   const cwd = mkdtempSync(path.join(tmpdir(), "web-server-"));
-  cpSync(path.join(webRoot, ".output"), path.join(cwd, ".output"), { recursive: true });
+  cpSync(outputDir, path.join(cwd, ".output"), { recursive: true });
   env.PATH = path.dirname(process.execPath);
   env.HOST = "127.0.0.1";
   env.NODE_ENV = "production";

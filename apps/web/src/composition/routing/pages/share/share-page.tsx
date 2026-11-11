@@ -25,6 +25,7 @@ const useSharePath = () => useRouter({ warn: false })?.state.location.pathname;
 export const SharePage = ({ roast }: { roast: ShareView }) => {
   const sharePath = useSharePath();
   const { figure, label } = roast.headline;
+  const hasLines = roast.lines.length > 0;
 
   return (
     <main className="share">
@@ -35,7 +36,9 @@ export const SharePage = ({ roast }: { roast: ShareView }) => {
         <Lockup lines={[figure, label]} />
         <div className="hero-foot">
           <p className="hero-note">
-            That is what your coding agents chewed through. The side effects are listed below.
+            {hasLines
+              ? "That is what your coding agents chewed through. The side effects are listed below."
+              : "Nothing to roast here. Run it on your own machine and see what you owe."}
           </p>
           <div className="actions">
             <PostOnXSlot>
@@ -52,7 +55,7 @@ export const SharePage = ({ roast }: { roast: ShareView }) => {
           </div>
         </div>
       </section>
-      <RoastList lines={roast.lines} />
+      {hasLines && <RoastList lines={roast.lines} />}
       <Bill cost={roast.cost} />
       <RunYourOwn />
       <SiteFooter>

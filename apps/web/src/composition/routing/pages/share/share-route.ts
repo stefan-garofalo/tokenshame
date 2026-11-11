@@ -38,8 +38,10 @@ const titleAndDescription = (data?: ShareLoaderData) => {
     return { description: brokenDescription, title: brokenTitle };
   }
   const [first] = data.lines;
+  // A link with no usage has no Roast Lines to quote.
+  const quote = first?.text ?? "Nothing to roast here.";
   return {
-    description: `${first.text} Run ${command} to get yours.`,
+    description: `${quote} Run ${command} to get yours.`,
     title: `${data.headline.figure} ${data.headline.label}`,
   };
 };
