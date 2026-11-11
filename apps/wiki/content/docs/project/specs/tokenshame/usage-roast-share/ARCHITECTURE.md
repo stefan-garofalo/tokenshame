@@ -17,11 +17,11 @@ updated: 2026-11-11
 - Actors and outcome: a developer who uses coding agents runs `npx tokenshame`. They get a funny, shareable Share Page and Share Card. A viewer on X sees the Share Card and can open the Share Page. The developer must trust that no prompt text, login, or key leaves their machine (log#Q1, log#Q5).
 - In scope: the CLI, `packages/share-link`, the `apps/web` routes `/`, `/r/$link`, `/r/$link/og.png`, the roast engine, tests, distribution names (log#Q13, log#Q23, log#Q46).
 - Non-goals: no database, no stored shares, no leaderboard (log#Q6); no local report page (log#Q7); no landing page or methodology page (log#Q10); no Deno or jq mode (log#Q14); no Cursor, Kiro, or Devin source (log#Q16); no ozone metric (log#Q21); no API-key or admin-key input (log#Q1).
-- Spec: sibling `SPEC.md` is planned at the same folder. It does not exist yet, so there is no link.
+- Spec: sibling `SPEC.md` in the same folder. No link here, because a link to a file that is not in this retained commit would not resolve.
 
 ## Canonical Terms
 
-Terms, relationships, and axioms come from the status glossary (S3) and the published page `apps/wiki/content/docs/project/domains/tokenshame-glossary.mdx` (S5). Both match.
+Terms, relationships, and axioms come from the status glossary (S3) and the published page `apps/wiki/content/docs/project/domains/tokenshame-glossary.mdx` (S5). The status glossary lists axioms AX-1 to AX-4. S5 also lists AX-5, which comes from log#Q48 (the status glossary has no entry for it).
 
 - **Usage Source**: one local folder or file where a coding agent writes token counts.
 - **Usage Summary**: the small set of numbers the CLI computes from Usage Sources. It holds no prompt text.
@@ -126,6 +126,7 @@ Observed current behavior (S4) that this design changes: the CLI serves the web 
 
 ## Critical Flows and Boundaries
 
+<a id="flow-001"></a>
 ### FLOW-001 Run the CLI and open the Share Link
 
 ```mermaid
@@ -149,16 +150,17 @@ sequenceDiagram
 
 | Selector | Step | Accepted detail | Source |
 | --- | --- | --- | --- |
-| FLOW-001-STEP-001 | Read sources | Read all 14 agents: Claude Code, Codex, opencode, Copilot CLI, Pi, Gemini CLI, Grok, Qwen, Amp, Droid, Kimi, Goose, Antigravity, Muse. Never the T3 Code scan cache. Muse only if its default folder exists or `MUSE_HOME` is set. The CLI never starts Muse. | log#Q16, log#Q29 |
-| FLOW-001-STEP-002 | Handle failures | A source that fails to open (for example a `-wal` file without a `-shm` file in a read-only folder) is skipped with a message. If no logs are found, the CLI lists the folders it checked and exits with no link. | log#Q27, log#Q43 |
-| FLOW-001-STEP-003 | Summarize and encode | All time. Claude Code: `stats-cache.json` totals up to `lastComputedDate`, then jsonl logs for later days. opencode: sum `session` or `message`, not both. Raw counts per model family (input, output, cacheRead, cacheWrite); top 8 models by tokens, the rest as "other"; session count, busiest hour, first-day date, `v`. No project names, paths, or prompt text. | log#Q4, log#Q15a2, log#Q34, log#Q42 |
-| FLOW-001-STEP-004 | Consent | Print the exact Usage Summary. The CLI itself sends nothing. | log#Q5 |
-| FLOW-001-STEP-005 | Open | Press Enter to open the link with `open`, `xdg-open`, or `start`. | log#Q5, log#Q37 |
-| FLOW-001-STEP-006 | Print link | Always print the link, also on hosts with no browser. | log#Q37 |
+| <a id="flow-001-step-001"></a>FLOW-001-STEP-001 | Read sources | Read all 14 agents: Claude Code, Codex, opencode, Copilot CLI, Pi, Gemini CLI, Grok, Qwen, Amp, Droid, Kimi, Goose, Antigravity, Muse. Never the T3 Code scan cache. Muse only if its default folder exists or `MUSE_HOME` is set. The CLI never starts Muse. | log#Q16, log#Q29 |
+| <a id="flow-001-step-002"></a>FLOW-001-STEP-002 | Handle failures | A source that fails to open (for example a `-wal` file without a `-shm` file in a read-only folder) is skipped with a message. If no logs are found, the CLI lists the folders it checked and exits with no link. | log#Q27, log#Q43 |
+| <a id="flow-001-step-003"></a>FLOW-001-STEP-003 | Summarize and encode | All time. Claude Code: `stats-cache.json` totals up to `lastComputedDate`, then jsonl logs for later days. opencode: sum `session` or `message`, not both. Raw counts per model family (input, output, cacheRead, cacheWrite); top 8 models by tokens, the rest as "other"; session count, busiest hour, first-day date, `v`. No project names, paths, or prompt text. | log#Q4, log#Q15a2, log#Q34, log#Q42 |
+| <a id="flow-001-step-004"></a>FLOW-001-STEP-004 | Consent | Print the exact Usage Summary. The CLI itself sends nothing. | log#Q5 |
+| <a id="flow-001-step-005"></a>FLOW-001-STEP-005 | Open | Press Enter to open the link with `open`, `xdg-open`, or `start`. | log#Q5, log#Q37 |
+| <a id="flow-001-step-006"></a>FLOW-001-STEP-006 | Print link | Always print the link, also on hosts with no browser. | log#Q37 |
 
 Question anchors: log#Q3–log#Q5, log#Q15, log#Q16, log#Q27, log#Q29, log#Q34, log#Q37, log#Q42, log#Q43.
 Conclusion: every network step is the browser's, not the CLI's. A broken source cannot stop the run, and an empty run produces no link. So AX-1 to AX-3 hold even when sources fail.
 
+<a id="flow-002"></a>
 ### FLOW-002 Open the Share Page
 
 ```mermaid
@@ -179,32 +181,34 @@ sequenceDiagram
 
 | Selector | Step | Accepted detail | Source |
 | --- | --- | --- | --- |
-| FLOW-002-STEP-001 | Decode | The server decodes every link version it ever shipped. | log#Q38, log#Q42 |
-| FLOW-002-STEP-002 | Compute | Weighted tokens drive Impact Estimates (a cache read counts about 0.1 token). Cost uses per-model prices, cache reads at their own price. Lines are chosen deterministically; the card shows the top 3 by dread, the page shows all; ties break by a hash of the link. | log#Q24, log#Q28, log#Q35, log#Q45 |
-| FLOW-002-STEP-003 | Render | The page shows Roast Lines and key numbers, an "ⓘ how we calculated" note with a link to the README section "How we calculate", a "Post on X" button, a "Copy image" button, and a "run it yourself: `npx tokenshame`" box. It shows no agent list, date range, or missing-days note. | log#Q9, log#Q19, log#Q22, log#Q31 |
-| FLOW-002-STEP-004 | Broken link | Message "this roast is broken. Run `npx tokenshame`" and a generic Share Card. | log#Q27, log#Q38 |
+| <a id="flow-002-step-001"></a>FLOW-002-STEP-001 | Decode | The server decodes every link version it ever shipped. | log#Q38, log#Q42 |
+| <a id="flow-002-step-002"></a>FLOW-002-STEP-002 | Compute | Weighted tokens drive Impact Estimates (a cache read counts about 0.1 token). Cost uses per-model prices, cache reads at their own price. Lines are chosen deterministically; the card shows the top 3 by dread, the page shows all; ties break by a hash of the link. | log#Q24, log#Q28, log#Q35, log#Q45 |
+| <a id="flow-002-step-003"></a>FLOW-002-STEP-003 | Render | The page shows Roast Lines and key numbers, an "ⓘ how we calculated" note with a link to the README section "How we calculate", a "Post on X" button, a "Copy image" button, and a "run it yourself: `npx tokenshame`" box. It shows no agent list, date range, or missing-days note. | log#Q9, log#Q19, log#Q22, log#Q31 |
+| <a id="flow-002-step-004"></a>FLOW-002-STEP-004 | Broken link | Message "this roast is broken. Run `npx tokenshame`" and a generic Share Card. | log#Q27, log#Q38 |
 
 Question anchors: log#Q9, log#Q18, log#Q19, log#Q24, log#Q27, log#Q28, log#Q31, log#Q35, log#Q38, log#Q41, log#Q45.
 Conclusion: the same decoded link feeds the page and the card, and line choice has no randomness. So the page and the card always match, also after X caches the card.
 
+<a id="flow-003"></a>
 ### FLOW-003 Fetch the Share Card
 
 | Selector | Step | Accepted detail | Source |
 | --- | --- | --- | --- |
-| FLOW-003-STEP-001 | Request | X crawler or a browser requests `/r/<link>/og.png`. The `og:image` URL is absolute. The site address comes from `VERCEL_PROJECT_PRODUCTION_URL` (declared in `apps/web/.env.schema`); local dev uses `http://localhost:3001`. | log#Q41 |
-| FLOW-003-STEP-002 | Draw | Decode, compute, draw 1200×630 with `takumi-js`: headline "N tokens processed", the three most dreadful Roast Lines, the domain, and `npx tokenshame`. No agent list, date range, or gap note. | log#Q25, log#Q39 |
-| FLOW-003-STEP-003 | Cache | Respond with `Cache-Control: public, immutable`. The CDN keeps each card. A link's content never changes. | log#Q36, log#Q32 |
+| <a id="flow-003-step-001"></a>FLOW-003-STEP-001 | Request | X crawler or a browser requests `/r/<link>/og.png`. The `og:image` URL is absolute. The site address comes from `VERCEL_PROJECT_PRODUCTION_URL` (declared in `apps/web/.env.schema`); local dev uses `http://localhost:3001`. | log#Q41 |
+| <a id="flow-003-step-002"></a>FLOW-003-STEP-002 | Draw | Decode, compute, draw 1200×630 with `takumi-js`: headline "N tokens processed", the three most dreadful Roast Lines, the domain, and `npx tokenshame`. No agent list, date range, or gap note. | log#Q25, log#Q39 |
+| <a id="flow-003-step-003"></a>FLOW-003-STEP-003 | Cache | Respond with `Cache-Control: public, immutable`. The CDN keeps each card. A link's content never changes. | log#Q36, log#Q32 |
 
 Question anchors: log#Q25, log#Q32, log#Q36, log#Q39, log#Q41.
 Conclusion: the card is made once per link, at first request, so it is "render time", not build time. Later views are served from the CDN.
 
+<a id="flow-004"></a>
 ### FLOW-004 Share to X
 
 | Selector | Step | Accepted detail | Source |
 | --- | --- | --- | --- |
-| FLOW-004-STEP-001 | Link card | The user posts the Share Link. X shows the Share Card from the page tags. | log#Q8 |
-| FLOW-004-STEP-002 | Image in post | The user presses "Copy image" on the Share Page and pastes the PNG with Cmd+V. The CLI is not involved. | log#Q8, log#Q22 |
-| FLOW-004-STEP-003 | Post on X button | The page has a "Post on X" button. The exact X composer URL is not recorded in the grill. | log#Q9 |
+| <a id="flow-004-step-001"></a>FLOW-004-STEP-001 | Link card | The user posts the Share Link. X shows the Share Card from the page tags. | log#Q8 |
+| <a id="flow-004-step-002"></a>FLOW-004-STEP-002 | Image in post | The user presses "Copy image" on the Share Page and pastes the PNG with Cmd+V. The CLI is not involved. | log#Q8, log#Q22 |
+| <a id="flow-004-step-003"></a>FLOW-004-STEP-003 | Post on X button | The page has a "Post on X" button. The exact X composer URL is not recorded in the grill. | log#Q9 |
 
 Question anchors: log#Q8, log#Q9, log#Q22.
 Conclusion: both ways of sharing live on the page, so the CLI stays free of network calls (AX-3).
@@ -295,19 +299,66 @@ Observed facts used as evidence (S6, not durable): Claude Code logs cover 30 day
 
 ## Spec Traceability
 
-- State: pending-spec-ids
+- State: complete
 
-Spec codes are pending. `create-spec` assigns real `OUT-###` and `AC-###` codes and completes the table below. Architecture selectors ARC-001 to ARC-013, FLOW-001 to FLOW-004 with their STEP codes, and Q evidence are ready.
+Spec codes come from `SPEC.md` of this folder. The spec links back to this table. Every current `OUT-###` and `AC-###` maps to architecture selectors and accepted log entries. The anchor rule for `log#Q<N>` is in Sources. The Spec Invariants INV-001 to INV-003 trace to AX-1, AX-3, and AX-4 through log#Q1, log#Q5, log#Q22, log#Q6, log#Q32, and log#Q34.
 
 | Spec code / section selector | Architecture selectors | Accepted grill Q / exact log-entry and evidence anchors | Coverage explanation |
 | --- | --- | --- | --- |
-| pending | ARC-001..004, FLOW-001 | log#Q1, log#Q3, log#Q5, log#Q16, log#Q27 | CLI reads, summarizes, consents, opens |
-| pending | ARC-005 | log#Q33, log#Q34, log#Q38, log#Q42 | Share Link format and versions |
-| pending | ARC-006..009, FLOW-002, FLOW-003 | log#Q2, log#Q17, log#Q18, log#Q32, log#Q36, log#Q41 | Server-rendered page, card, redirect |
-| pending | ARC-010 | log#Q11, log#Q20, log#Q21, log#Q24, log#Q28, log#Q35, log#Q45 | Roast engine |
-| pending | FLOW-004 | log#Q8, log#Q9, log#Q22 | Sharing to X |
-| pending | ARC-011 | log#Q48, log#Q49 | Design constraint |
-| pending | ARC-012, ARC-013 | log#Q23, log#Q44, log#Q46, log#Q47 | Tests and distribution |
+| OUT-001 Local usage summary (SPEC#out-001) | [ARC-001](#arc-001), [ARC-002](#arc-002), [ARC-003](#arc-003), [FLOW-001-STEP-001](#flow-001-step-001), [FLOW-001-STEP-003](#flow-001-step-003) | log#Q1, log#Q3, log#Q4, log#Q15, log#Q15a2, log#Q16, log#Q24, log#Q26, log#Q29, log#Q34, log#Q37; S2 | Outcome `Local usage summary` rests on these blocks and accepted entries. |
+| OUT-002 Consent before sharing (SPEC#out-002) | [ARC-004](#arc-004), [FLOW-001-STEP-004](#flow-001-step-004), [FLOW-001-STEP-005](#flow-001-step-005), [FLOW-001-STEP-006](#flow-001-step-006) | log#Q5, log#Q37; S2 | Outcome `Consent before sharing` rests on these blocks and accepted entries. |
+| OUT-003 Safe failure behavior (SPEC#out-003) | [ARC-002](#arc-002), [FLOW-001-STEP-002](#flow-001-step-002), [FLOW-002-STEP-004](#flow-002-step-004) | log#Q27, log#Q43, log#Q38; S2 | Outcome `Safe failure behavior` rests on these blocks and accepted entries. |
+| OUT-004 Stateless durable link (SPEC#out-004) | [ARC-005](#arc-005), [FLOW-002-STEP-001](#flow-002-step-001) | log#Q6, log#Q32, log#Q33, log#Q34, log#Q38, log#Q42; S2 | Outcome `Stateless durable link` rests on these blocks and accepted entries. |
+| OUT-005 Complete share page (SPEC#out-005) | [ARC-006](#arc-006), [ARC-007](#arc-007), [FLOW-002-STEP-003](#flow-002-step-003) | log#Q2, log#Q9, log#Q18, log#Q19, log#Q31, log#Q36, log#Q40, log#Q41; S2 | Outcome `Complete share page` rests on these blocks and accepted entries. |
+| OUT-006 X-ready share card (SPEC#out-006) | [ARC-008](#arc-008), [FLOW-003-STEP-001](#flow-003-step-001), [FLOW-003-STEP-002](#flow-003-step-002), [FLOW-003-STEP-003](#flow-003-step-003) | log#Q25, log#Q32, log#Q36, log#Q39, log#Q41; S2 | Outcome `X-ready share card` rests on these blocks and accepted entries. |
+| OUT-007 Sharing to X (SPEC#out-007) | [ARC-007](#arc-007), [FLOW-004-STEP-001](#flow-004-step-001), [FLOW-004-STEP-002](#flow-004-step-002), [FLOW-004-STEP-003](#flow-004-step-003) | log#Q8, log#Q9, log#Q22; S2 | Outcome `Sharing to X` rests on these blocks and accepted entries. |
+| OUT-008 Defensible roast content (SPEC#out-008) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q11, log#Q12, log#Q20, log#Q21, log#Q24, log#Q28, log#Q35, log#Q45, log#Q19; S2 | Outcome `Defensible roast content` rests on these blocks and accepted entries. |
+| OUT-009 Root goes to GitHub (SPEC#out-009) | [ARC-009](#arc-009) | log#Q10, log#Q17, log#Q46; S2 | Outcome `Root goes to GitHub` rests on these blocks and accepted entries. |
+| OUT-010 Designed web pages (SPEC#out-010) | [ARC-011](#arc-011) | log#Q48, log#Q49; S2 | Outcome `Designed web pages` rests on these blocks and accepted entries. |
+| OUT-011 Published and reachable (SPEC#out-011) | [ARC-012](#arc-012), [ARC-013](#arc-013), [ARC-006](#arc-006) | log#Q13, log#Q23, log#Q37, log#Q44, log#Q46, log#Q47, log#Q7; S2 | Outcome `Published and reachable` rests on these blocks and accepted entries. |
+| AC-001 Fourteen agent readers (SPEC#ac-001) | [ARC-002](#arc-002), [FLOW-001-STEP-001](#flow-001-step-001) | log#Q3, log#Q16; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-002 Claude duplicates counted once (SPEC#ac-002) | [ARC-002](#arc-002), [FLOW-001-STEP-003](#flow-001-step-003) | log#Q44; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-003 Codex last total wins (SPEC#ac-003) | [ARC-002](#arc-002), [FLOW-001-STEP-003](#flow-001-step-003) | log#Q44; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-004 opencode counted once (SPEC#ac-004) | [ARC-002](#arc-002), [FLOW-001-STEP-003](#flow-001-step-003) | log#Q3, log#Q37; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-005 Claude history merge (SPEC#ac-005) | [ARC-003](#arc-003), [FLOW-001-STEP-003](#flow-001-step-003) | log#Q15, log#Q15a2, log#Q4; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-006 Excluded sources ignored (SPEC#ac-006) | [ARC-002](#arc-002), [FLOW-001-STEP-001](#flow-001-step-001) | log#Q16; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-007 Summary fields and limits (SPEC#ac-007) | [ARC-003](#arc-003), [ARC-005](#arc-005), [FLOW-001-STEP-003](#flow-001-step-003) | log#Q34, log#Q42; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-008 All-time totals (SPEC#ac-008) | [ARC-003](#arc-003), [FLOW-001-STEP-003](#flow-001-step-003) | log#Q4; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-009 Platform path resolution (SPEC#ac-009) | [ARC-001](#arc-001), [ARC-002](#arc-002) | log#Q26; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-010 No server in the CLI (SPEC#ac-010) | [ARC-001](#arc-001), [ARC-013](#arc-013) | log#Q7, log#Q37; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-011. |
+| AC-011 Exact summary printed (SPEC#ac-011) | [ARC-004](#arc-004), [FLOW-001-STEP-004](#flow-001-step-004) | log#Q5; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-002. |
+| AC-012 Enter opens the link (SPEC#ac-012) | [ARC-004](#arc-004), [FLOW-001-STEP-005](#flow-001-step-005), [FLOW-001-STEP-006](#flow-001-step-006) | log#Q5, log#Q37; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-002. |
+| AC-013 Dry run opens nothing (SPEC#ac-013) | [ARC-004](#arc-004), [FLOW-001-STEP-004](#flow-001-step-004) | log#Q5; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-002. |
+| AC-014 No network from the CLI (SPEC#ac-014) | [ARC-001](#arc-001), [FLOW-001-STEP-005](#flow-001-step-005) | log#Q5, log#Q22; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-002. |
+| AC-015 Failing source skipped (SPEC#ac-015) | [ARC-002](#arc-002), [FLOW-001-STEP-002](#flow-001-step-002) | log#Q27, log#Q43; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-003. |
+| AC-016 No logs, no link (SPEC#ac-016) | [FLOW-001-STEP-002](#flow-001-step-002) | log#Q27; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-003. |
+| AC-017 Warning filter is narrow (SPEC#ac-017) | [ARC-001](#arc-001), [ARC-002](#arc-002) | log#Q37; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-018 Muse folder rule (SPEC#ac-018) | [ARC-002](#arc-002), [FLOW-001-STEP-001](#flow-001-step-001) | log#Q29; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-001. |
+| AC-019 Link round trip (SPEC#ac-019) | [ARC-005](#arc-005) | log#Q34, log#Q42; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-004. |
+| AC-020 Old links keep working (SPEC#ac-020) | [ARC-005](#arc-005), [FLOW-002-STEP-001](#flow-002-step-001) | log#Q38; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-004. |
+| AC-021 Raw model ids in links (SPEC#ac-021) | [ARC-005](#arc-005), [ARC-010](#arc-010) | log#Q42, log#Q35; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-004. |
+| AC-022 Broken link page (SPEC#ac-022) | [FLOW-002-STEP-004](#flow-002-step-004) | log#Q27, log#Q38; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-003. |
+| AC-023 Per-link tags in HTML (SPEC#ac-023) | [ARC-007](#arc-007), [FLOW-002-STEP-003](#flow-002-step-003), [FLOW-003-STEP-001](#flow-003-step-001) | log#Q18, log#Q36, log#Q40, log#Q41; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-005. |
+| AC-024 Share page contents (SPEC#ac-024) | [ARC-007](#arc-007), [FLOW-002-STEP-003](#flow-002-step-003) | log#Q9, log#Q19, log#Q31; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-005. |
+| AC-025 Site address from environment (SPEC#ac-025) | [ARC-007](#arc-007), [FLOW-003-STEP-001](#flow-003-step-001) | log#Q41; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-005. |
+| AC-026 Card is a 1200×630 PNG (SPEC#ac-026) | [ARC-008](#arc-008), [FLOW-003-STEP-002](#flow-003-step-002) | log#Q25, log#Q39; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-006. |
+| AC-027 Card content (SPEC#ac-027) | [ARC-008](#arc-008), [FLOW-003-STEP-002](#flow-003-step-002) | log#Q25, log#Q31; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-006. |
+| AC-028 Card kept by the CDN (SPEC#ac-028) | [ARC-008](#arc-008), [FLOW-003-STEP-003](#flow-003-step-003) | log#Q36, log#Q32; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-006. |
+| AC-029 Link card works (SPEC#ac-029) | [ARC-007](#arc-007), [ARC-008](#arc-008), [FLOW-004-STEP-001](#flow-004-step-001) | log#Q8, log#Q41; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-007. |
+| AC-030 Copy image button (SPEC#ac-030) | [ARC-007](#arc-007), [FLOW-004-STEP-002](#flow-004-step-002) | log#Q22, log#Q8; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-007. |
+| AC-031 Post on X button (SPEC#ac-031) | [ARC-007](#arc-007), [FLOW-004-STEP-003](#flow-004-step-003) | log#Q9; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-007. |
+| AC-032 Headline is the raw total (SPEC#ac-032) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q24; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-033 No cache word in public copy (SPEC#ac-033) | [ARC-007](#arc-007), [ARC-008](#arc-008), [ARC-010](#arc-010) | log#Q24, log#Q21; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-034 Impact weight and prices (SPEC#ac-034) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q24, log#Q35; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-035 Factors carry sources (SPEC#ac-035) | [ARC-010](#arc-010) | log#Q19, log#Q45; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-036 Required comparison set (SPEC#ac-036) | [ARC-010](#arc-010) | log#Q11, log#Q20, log#Q21; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-037 Same link, same lines (SPEC#ac-037) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q28, log#Q45; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-038 Root redirect (SPEC#ac-038) | [ARC-009](#arc-009) | log#Q17, log#Q46; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-009. |
+| AC-039 Design skill gate (SPEC#ac-039) | [ARC-011](#arc-011) | log#Q48, log#Q49; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-010. |
+| AC-040 Card matches the pages (SPEC#ac-040) | [ARC-008](#arc-008), [ARC-011](#arc-011) | log#Q49; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-010. |
+| AC-041 CLI package shape (SPEC#ac-041) | [ARC-001](#arc-001), [ARC-013](#arc-013) | log#Q37, log#Q13; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-011. |
+| AC-042 Web runtime pinned (SPEC#ac-042) | [ARC-006](#arc-006), [ARC-013](#arc-013) | log#Q36, log#Q47, log#Q23; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-011. |
+| AC-043 Repo and tests exist (SPEC#ac-043) | [ARC-012](#arc-012), [ARC-013](#arc-013) | log#Q44, log#Q46; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-011. |
 
 ### Retired or Superseded Selectors
 
@@ -348,9 +399,9 @@ Spec codes are pending. `create-spec` assigns real `OUT-###` and `AC-###` codes 
 - Decision/source/glossary reconciliation: status closure `closed R9`, no `unanswered` question, Q48 and Q49 recorded, glossary in S3 and S5 match. Passed by reading both files.
 - Exact-detail and cross-level coverage: every accepted question Q1–Q49 has a row, except Q12-style content items that map to ARC-010 together. Superseded Q15 parts and Q30 sit in disposition history only.
 - Relative links, selector targets, and visual source/order checks: each ARC selector has an `<a id>` anchor in this file. Each FLOW and STEP selector appears in a table row. The links to the log use the anchor rule in Sources.
-- Spec-code → architecture → grill coverage: `pending-spec-ids`.
+- Spec-code → architecture → grill coverage: complete. 11 outcomes and 43 criteria each map to existing selectors and accepted log entries. A script checked every selector against the anchors in this file and every Q against the headings in the log.
 - Mermaid parsing/rendering: `mermaid@11` `parse()` under `jsdom@26` accepted all 3 diagrams (system map, FLOW-001 sequence, FLOW-002 sequence). Rendering to an image was not run: `mmdc` is not installed. Layout is unchecked.
-- Existing spec agreement: absent. Architecture precedes spec.
+- Existing spec agreement: the spec was compiled after this document. `create-spec` amended traceability as metadata only (anchors, table, state, and two sentences). No design changed.
 - Models: no flow has two writers on shared state, a retry on client-written state, recovery or resync, or a delivery guarantee. No Model was written.
 - Flow Lenses: applied. The `brainstorm` skill is an interactive proposal loop with the user. It was not run as one here, because the decisions are closed. The flow lenses were applied to the accepted flows instead.
 - Remaining limits: the probe files in S6 are in `/tmp` and are not retained. The npm and Nitro versions in them can be checked again with `npm view`. The source hashes in S1 and S2 are content hashes of untracked files. The retention commit gives the immutable identity. No approval is implied.
