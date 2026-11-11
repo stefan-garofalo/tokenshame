@@ -26,6 +26,7 @@
     "react-dom": "^19.3.0",
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
+    "takumi-js": "2.20.0",
     "varlock": "catalog:",
     "zod": "catalog:"
   },
