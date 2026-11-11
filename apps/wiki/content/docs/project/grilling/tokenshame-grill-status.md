@@ -13,7 +13,7 @@ permission: project
 | Usage collection | 100% | L3 | L3 | L1 locks (Q3, Q4, Q15, Q16, Q24, Q26, Q29); CLI: no server, Effect bundled, `node:sqlite` read-only, engines >=22.13, hand protobuf, system open + printed link (Q37) | — | — |
 | Share payload | 100% | L3 | L3 | L1 locks (Q5, Q6, Q27, Q32); `packages/share-link` owns format (Q33); raw per-model counts top 8 + other, sessions, busiest hour, first day, version (Q34); old links decode forever (Q38) | — | — |
 | Share page | 100% | L3 | L3 | L1 locks (Q2, Q8, Q9, Q17, Q18, Q19, Q22, Q25, Q31, Q32); server does all math (Q35); SSR + Nitro on Vercel Node, immutable card cache (Q36); `/design-taste-frontend` mandatory for web pages (Q48); rule covers pages, card follows the direction, `--allow` only for picture-floor and motion-count (Q49) | — | — |
-| Roast content | 100% | L1 | L1 | Self-roast; agent writes all (Q11, Q12); vices, dreadful CO2, trees, homes heated, villages supplied, no ozone (Q20, Q21); deterministic (Q28) | — | — |
+| Roast content | 100% | L1 | L1 | Self-roast; agent writes all (Q11, Q12); vices, dreadful CO2, trees, homes heated, villages supplied, no ozone (Q20, Q21); deterministic (Q28); roast engine in `apps/web/src/server/roast/` (Q50, supersedes the folder in Q45) | — | — |
 | Distribution | 100% | L1 | L1 | npm `tokenshame` (Q13); no Deno/jq (Q14); `tokenshame.vercel.app` (Q23) | — | — |
 
 ## Precision Inputs
@@ -33,13 +33,14 @@ permission: project
 - Altitude: L3
 - Current frontier: empty
 - Shared-understanding confirmation: confirmed
-- Closure: closed R9
+- Closure: closed R10
 
 | Question id | Name | Branch | Altitude | Prerequisites | Question | State |
 | --- | --- | --- | --- | --- | --- | --- |
 | Q39–Q47 | L3 round | code branches | L3 | see log | see log | answered |
 | Q48 | Design skill mandatory | Share page | L3 | Q36, Q40 | Which process builds web pages? | answered |
 | Q49 | Design skill scope | Share page | L3 | Q25, Q48; fact: skill gate demands 4+ real pictures and 8+ moving elements | Does the rule cover the Share Card, and how does the skill gate apply to a data page? | answered |
+| Q50 | Roast engine folder | Share page | L3 | Q45; fact: `known-top-level` lint error | Where does the roast engine live? | answered |
 
 ## Required Calls
 
@@ -178,7 +179,7 @@ permission: project
 - Scope: R7; all branches
 - Artifacts: Current Round confirmation pending; Close calls
 - Validation: Close Guard passes (no unanswered question; all branches at Target Altitude; code branches grounded)
-- Grill state: closed R9; handed to create-architecture
+- Grill state: closed R9; handed to create-architecture; reopened and closed again at R10 for Q50 (roast engine folder)
 - Next suggested route: close on user reply
 - Blockers: none
 - Resume identity: none

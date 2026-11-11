@@ -902,3 +902,41 @@ Handoff: status and log go to `$create-architecture`, then `$create-spec`.
 Remaining non-design work: Muse default home folder (Q29 rule: none found →
 Muse dropped); create the public GitHub repo `stefan-garofalo/tokenshame`
 (Q46); add the Vercel project; add the test runner (Q44).
+
+## Reopened R10 (compile gap from create-plan) — user: "1 and 2 recommended"
+
+Gap found while planning: the accepted roast folder `apps/web/src/roast/`
+(Q45) fails the web app's `frontend-layers/known-top-level` lint rule, set to
+`error` with zero warnings allowed
+(`apps/web/oxlint.config.ts`, `apps/web/tools/oxlint/frontend-layers/index.mjs:629`).
+The layer root may hold only the layer folders and `server/`.
+
+### Q50: Roast engine folder
+
+Prerequisites:
+- Q45; fact: `known-top-level` rule allows `server/`; a `server/<domain>/index.ts` is the Server Contract for pure code shared by server and browser (`.agents/skills/frontend-domain-structure/references/structure.md`, section Server)
+
+Altitude: L3
+
+Supersedes:
+- Q45 — the folder path only. The file names, the ranking rule, and the hash tie-break in Q45 stay accepted.
+
+Question:
+Where does the roast engine live so that it passes the web lint rules?
+
+Accepted answer:
+- `apps/web/src/server/roast/{factors,prices,impacts,lines,pick}.ts`, with the
+  domain `index.ts` as its Server Contract (pure code only).
+- Recommendation accepted as given; alternative `features/roast/` rejected.
+
+Rejected alternatives:
+- `apps/web/src/roast/` (lint error).
+- `features/roast/` (a route-level card handler would import a feature; worse fit).
+
+Code consequence:
+- Architecture ARC-010 and the Modules tree, and the spec's Accepted Technical
+  Decisions, use the new path. Selectors and spec codes stay the same.
+
+## Closure (R10)
+
+Closure: "1 and 2 recommended" (R10). Grill closed again at R10.
