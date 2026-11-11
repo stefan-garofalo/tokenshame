@@ -1,0 +1,66 @@
+import { useRouter } from "@tanstack/react-router";
+
+import { ENV } from "../../../../env";
+import type { Roast } from "../../../../server/roast";
+import { Bill } from "./components/bill";
+import { CopyImageButton } from "./components/copy-image-button";
+import { CopyImageSlot } from "./components/copy-image-slot";
+import { Credits } from "./components/credits";
+import { Lockup } from "./components/lockup";
+import { PostOnXButton } from "./components/post-on-x-button";
+import { PostOnXSlot } from "./components/post-on-x-slot";
+import { RoastList } from "./components/roast-list";
+import { RunYourOwn } from "./components/run-your-own";
+import { SiteFooter } from "./components/site-footer";
+import { repoUrl } from "./links";
+import "./share.css";
+
+/** What the Share Page needs from the roast engine. */
+export type ShareView = Pick<Roast, "cost" | "headline" | "lines">;
+
+// The Share Page is the page the visitor is on. Without a router (a bare render) there is nothing to share yet.
+const useSharePath = () => useRouter({ warn: false })?.state.location.pathname;
+
+/** The Share Page of one Share Link: the headline number, the Roast Lines, the cost, how to run your own. */
+export const SharePage = ({ roast }: { roast: ShareView }) => {
+  const sharePath = useSharePath();
+  const { figure, label } = roast.headline;
+  const hasLines = roast.lines.length > 0;
+
+  return (
+    <main className="share">
+      <section className="hero">
+        <a className="wordmark" href={repoUrl}>
+          tokenshame
+        </a>
+        <Lockup lines={[figure, label]} />
+        <div className="hero-foot">
+          <p className="hero-note">
+            {hasLines
+              ? "That is what your coding agents chewed through. The side effects are listed below."
+              : "Nothing to roast here. Run it on your own machine and see what you owe."}
+          </p>
+          <div className="actions">
+            <PostOnXSlot>
+              {sharePath && (
+                <PostOnXButton
+                  pageUrl={`${ENV.SITE_ORIGIN}${sharePath}`}
+                  text={`${figure} ${label}. Roasted by tokenshame.`}
+                />
+              )}
+            </PostOnXSlot>
+            <CopyImageSlot>
+              {sharePath && <CopyImageButton imageUrl={`${sharePath}/og.png`} />}
+            </CopyImageSlot>
+          </div>
+        </div>
+      </section>
+      {hasLines && <RoastList lines={roast.lines} />}
+      <Bill cost={roast.cost} />
+      <RunYourOwn />
+      <SiteFooter>
+        <Credits />
+      </SiteFooter>
+    </main>
+  );
+};

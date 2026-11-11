@@ -1,0 +1,1 @@
+{"type":"message","id":"n1","timestamp":"2026-01-02T00:00:02.000Z","message":{"role":"assistant","model":"claude-sonnet-4-5","usage":{"input":10,"output":5,"cacheRead":0,"cacheWrite":0,"totalTokens":15}}}

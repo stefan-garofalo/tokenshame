@@ -1,0 +1,38 @@
+{
+  "link": "eyJ2IjoxLCJtIjpbeyJuIjoiY2xhdWRlLW9wdXMtNC01LTIwMjUxMTAxIiwiaSI6MTIwMDAwMCwibyI6MjMwMDAwMCwiciI6OTAwMDAwMDAwLCJ3IjoxMjAwMDAwMH0seyJuIjoiZ3B0LTUuMS1jb2RleCIsImkiOjM0MDAwMCwibyI6NDUwMDAwLCJyIjoxMjAwMDAwMDAsInciOjB9LHsibiI6ImNsYXVkZS1zb25uZXQtNC01LTIwMjUwOTI5IiwiaSI6MTAwMDAwLCJvIjoyMDAwMDAsInIiOjUwMDAwMDAwLCJ3Ijo1MDAwMDAwfV0sIngiOnsiaSI6MTAwMDAsIm8iOjIwMDAwLCJyIjozMDAwMDAwLCJ3Ijo0MDAwMH0sInMiOjMyMSwiaCI6MTQsImQiOiIyMDI1LTExLTAzIn0",
+  "summary": {
+    "version": 1,
+    "models": [
+      {
+        "model": "claude-opus-4-5-20251101",
+        "input": 1200000,
+        "output": 2300000,
+        "cacheRead": 900000000,
+        "cacheWrite": 12000000
+      },
+      {
+        "model": "gpt-5.1-codex",
+        "input": 340000,
+        "output": 450000,
+        "cacheRead": 120000000,
+        "cacheWrite": 0
+      },
+      {
+        "model": "claude-sonnet-4-5-20250929",
+        "input": 100000,
+        "output": 200000,
+        "cacheRead": 50000000,
+        "cacheWrite": 5000000
+      }
+    ],
+    "other": {
+      "input": 10000,
+      "output": 20000,
+      "cacheRead": 3000000,
+      "cacheWrite": 40000
+    },
+    "sessions": 321,
+    "busiestHour": 14,
+    "firstDay": "2025-11-03"
+  }
+}

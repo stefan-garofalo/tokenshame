@@ -8,21 +8,25 @@
     "dev": "vite dev",
     "check-types": "vite build && tsc --noEmit",
     "env:generate": "varlock codegen",
-    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/web\""
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/web\"",
+    "test": "vitest run"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-query": "^5.104.2",
     "@tanstack/react-router": "^1.170.44",
     "@tanstack/react-start": "^1.169.1",
+    "@tokenshame/share-link": "workspace:*",
     "@tokenshame/ui": "workspace:*",
     "@varlock/vite-integration": "1.5.4",
+    "effect": "catalog:",
     "lucide-react": "^1.56.0",
     "next-themes": "catalog:",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
+    "takumi-js": "2.20.0",
     "varlock": "catalog:",
     "zod": "catalog:"
   },
@@ -32,16 +36,23 @@
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@tokenshame/config": "workspace:*",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "catalog:",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "eslint-plugin-react-you-might-not-need-an-effect": "1.0.2",
     "jsdom": "^30.1.2",
+    "nitro": "3.0.261103-rc",
     "oxfmt": "^0.74.0",
     "oxlint": "1.90.0",
     "typescript": "catalog:",
     "ultracite": "7.12.4",
     "vite": "^8.3.4",
+    "vitest": "catalog:",
     "web-vitals": "^6.2.3"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }

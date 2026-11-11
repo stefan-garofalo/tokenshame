@@ -1,7 +1,24 @@
 {
   "name": "tokenshame",
-  "version": "0.0.0",
-  "description": "Roast your AI token usage. Reads local Claude Code and Codex logs; nothing leaves your machine unless you share it.",
+  "version": "0.1.0",
+  "description": "Roast your AI token usage. Reads the local usage logs of 14 coding agents, prints a Usage Summary of token counts, and opens a Share Link. Nothing leaves your machine unless you press Enter.",
+  "keywords": [
+    "ai",
+    "claude-code",
+    "cli",
+    "codex",
+    "tokens",
+    "usage"
+  ],
+  "homepage": "https://tokenshame.vercel.app",
+  "bugs": {
+    "url": "https://github.com/stefan-garofalo/tokenshame/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefan-garofalo/tokenshame.git",
+    "directory": "apps/cli"
+  },
   "bin": {
     "tokenshame": "dist/index.mjs"
   },
@@ -10,17 +27,21 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "tsdown && node dist/index.mjs --port 4747",
+    "dev": "tsdown && node dist/index.mjs",
     "build": "tsdown",
+    "prepack": "tsdown",
     "check-types": "tsc --noEmit",
-    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\""
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\"",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@effect/eslint-plugin": "0.3.2",
     "@effect/platform-node": "catalog:",
     "@effect/tsgo": "0.67.0",
+    "@effect/vitest": "catalog:",
     "@oxlint/plugins": "1.90.0",
     "@tokenshame/config": "workspace:*",
+    "@tokenshame/share-link": "workspace:*",
     "@types/node": "catalog:",
     "@typescript-eslint/utils": "8.22.0",
     "effect": "catalog:",
@@ -31,9 +52,9 @@
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "ultracite": "7.12.4",
-    "web": "workspace:*"
+    "vitest": "catalog:"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13"
   }
 }

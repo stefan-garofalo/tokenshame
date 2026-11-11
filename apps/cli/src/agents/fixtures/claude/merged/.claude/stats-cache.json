@@ -1,0 +1,32 @@
+{
+  "version": 3,
+  "lastComputedDate": "2026-01-10",
+  "dailyActivity": [
+    { "date": "2026-01-05", "messageCount": 10, "sessionCount": 2, "toolCallCount": 4 },
+    { "date": "2026-01-10", "messageCount": 6, "sessionCount": 2, "toolCallCount": 1 }
+  ],
+  "modelUsage": {
+    "claude-sonnet-4-5-20250929": {
+      "inputTokens": 1000,
+      "outputTokens": 2000,
+      "cacheReadInputTokens": 30000,
+      "cacheCreationInputTokens": 4000,
+      "webSearchRequests": 0,
+      "costUSD": 0,
+      "contextWindow": 0
+    },
+    "claude-opus-4-1-20250805": {
+      "inputTokens": 100,
+      "outputTokens": 200,
+      "cacheReadInputTokens": 300,
+      "cacheCreationInputTokens": 400,
+      "webSearchRequests": 0,
+      "costUSD": 0,
+      "contextWindow": 0
+    }
+  },
+  "totalSessions": 4,
+  "totalMessages": 16,
+  "firstSessionDate": "2026-01-05T08:00:00.000Z",
+  "hourCounts": { "9": 3, "14": 1 }
+}
