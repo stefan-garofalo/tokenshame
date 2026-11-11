@@ -15,7 +15,10 @@ export default defineConfig(({ mode }) => ({
     tsconfigPaths: true,
   },
   plugins: [
-    varlockVitePlugin({ ssrInjectMode: "auto-load" }),
+    // "resolved-env" bakes the resolved env into the server bundle. The env is all
+    // @public. "auto-load" runs the varlock CLI at server start, which Vercel lacks,
+    // and "init-only" expects the platform to inject the env at runtime.
+    varlockVitePlugin({ ssrInjectMode: "resolved-env" }),
     tailwindcss(),
     tanstackStart(),
     ...(mode === "test" ? [] : [nitro()]),

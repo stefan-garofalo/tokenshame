@@ -1,9 +1,20 @@
 import { execFile, spawn } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import { once } from "node:events";
-import { existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { createServer } from "node:net";
 import type { AddressInfo } from "node:net";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
@@ -18,9 +29,10 @@ import { promisify } from "node:util";
 const run = promisify(execFile);
 
 const webRoot = fileURLToPath(new URL("..", import.meta.url));
-const serverEntry = path.join(webRoot, ".output/server/index.mjs");
 // Written after the build; a build by anyone else wipes it, so it proves this harness built.
+// It holds the production host baked into that build.
 const builtMarker = path.join(webRoot, ".output/.http-harness");
+const builtEntry = path.join(webRoot, ".output/server/index.mjs");
 const buildLock = path.join(webRoot, ".output.build-lock");
 const sourceRoots = [
   path.join(webRoot, "src"),
@@ -63,7 +75,14 @@ const newestSourceTime = () =>
     ),
   );
 
-const isBuildFresh = () => existsSync(builtMarker) && modifiedAt(builtMarker) > newestSourceTime();
+// Fresh when this harness built it for `productionHost` and nothing rebuilt it since:
+// a foreign `vite build` rewrites the entry after the marker, or wipes the marker.
+const isBuildFresh = () =>
+  existsSync(builtMarker) &&
+  existsSync(builtEntry) &&
+  readFileSync(builtMarker, "utf-8") === productionHost &&
+  modifiedAt(builtMarker) >= modifiedAt(builtEntry) &&
+  modifiedAt(builtMarker) > newestSourceTime();
 
 const tryLockBuild = () => {
   try {
@@ -101,7 +120,7 @@ const ensureBuilt = async (): Promise<void> => {
       },
       maxBuffer: buildOutputLimit,
     });
-    writeFileSync(builtMarker, "");
+    writeFileSync(builtMarker, productionHost);
   } finally {
     rmSync(buildLock, { force: true, recursive: true });
   }
@@ -153,11 +172,17 @@ export const startServer = async (): Promise<WebServer> => {
   const port = await freePort();
   const url = `http://127.0.0.1:${port}`;
   const env = localEnv();
+  // Vercel has no node_modules/.bin: only the node binary is on PATH, and the
+  // function sits in a folder with no node_modules above it (tools such as varlock
+  // search upward from their own file). So serve a copy of the output from the temp dir.
+  const cwd = mkdtempSync(path.join(tmpdir(), "web-server-"));
+  cpSync(path.join(webRoot, ".output"), path.join(cwd, ".output"), { recursive: true });
+  env.PATH = path.dirname(process.execPath);
   env.HOST = "127.0.0.1";
   env.NODE_ENV = "production";
   env.PORT = String(port);
-  const server = spawn(process.execPath, [serverEntry], {
-    cwd: webRoot,
+  const server = spawn(process.execPath, [path.join(cwd, ".output/server/index.mjs")], {
+    cwd,
     env,
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -173,6 +198,7 @@ export const startServer = async (): Promise<WebServer> => {
       server.kill("SIGTERM");
       await once(server, "exit");
     }
+    rmSync(cwd, { force: true, recursive: true });
   };
   try {
     await waitUntilServing(url, server, () => log, Date.now() + startTimeoutMs);
