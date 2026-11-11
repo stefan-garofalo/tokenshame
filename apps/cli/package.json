@@ -13,12 +13,14 @@
     "dev": "tsdown && node dist/index.mjs --port 4747",
     "build": "tsdown",
     "check-types": "tsc --noEmit",
-    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\""
+    "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\"",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@effect/eslint-plugin": "0.3.2",
     "@effect/platform-node": "catalog:",
     "@effect/tsgo": "0.67.0",
+    "@effect/vitest": "catalog:",
     "@oxlint/plugins": "1.90.0",
     "@tokenshame/config": "workspace:*",
     "@types/node": "catalog:",
@@ -31,6 +33,7 @@
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "ultracite": "7.12.4",
+    "vitest": "catalog:",
     "web": "workspace:*"
   },
   "engines": {
