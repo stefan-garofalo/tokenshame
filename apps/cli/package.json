@@ -1,7 +1,7 @@
 {
   "name": "tokenshame",
   "version": "0.1.0",
-  "description": "Roast your AI token usage. Reads local Claude Code and Codex logs; nothing leaves your machine unless you share it.",
+  "description": "Roast your AI token usage. Reads the local usage logs of 14 coding agents, prints a Usage Summary of token counts, and opens a Share Link. Nothing leaves your machine unless you press Enter.",
   "keywords": [
     "ai",
     "claude-code",
@@ -14,7 +14,6 @@
   "bugs": {
     "url": "https://github.com/stefan-garofalo/tokenshame/issues"
   },
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stefan-garofalo/tokenshame.git",

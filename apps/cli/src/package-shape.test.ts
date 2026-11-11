@@ -1,4 +1,4 @@
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -14,9 +14,9 @@ const PackResult = Schema.Array(Schema.Struct({ files: Schema.Array(PackedFile) 
 const Manifest = Schema.Struct({
   bin: Schema.Record(Schema.String, Schema.String),
   dependencies: Schema.optionalKey(Schema.Unknown),
+  description: Schema.String,
   engines: Schema.Record(Schema.String, Schema.String),
   keywords: Schema.optionalKey(Schema.Array(Schema.String)),
-  license: Schema.optionalKey(Schema.String),
   name: Schema.String,
   optionalDependencies: Schema.optionalKey(Schema.Unknown),
   peerDependencies: Schema.optionalKey(Schema.Unknown),
@@ -130,7 +130,11 @@ describe("packed CLI package", () => {
     assert.strictEqual(manifest.name, "tokenshame");
     assert.isUndefined(manifest.private);
     assert.strictEqual(manifest.version, "0.1.0");
-    assert.strictEqual(manifest.license, "MIT");
+    assert.include(manifest.description, "14 coding agents");
+    assert.include(manifest.description, "Usage Summary");
+    assert.include(manifest.description, "Share Link");
+    assert.include(manifest.description, "press Enter");
+    assert.notInclude(manifest.description, "Claude Code and Codex");
     assert.deepStrictEqual(manifest.repository, {
       directory: "apps/cli",
       type: "git",
@@ -166,6 +170,30 @@ describe("packed CLI package", () => {
 
   it("never ships a stale file from an earlier build", () => {
     assert.notInclude(packedPaths(), stalePath);
+  });
+
+  it("installs the SQLite warning filter in the real entry and lets other warnings through", () => {
+    // The preload emits both warnings on the first timer tick, after the entry has run its
+    // top level, so they pass through whatever the entry installed on `process.emitWarning`.
+    const preload = [
+      "setTimeout(() => {",
+      'process.emitWarning("SQLite is an experimental feature and might change at any time", "ExperimentalWarning");',
+      'process.emitWarning("kept-warning-marker");',
+      "}, 0);",
+    ].join("");
+    const home = mkdtempSync(path.join(workDir, "empty-home-"));
+    const run = spawnSync(
+      process.execPath,
+      [
+        "--import",
+        `data:text/javascript,${encodeURIComponent(preload)}`,
+        path.join(current().unpackedDir, "package", "dist", "index.mjs"),
+        "--dry-run",
+      ],
+      { encoding: "utf-8", env: { ...process.env, HOME: home, USERPROFILE: home } },
+    );
+    assert.include(run.stderr, "kept-warning-marker");
+    assert.notInclude(run.stderr, "SQLite is an experimental feature");
   });
 
   it("imports only node:* modules and its own chunks", () => {

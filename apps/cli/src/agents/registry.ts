@@ -18,8 +18,8 @@ import { readPi } from "./pi";
 import { readQwen } from "./qwen";
 import type { ReadResult, Reader } from "./types";
 
-/** The single list of Usage Sources the CLI reads: one reader per supported agent. */
-const registry: readonly (readonly [agent: string, read: Reader])[] = [
+/** The single list of Usage Sources the CLI reads: one reader per supported agent. Exported for tests that walk every reader. */
+export const registry: readonly (readonly [agent: string, read: Reader])[] = [
   ["Claude Code", readClaude],
   ["Codex", readCodex],
   ["opencode", readOpencode],

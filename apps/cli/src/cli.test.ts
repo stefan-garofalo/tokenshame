@@ -1,9 +1,20 @@
-import { cpSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import dgram from "node:dgram";
+import dns from "node:dns";
+import {
+  cpSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import http from "node:http";
 import https from "node:https";
 import net from "node:net";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import tls from "node:tls";
 import { fileURLToPath } from "node:url";
 
 import * as NodeServices from "@effect/platform-node/NodeServices";
@@ -20,7 +31,7 @@ import * as Terminal from "effect/Terminal";
 
 import { filterWarnings, run } from "./index";
 import type { Open } from "./prompt";
-import { OpenError } from "./prompt";
+import { OpenError, openerFor } from "./prompt";
 import { summarize } from "./summary";
 import type { UsageRecord } from "./agents/types";
 
@@ -190,6 +201,12 @@ describe("tokenshame", () => {
       vi.spyOn(https, "get").mockImplementation(refuse),
       vi.spyOn(net, "connect").mockImplementation(refuse),
       vi.spyOn(net, "createConnection").mockImplementation(refuse),
+      vi.spyOn(tls, "connect").mockImplementation(refuse),
+      vi.spyOn(dgram, "createSocket").mockImplementation(refuse),
+      vi.spyOn(dns, "lookup").mockImplementation(refuse),
+      vi.spyOn(dns, "resolve").mockImplementation(refuse),
+      vi.spyOn(dns.promises, "lookup").mockImplementation(refuse),
+      vi.spyOn(dns.promises, "resolve").mockImplementation(refuse),
     ];
   });
 
@@ -466,5 +483,44 @@ describe(filterWarnings, () => {
     assert.isTrue(forwarded("SQLite is deprecated", "DeprecationWarning"));
     assert.isTrue(forwarded("something else"));
     assert.isTrue(forwarded(new Error("SQLite went wrong")));
+  });
+});
+
+// --- AC-012: the real launcher's command for each platform ----------------------------
+
+describe(openerFor, () => {
+  const url = "https://tokenshame.vercel.app/r/abc-_123";
+
+  it("uses open on macOS and xdg-open on Linux, with the URL as one argument", () => {
+    assert.deepStrictEqual(openerFor("darwin", url), ["open", [url]]);
+    assert.deepStrictEqual(openerFor("linux", url), ["xdg-open", [url]]);
+  });
+
+  it("starts no shell on Windows, so a URL with & or ^ is never interpreted", () => {
+    // `cmd /c start` would run text after `&` as a second command.
+    const hostile = "https://example.test/r/a&calc.exe^b|c";
+    assert.deepStrictEqual(openerFor("win32", hostile), [
+      "rundll32",
+      ["url.dll,FileProtocolHandler", hostile],
+    ]);
+  });
+});
+
+// --- AC-010: no server in the CLI source ------------------------------------------------
+
+describe("CLI source", () => {
+  it("never listens on a port or creates a server", () => {
+    const here = import.meta.dirname;
+    const sources = readdirSync(here, { recursive: true, withFileTypes: true })
+      .filter((entry) => entry.isFile() && entry.name.endsWith(".ts"))
+      .map((entry) => path.join(entry.parentPath, entry.name))
+      .filter((file) => !file.includes(".test.") && !file.includes("fixtures"));
+    assert.isAbove(sources.length, 10);
+    const offending = sources.filter((file) =>
+      /\.listen\(|createServer\(|from "node:(?:http|https|net|dgram|tls|dns)"/u.test(
+        readFileSync(file, "utf-8"),
+      ),
+    );
+    assert.deepStrictEqual(offending, []);
   });
 });

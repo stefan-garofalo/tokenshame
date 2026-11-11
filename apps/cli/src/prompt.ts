@@ -14,20 +14,35 @@ export type Open = (
   url: string,
 ) => Effect.Effect<void, OpenError, ChildProcessSpawner.ChildProcessSpawner>;
 
-// The URL holds only base64url and fixed path characters, so no shell quoting is needed.
-const openerCommand = (platform: NodeJS.Platform, url: string): ChildProcess.StandardCommand => {
-  const quiet = { stderr: "ignore", stdin: "ignore", stdout: "ignore" } as const;
+/**
+ * The system opener for a platform: program and arguments, the URL always one argument.
+ * Windows runs `rundll32 url.dll,FileProtocolHandler` and not `cmd /c start`: `start` goes
+ * through the cmd parser, where `&`, `^`, or `|` in a URL would run as commands. `rundll32`
+ * starts no shell, so the URL reaches the default browser unchanged.
+ */
+export const openerFor = (
+  platform: NodeJS.Platform,
+  url: string,
+): readonly [program: string, args: readonly string[]] => {
   if (platform === "darwin") {
-    return ChildProcess.make("open", [url], quiet);
+    return ["open", [url]];
   }
   if (platform === "win32") {
-    // `start` is a cmd builtin; the empty string is its window title argument.
-    return ChildProcess.make("cmd", ["/c", "start", "", url], quiet);
+    return ["rundll32", ["url.dll,FileProtocolHandler", url]];
   }
-  return ChildProcess.make("xdg-open", [url], quiet);
+  return ["xdg-open", [url]];
 };
 
-/** Starts `open`, `xdg-open`, or `start` for the URL, and waits for it to hand the URL over. */
+const openerCommand = (platform: NodeJS.Platform, url: string): ChildProcess.StandardCommand => {
+  const [program, args] = openerFor(platform, url);
+  return ChildProcess.make(program, [...args], {
+    stderr: "ignore",
+    stdin: "ignore",
+    stdout: "ignore",
+  });
+};
+
+/** Starts `open`, `xdg-open`, or `rundll32` for the URL, and waits for it to hand the URL over. */
 export const openInBrowser: Open = (url) =>
   Effect.gen(function* launch() {
     const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;
