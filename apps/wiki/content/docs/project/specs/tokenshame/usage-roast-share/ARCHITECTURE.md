@@ -47,8 +47,8 @@ Anchor rule: `log#Q<N>` is the heading `### Q<N>: <name>` in the log. `log#Q15a1
 
 | Source | Role | Exact location and anchor | Immutable revision or content hash |
 | --- | --- | --- | --- |
-| S1 | Grill status and closure | `apps/wiki/content/docs/project/grilling/tokenshame-grill-status.md`; Current Round (`Closure: closed R9`), Branch Dashboard | sha256 `1ca11d93a6af0b63…` (file untracked at compile time; the retention commit gives the immutable identity) |
-| S2 | Durable grill log | `apps/wiki/content/docs/project/grilling/tokenshame-grill-log.md`; Q1–Q49, `## Closure` | sha256 `ee011af4dd7781cf…` (same note) |
+| S1 | Grill status and closure | `apps/wiki/content/docs/project/grilling/tokenshame-grill-status.md`; Current Round (`Closure: closed R10`), Branch Dashboard | sha256 `0e104021acbb12ea…`; committed in `745075ab2a0eaa9af0eb4519f716d1f3ec084814` |
+| S2 | Durable grill log | `apps/wiki/content/docs/project/grilling/tokenshame-grill-log.md`; Q1–Q50, `## Closure` | sha256 `473c7c61e1a3dae3…`; committed in `745075ab2a0eaa9af0eb4519f716d1f3ec084814` |
 | S3 | Current glossary | S1, `## Glossary` | same as S1 |
 | S4 | Existing code (observed current behavior) | `apps/cli/src/index.ts:reportServer`, `apps/cli/tsdown.config.ts` (`copy` of `../web/dist/client`), `apps/cli/package.json` (`web: workspace:*`), `apps/web/vite.config.ts` (`tanstackStart({ spa: { enabled: true } })`), `apps/web/src/routes/__root.tsx` (`head()` with title only) | sha256 `b778836a…`, `3c388ee0…`, `ac5b64c2…`, `2b27fe58…`, `ff6453b4…` |
 | S5 | Published glossary | `apps/wiki/content/docs/project/domains/tokenshame-glossary.mdx` | sha256 `9298cfb1a96b88b9…` |
@@ -65,7 +65,9 @@ Anchor rule: `log#Q<N>` is the heading `### Q<N>: <name>` in the log. `log#Q15a1
 | log#Q15a2 | accepted | No public missing-days note. | S2 | — |
 | log#Q16–log#Q29 | accepted | See coverage. | S2 | — |
 | log#Q30 | superseded | The user's mental model conflicted with log#Q5 and log#Q6. Replaced by log#Q32 (option A). | S2 | — |
-| log#Q31–log#Q49 | accepted | See coverage. | S2 | — |
+| log#Q31–log#Q44, log#Q46–log#Q49 | accepted | See coverage. | S2 | — |
+| log#Q45 | accepted, folder path superseded | File names, ranking, and tie-break stay. The path `apps/web/src/roast/` is replaced by log#Q50. | S2 | — |
+| log#Q50 | accepted | Roast engine folder is `apps/web/src/server/roast/`. | S2 | — |
 | log#Q29 (Muse default home) | accepted with an unknown | If research finds no default folder, Muse is dropped from v1. | S2 | Owner: implementation of the Muse reader. Resume trigger: first Muse reader task. |
 
 ## Whole System
@@ -117,7 +119,7 @@ Conclusion: the CLI never talks to the network, and the server holds no state. T
 | <a id="arc-007"></a>ARC-007 Share Page route (`routes/r/$link.tsx`, page UI in `composition/routing/pages/share/`) | web package | Decodes the link in the loader. Renders HTML. | `head()` sets title, description, `og:*`, `twitter:card=summary_large_image`, `twitter:image`, `robots=noindex`; `headers()` sets caching | log#Q2, log#Q9, log#Q18, log#Q27, log#Q40, log#Q41 |
 | <a id="arc-008"></a>ARC-008 Share Card route (`routes/r/$link/og[.]png.tsx`) | web package | Draws a PNG from the decoded link. | `server.handlers.GET`; `takumi-js` 2.20.0 `ImageResponse`, WASM backend; WOFF2 font via `?inline`; `Cache-Control: public, immutable` | log#Q8, log#Q25, log#Q36, log#Q39 |
 | <a id="arc-009"></a>ARC-009 Root redirect (`routes/index.tsx`) | web package | None. | `beforeLoad` throws `redirect({ href, statusCode: 308 })` to `https://github.com/stefan-garofalo/tokenshame` | log#Q10, log#Q17, log#Q46 |
-| <a id="arc-010"></a>ARC-010 Roast engine (`apps/web/src/roast/{factors,prices,impacts,lines,pick}.ts`) | web package | Server owns price table and impact factors, each with value, unit, source, date. | Counts in, Impact Estimates and Roast Lines out | log#Q11, log#Q20, log#Q21, log#Q24, log#Q28, log#Q35, log#Q45 |
+| <a id="arc-010"></a>ARC-010 Roast engine (`apps/web/src/server/roast/{factors,prices,impacts,lines,pick}.ts` (domain `index.ts` is its Server Contract)) | web package | Server owns price table and impact factors, each with value, unit, source, date. | Counts in, Impact Estimates and Roast Lines out | log#Q11, log#Q20, log#Q21, log#Q24, log#Q28, log#Q35, log#Q45 |
 | <a id="arc-011"></a>ARC-011 Design process for pages | web package process | Every page is built with `/design-taste-frontend`. | Skill steps: draw, idea, copy deck, build, `lint.mjs` and `inspect.mjs` gate, critique. `--allow` only for the picture-floor and motion-count rules. The Share Card follows the same direction, colors, and type. | AX-5; log#Q48, log#Q49 |
 | <a id="arc-012"></a>ARC-012 Tests and tooling | repo | Fixtures hold fake numbers and no real prompts. | `vitest` and `@effect/vitest`; turbo `test` task; colocated `*.test.ts` | log#Q44 |
 | <a id="arc-013"></a>ARC-013 Distribution | repo | npm package `tokenshame`; Vercel project for `apps/web`; public GitHub repo. | Domain `tokenshame.vercel.app`; no custom domain | log#Q13, log#Q23, log#Q46 |
@@ -232,7 +234,8 @@ apps/web/src/                             ARC-006..010
   routes/index.tsx            (existing) becomes the 308 redirect
   routes/r/$link.tsx          Share Page
   routes/r/$link/og[.]png.tsx Share Card
-  roast/{factors,prices,impacts,lines,pick}.ts
+  server/roast/index.ts       Server Contract: pure code only
+  server/roast/{factors,prices,impacts,lines,pick}.ts
   composition/routing/pages/share/   page UI (existing pattern: pages/home/)
 ```
 
@@ -289,7 +292,8 @@ apps/web/src/                             ARC-006..010
 | log#Q42 | Effect Schema; short-key JSON then base64url; `v: 1`; raw model ids; exports `"./*": "./src/*.ts"` | Rejected: zod in shared package | ARC-005; Modules | One schema, two apps |
 | log#Q43 | CLI file layout; plain readers; no services; skip failing source | not recorded | ARC-001..004; Modules | Simplicity |
 | log#Q44 | `vitest` + `@effect/vitest`; turbo `test`; per-agent fixtures with fake numbers, including Claude duplicate lines and Codex cumulative totals | not recorded | ARC-012 | Test the data contract |
-| log#Q45 | `roast/{factors,prices,impacts,lines,pick}.ts`; rank by dread; top 3 on card, all on page; hash tie-break | not recorded | ARC-010 | Deterministic content |
+| log#Q45 | Files `{factors,prices,impacts,lines,pick}.ts`; rank by dread; top 3 on card, all on page; hash tie-break. The folder path is superseded by log#Q50. | not recorded | ARC-010 | Deterministic content |
+| log#Q50 | `apps/web/src/server/roast/` with `index.ts` as Server Contract | Rejected: `apps/web/src/roast/` (lint `known-top-level` error), `features/roast/`. Evidence: `apps/web/tools/oxlint/frontend-layers/index.mjs:629`. | ARC-010; Modules | Passes the web lint rules |
 | log#Q46 | Public repo `github.com/stefan-garofalo/tokenshame` (to be created) | not recorded | ARC-009, ARC-013 | Redirect target |
 | log#Q47 | `apps/web` `engines.node` `24.x` | not recorded | ARC-006 | Nitro needs Node ≥ 22.22 |
 | log#Q48 | `/design-taste-frontend` is mandatory for every web page | not recorded | ARC-011 | AX-5 |
@@ -312,7 +316,7 @@ Spec codes come from `SPEC.md` of this folder. The spec links back to this table
 | OUT-005 Complete share page (SPEC#out-005) | [ARC-006](#arc-006), [ARC-007](#arc-007), [FLOW-002-STEP-003](#flow-002-step-003) | log#Q2, log#Q9, log#Q18, log#Q19, log#Q31, log#Q36, log#Q40, log#Q41; S2 | Outcome `Complete share page` rests on these blocks and accepted entries. |
 | OUT-006 X-ready share card (SPEC#out-006) | [ARC-008](#arc-008), [FLOW-003-STEP-001](#flow-003-step-001), [FLOW-003-STEP-002](#flow-003-step-002), [FLOW-003-STEP-003](#flow-003-step-003) | log#Q25, log#Q32, log#Q36, log#Q39, log#Q41; S2 | Outcome `X-ready share card` rests on these blocks and accepted entries. |
 | OUT-007 Sharing to X (SPEC#out-007) | [ARC-007](#arc-007), [FLOW-004-STEP-001](#flow-004-step-001), [FLOW-004-STEP-002](#flow-004-step-002), [FLOW-004-STEP-003](#flow-004-step-003) | log#Q8, log#Q9, log#Q22; S2 | Outcome `Sharing to X` rests on these blocks and accepted entries. |
-| OUT-008 Defensible roast content (SPEC#out-008) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q11, log#Q12, log#Q20, log#Q21, log#Q24, log#Q28, log#Q35, log#Q45, log#Q19; S2 | Outcome `Defensible roast content` rests on these blocks and accepted entries. |
+| OUT-008 Defensible roast content (SPEC#out-008) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q11, log#Q12, log#Q20, log#Q21, log#Q24, log#Q28, log#Q35, log#Q45, log#Q19, log#Q50; S2 | Outcome `Defensible roast content` rests on these blocks and accepted entries. |
 | OUT-009 Root goes to GitHub (SPEC#out-009) | [ARC-009](#arc-009) | log#Q10, log#Q17, log#Q46; S2 | Outcome `Root goes to GitHub` rests on these blocks and accepted entries. |
 | OUT-010 Designed web pages (SPEC#out-010) | [ARC-011](#arc-011) | log#Q48, log#Q49; S2 | Outcome `Designed web pages` rests on these blocks and accepted entries. |
 | OUT-011 Published and reachable (SPEC#out-011) | [ARC-012](#arc-012), [ARC-013](#arc-013), [ARC-006](#arc-006) | log#Q13, log#Q23, log#Q37, log#Q44, log#Q46, log#Q47, log#Q7; S2 | Outcome `Published and reachable` rests on these blocks and accepted entries. |
@@ -350,9 +354,9 @@ Spec codes come from `SPEC.md` of this folder. The spec links back to this table
 | AC-032 Headline is the raw total (SPEC#ac-032) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q24; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
 | AC-033 No cache word in public copy (SPEC#ac-033) | [ARC-007](#arc-007), [ARC-008](#arc-008), [ARC-010](#arc-010) | log#Q24, log#Q21; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
 | AC-034 Impact weight and prices (SPEC#ac-034) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q24, log#Q35; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
-| AC-035 Factors carry sources (SPEC#ac-035) | [ARC-010](#arc-010) | log#Q19, log#Q45; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-035 Factors carry sources (SPEC#ac-035) | [ARC-010](#arc-010) | log#Q19, log#Q45, log#Q50; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
 | AC-036 Required comparison set (SPEC#ac-036) | [ARC-010](#arc-010) | log#Q11, log#Q20, log#Q21; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
-| AC-037 Same link, same lines (SPEC#ac-037) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q28, log#Q45; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
+| AC-037 Same link, same lines (SPEC#ac-037) | [ARC-010](#arc-010), [FLOW-002-STEP-002](#flow-002-step-002) | log#Q28, log#Q45, log#Q50; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-008. |
 | AC-038 Root redirect (SPEC#ac-038) | [ARC-009](#arc-009) | log#Q17, log#Q46; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-009. |
 | AC-039 Design skill gate (SPEC#ac-039) | [ARC-011](#arc-011) | log#Q48, log#Q49; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-010. |
 | AC-040 Card matches the pages (SPEC#ac-040) | [ARC-008](#arc-008), [ARC-011](#arc-011) | log#Q49; S2 | Criterion checks the accepted constraint in these blocks; covers OUT-010. |
@@ -366,6 +370,7 @@ Spec codes come from `SPEC.md` of this folder. The spec links back to this table
 | --- | --- | --- | --- |
 | Q30 render-time reading | superseded | Replaced by log#Q32 | S2 |
 | Q15 gap note on card and page | superseded | Replaced by log#Q15a2 | S2 |
+| Q45 folder path `apps/web/src/roast/` | superseded | Replaced by log#Q50; selector ARC-010 is unchanged | S2 |
 
 ## Flow Failure Coverage
 
@@ -401,6 +406,7 @@ Spec codes come from `SPEC.md` of this folder. The spec links back to this table
 - Relative links, selector targets, and visual source/order checks: each ARC selector has an `<a id>` anchor in this file. Each FLOW and STEP selector appears in a table row. The links to the log use the anchor rule in Sources.
 - Spec-code → architecture → grill coverage: complete. 11 outcomes and 43 criteria each map to existing selectors and accepted log entries. A script checked every selector against the anchors in this file and every Q against the headings in the log.
 - Mermaid parsing/rendering: `mermaid@11` `parse()` under `jsdom@26` accepted all 3 diagrams (system map, FLOW-001 sequence, FLOW-002 sequence). Rendering to an image was not run: `mmdc` is not installed. Layout is unchecked.
+- Refresh for log#Q50: path and tree updated, coverage and disposition rows added, source hashes updated. Selectors and spec codes are unchanged.
 - Existing spec agreement: the spec was compiled after this document. `create-spec` amended traceability as metadata only (anchors, table, state, and two sentences). No design changed.
 - Models: no flow has two writers on shared state, a retry on client-written state, recovery or resync, or a delivery guarantee. No Model was written.
 - Flow Lenses: applied. The `brainstorm` skill is an interactive proposal loop with the user. It was not run as one here, because the decisions are closed. The flow lenses were applied to the accepted flows instead.
