@@ -1,7 +1,25 @@
 {
   "name": "tokenshame",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Roast your AI token usage. Reads local Claude Code and Codex logs; nothing leaves your machine unless you share it.",
+  "keywords": [
+    "ai",
+    "claude-code",
+    "cli",
+    "codex",
+    "tokens",
+    "usage"
+  ],
+  "homepage": "https://tokenshame.vercel.app",
+  "bugs": {
+    "url": "https://github.com/stefan-garofalo/tokenshame/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefan-garofalo/tokenshame.git",
+    "directory": "apps/cli"
+  },
   "bin": {
     "tokenshame": "dist/index.mjs"
   },
@@ -12,6 +30,7 @@
   "scripts": {
     "dev": "tsdown && node dist/index.mjs",
     "build": "tsdown",
+    "prepack": "tsdown",
     "check-types": "tsc --noEmit",
     "lint": "node \"../../.agents/scripts/managed-lint-runner.mjs\" --scope \"apps/cli\"",
     "test": "vitest run"
