@@ -1,41 +1,63 @@
-import { getRouteApi } from "@tanstack/react-router";
 import { decode } from "@tokenshame/share-link/link";
-import type { Summary } from "@tokenshame/share-link/summary";
 import * as Effect from "effect/Effect";
-import { createElement } from "react";
 
 import { ENV } from "../../../../env";
+import { roast } from "../../../../server/roast";
+import display from "./fonts/epilogue-latin-900.woff2?url";
+import { command } from "./links";
+import { RoutePage } from "./route-page";
+import type { ShareView } from "./share-page";
 
-type ShareLoaderData =
-  | { readonly _tag: "Shared"; readonly summary: Summary }
-  | { readonly _tag: "Broken" };
+type ShareLoaderData = ({ readonly _tag: "Shared" } & ShareView) | { readonly _tag: "Broken" };
 
 interface LinkParams {
   readonly link: string;
 }
 
-const title = "tokenshame roast";
-const description = "A usage roast from tokenshame. Run npx tokenshame to get yours.";
 const cardWidth = "1200";
 const cardHeight = "630";
+const brokenTitle = "this roast is broken";
+const brokenDescription = `Run ${command} to get your own roast.`;
 
+// Only what the page shows goes to the browser: the loader result is embedded in the HTML.
 const loader = ({ params }: { params: LinkParams }) =>
   Effect.runPromise(
     decode(params.link).pipe(
       Effect.match({
         onFailure: (): ShareLoaderData => ({ _tag: "Broken" }),
-        onSuccess: (summary): ShareLoaderData => ({
-          _tag: "Shared",
-          summary,
-        }),
+        onSuccess: (summary): ShareLoaderData => {
+          const { cost, headline, lines } = roast(summary);
+          return { _tag: "Shared", cost, headline, lines };
+        },
       }),
     ),
   );
 
-const head = ({ params }: { params: LinkParams }) => {
+const titleAndDescription = (data?: ShareLoaderData) => {
+  if (data?._tag !== "Shared") {
+    return { description: brokenDescription, title: brokenTitle };
+  }
+  const [first] = data.lines;
+  return {
+    description: `${first.text} Run ${command} to get yours.`,
+    title: `${data.headline.figure} ${data.headline.label}`,
+  };
+};
+
+const head = ({ loaderData, params }: { loaderData?: ShareLoaderData; params: LinkParams }) => {
   const page = `${ENV.SITE_ORIGIN}/r/${encodeURIComponent(params.link)}`;
   const image = `${page}/og.png`;
+  const { description, title } = titleAndDescription(loaderData);
   return {
+    links: [
+      {
+        as: "font",
+        crossOrigin: "anonymous" as const,
+        href: display,
+        rel: "preload",
+        type: "font/woff2",
+      },
+    ],
     meta: [
       { title },
       { content: description, name: "description" },
@@ -48,6 +70,8 @@ const head = ({ params }: { params: LinkParams }) => {
       { content: cardWidth, property: "og:image:width" },
       { content: cardHeight, property: "og:image:height" },
       { content: "summary_large_image", name: "twitter:card" },
+      { content: title, name: "twitter:title" },
+      { content: description, name: "twitter:description" },
       { content: image, name: "twitter:image" },
     ],
   };
@@ -59,26 +83,8 @@ const headers = ({ loaderData }: { loaderData?: ShareLoaderData }) => ({
     loaderData?._tag === "Shared" ? "public, max-age=0, s-maxage=31536000" : "no-store",
 });
 
-const routeApi = getRouteApi("/r/$link");
-
-const SharePage = () => {
-  const data = routeApi.useLoaderData();
-  return createElement(
-    "main",
-    null,
-    data._tag === "Shared"
-      ? createElement("h1", null, title)
-      : createElement(
-          "p",
-          null,
-          "this roast is broken. Run ",
-          createElement("code", null, "npx tokenshame"),
-        ),
-  );
-};
-
 export const shareRoute = {
-  component: SharePage,
+  component: RoutePage,
   head,
   headers,
   loader,

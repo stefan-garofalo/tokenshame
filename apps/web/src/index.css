@@ -1,1 +1,96 @@
 @import "@tokenshame/ui/globals.css";
+
+/*
+ * The look of the Share Page, the broken-link page and the Share Card.
+ * Idea: the health warning on a cigarette pack. The token count is the name on the pack,
+ * every Roast Line is a warning. The Share Card reads these tokens and nothing else.
+ */
+
+@font-face {
+  font-display: block;
+  font-family: "Epilogue";
+  font-style: normal;
+  font-weight: 900;
+  src: url("./composition/routing/pages/share/fonts/epilogue-latin-900.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Epilogue";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./composition/routing/pages/share/fonts/epilogue-latin-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Epilogue";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./composition/routing/pages/share/fonts/epilogue-latin-400.woff2") format("woff2");
+}
+
+:root {
+  /* Colour: bone ground, ink, and three flat fields. Slate blue only fills the one button. The red is the dealt
+     post red, darkened so white text on it reaches 7:1. */
+  --ts-bg: #e2dccf;
+  --ts-surface: #d7d0c1;
+  --ts-ink: #2a1110;
+  --ts-muted: #6b524c;
+  --ts-accent: #4a6f84;
+  --ts-accent-ink: #fff;
+  --ts-red: #b01220;
+  --ts-red-ink: #fff;
+  --ts-mustard: #e0a912;
+  --ts-mustard-ink: #2a1110;
+
+  /* Type: one family. Display is weight 900 at -0.04em and leading 0.9; text is 400 and 500. */
+  --ts-font: "Epilogue", "Helvetica Neue", Arial, sans-serif;
+  --ts-display-weight: 900;
+  --ts-display-tracking: -0.04em;
+  --ts-display-leading: 0.9;
+  --ts-step-small: clamp(0.875rem, 0.84rem + 0.1vw, 0.9375rem);
+  --ts-step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --ts-step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --ts-step-statement: clamp(1.375rem, 1.05rem + 1.1vw, 2rem);
+  --ts-step-figure: clamp(4.25rem, 2rem + 9vw, 9.5rem);
+
+  /* Space */
+  --ts-margin: clamp(1rem, 2.2vw, 2rem);
+  --ts-gutter: clamp(0.75rem, 1.4vw, 1.5rem);
+  --ts-section: clamp(4.5rem, 12vw, 11rem);
+
+  /* Motion */
+  --ts-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ts-ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ts-t-press: 140ms;
+  --ts-t-hover: 180ms;
+  --ts-t-reveal: 800ms;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ts-bg);
+  color: var(--ts-ink);
+  font-family: var(--ts-font);
+  font-size: var(--ts-step-body);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
+}
+
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
