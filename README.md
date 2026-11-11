@@ -8,7 +8,7 @@ npx tokenshame
 
 That is the intended way to run it. The package is not on npm yet, so the command will not work until it is published.
 
-It reads the usage logs your agents already keep on your machine, prints a short summary, and on Enter opens a page with the roast. The page has its own link and its own preview image, so you can post it on X.
+It reads the usage logs that 14 coding agents already keep on your machine, prints a short summary, and on Enter opens a page with the roast. The page has its own link and its own preview image, so you can post it on X.
 
 ## What it reads
 
@@ -168,11 +168,13 @@ You need [bun](https://bun.sh). The CLI needs Node 22.13 or later, and the web a
 ```bash
 bun install
 bun run dev            # every app, through turbo
-bun run dev:cli        # build and run the CLI
+bun run dev:cli -- --dry-run   # build the CLI and run it without opening a browser
 bunx turbo run test    # every test suite
 bun run check-types    # TypeScript across all workspaces
 bun run check          # oxlint and oxfmt
 ```
+
+`bun run dev:cli` reads the real home folder, so it reports your own usage. To try it on made-up data, point `HOME` at a fixture home, for example `HOME=<folder holding a .codex/sessions tree> bun run dev:cli -- --dry-run`. The Codex fixture in `apps/cli/src/agents/fixtures/codex/last-total` works as that folder.
 
 The web app runs at <http://localhost:3001>.
 
@@ -194,7 +196,7 @@ Each app owns its environment schema in `.env.schema`, and Varlock generates `sr
 
 ## Deploy
 
-`apps/web` is meant for the Vercel project `tokenshame`, at <https://tokenshame.vercel.app>. The CLI opens its Share Links on that address. It is not live yet.
+`apps/web` runs as the Vercel project `tokenshame`, live at <https://tokenshame.vercel.app>. The CLI opens its Share Links on that address, and the root of the site redirects to this repository.
 
 ## Specs and plan
 
@@ -205,4 +207,4 @@ The decisions, the spec and the task plan live in the repository:
 
 ## Licence
 
-The repository has no licence file yet.
+The repository has no licence file yet. The owner has not chosen one.
