@@ -1,38 +1,51 @@
 import type { RoastLine } from "../../../../../server/roast";
+import { fitFontSize } from "../fit-width";
 import { pictures } from "../pictures";
 
-/** Every Roast Line, most dreadful first: its figure shouted on the left, the sentence beside it. */
+/** Every Roast Line, most dreadful first: one pane of output each, its figure on top, the sentence under it. */
 export const RoastList = ({ lines }: { lines: readonly RoastLine[] }) => (
-  <section className="warnings" aria-labelledby="warnings-title">
-    <h2 className="sr-only" id="warnings-title">
-      Side effects
-    </h2>
-    <ul>
+  <section aria-labelledby="log-title" className="log">
+    <div className="pane pane-black log-head">
+      <h2 id="log-title">
+        {lines.length} side {lines.length === 1 ? "effect" : "effects"}, worst first.
+      </h2>
+      <p>Your token count, converted into things that exist.</p>
+    </div>
+    <ul className="log-list">
       {lines.map(({ figure, id, text, unit }) => {
         const picture = pictures.get(id);
         return (
-          <li className="warning" key={id}>
-            <p aria-hidden="true" className="warning-figure">
-              <span className="warning-number">{figure}</span>
-              <span className="warning-unit">{unit}</span>
-            </p>
-            <div className="warning-body">
-              <p className="warning-text" data-roast-line>
+          <li className="pane roast" key={id}>
+            <div className="roast-body">
+              <p aria-hidden="true" className="roast-figure">
+                <span
+                  className="roast-number"
+                  style={picture ? undefined : { fontSize: fitFontSize(figure, 60) }}
+                >
+                  {figure}
+                </span>
+                <span className="roast-unit">{unit}</span>
+              </p>
+              <p className="roast-text" data-roast-line>
                 {text}
               </p>
-              {picture && (
-                <div className="warning-frame">
-                  <img
-                    alt={picture.alt}
-                    className="warning-picture"
-                    height={600}
-                    loading="lazy"
-                    src={picture.src}
-                    width={960}
-                  />
-                </div>
-              )}
             </div>
+            {picture && (
+              <figure className="shot">
+                <img
+                  alt={picture.alt}
+                  className="shot-picture"
+                  height={600}
+                  loading="lazy"
+                  src={picture.src}
+                  width={960}
+                />
+                <figcaption className="shot-strip">
+                  <span>{id}.jpg</span>
+                  <span>{picture.licence}</span>
+                </figcaption>
+              </figure>
+            )}
           </li>
         );
       })}

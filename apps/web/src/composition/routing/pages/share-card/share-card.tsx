@@ -1,7 +1,7 @@
-import { fontFromDataUrl, pngResponse } from "../../../../integrations/takumi";
 import { ENV } from "../../../../env";
-import display from "../share/fonts/epilogue-latin-900.woff2?inline";
-import text from "../share/fonts/epilogue-latin-500.woff2?inline";
+import { fontFromDataUrl, pngResponse } from "../../../../integrations/takumi";
+import display from "../share/fonts/jetbrains-mono-latin-800.woff2?inline";
+import text from "../share/fonts/jetbrains-mono-latin-500.woff2?inline";
 import { cardContentOf } from "./card-content";
 import type { CardContent } from "./card-content";
 import { CardLayout } from "./card-layout";

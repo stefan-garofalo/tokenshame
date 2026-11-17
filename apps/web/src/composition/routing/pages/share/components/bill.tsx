@@ -4,18 +4,14 @@ import { HowWeCalculated } from "./how-we-calculated";
 
 /** The estimated cost: the one key number besides Tokens Processed. */
 export const Bill = ({ cost }: { cost: Roast["cost"] }) => (
-  <section className="bill" aria-labelledby="bill-title">
-    <h2 className="section-title" id="bill-title">
+  <section aria-labelledby="bill-title" className="pane pane-paper pane-cost">
+    <h2 className="pane-title" id="bill-title">
       The bill
     </h2>
-    <div className="bill-body">
-      <p className="bill-figure" style={{ fontSize: fitFontSize(cost.figure, "var(--span)") }}>
-        {cost.figure}
-      </p>
-      <div className="bill-caption">
-        <p>Estimated cost of these tokens at API list prices.</p>
-        <HowWeCalculated />
-      </div>
-    </div>
+    <p className="bill-figure" style={{ fontSize: fitFontSize(cost.figure, 45) }}>
+      {cost.figure}
+    </p>
+    <p className="bill-note">Estimated cost of these tokens at API list prices.</p>
+    <HowWeCalculated />
   </section>
 );

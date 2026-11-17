@@ -167,11 +167,12 @@ describe("the tokens of the card", () => {
 
   it("are the colors of the Share Page", () => {
     expect(colors).toStrictEqual({
-      bone: token("bg"),
+      accent: token("accent"),
+      accentInk: token("accent-ink"),
+      bg: token("bg"),
+      black: token("black"),
       ink: token("ink"),
-      mustard: token("mustard"),
-      red: token("red"),
-      redInk: token("red-ink"),
+      surface: token("surface"),
     });
   });
 

@@ -60,3 +60,4 @@ temp
 # Reader fixtures mirror real agent folders (for example .gemini/tmp)
 !apps/cli/src/agents/fixtures/**/tmp
 
+.taste-skill/

@@ -4,13 +4,7 @@ const copiedForMs = 1600;
 
 type Status = "idle" | "copied" | "failed";
 
-// `share.css` colours every link on the page with `inherit`, and it is not in a layer, so the colours need `!`.
-const classes = [
-  "inline-flex min-h-12 min-w-28 cursor-pointer items-center justify-center border-0 px-6 text-center leading-none font-black whitespace-normal no-underline!",
-  "bg-(--ts-ink) text-(--ts-bg)!",
-  "transition-[transform,background-color,color] duration-(--ts-t-hover) active:scale-[0.97] active:duration-(--ts-t-press)",
-  "hover:bg-(--ts-bg) hover:text-(--ts-ink)! focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-(--ts-red-ink)",
-].join(" ");
+const classes = "btn btn-paper";
 
 // What the browser can do never changes, so there is nothing to subscribe to.
 const subscribeToNothing = () => () => {

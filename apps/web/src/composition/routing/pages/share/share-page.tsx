@@ -9,6 +9,7 @@ import { Credits } from "./components/credits";
 import { Lockup } from "./components/lockup";
 import { PostOnXButton } from "./components/post-on-x-button";
 import { PostOnXSlot } from "./components/post-on-x-slot";
+import { Prompt } from "./components/prompt";
 import { RoastList } from "./components/roast-list";
 import { RunYourOwn } from "./components/run-your-own";
 import { SiteFooter } from "./components/site-footer";
@@ -28,14 +29,17 @@ export const SharePage = ({ roast }: { roast: ShareView }) => {
   const hasLines = roast.lines.length > 0;
 
   return (
-    <main className="share">
+    <main className="share board">
       <section className="hero">
-        <a className="wordmark" href={repoUrl}>
-          tokenshame
-        </a>
-        <Lockup lines={[figure, label]} />
-        <div className="hero-foot">
-          <p className="hero-note">
+        <div className="pane pane-lime pane-name">
+          <Prompt />
+          <Lockup lines={[figure, label]} />
+        </div>
+        <div className="pane pane-statement">
+          <a className="wordmark" href={repoUrl}>
+            tokenshame
+          </a>
+          <p className="statement">
             {hasLines
               ? "That is what your coding agents chewed through. The side effects are listed below."
               : "Nothing to roast here. Run it on your own machine and see what you owe."}
@@ -54,9 +58,9 @@ export const SharePage = ({ roast }: { roast: ShareView }) => {
             </CopyImageSlot>
           </div>
         </div>
+        <Bill cost={roast.cost} />
       </section>
       {hasLines && <RoastList lines={roast.lines} />}
-      <Bill cost={roast.cost} />
       <RunYourOwn />
       <SiteFooter>
         <Credits />

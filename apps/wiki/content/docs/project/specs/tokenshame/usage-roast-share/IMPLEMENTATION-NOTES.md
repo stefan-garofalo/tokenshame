@@ -231,3 +231,13 @@ Independent read-only audit of head `f8dbfd1` (then repairs in `8a746ac`, `25795
 | Date | Feedback | Changes |
 | --- | --- | --- |
 | 2026-11-11 | "just go", "get this done and working" | full delivery without further questions; npm publish excluded as not authorized |
+
+## Design revision (after the first delivery)
+
+The owner judged the first look (the "cigarette pack" direction: Epilogue, red and mustard) ugly and asked for a nerdier, developer look. The Share Page, the broken-link page and the Share Card were redrawn; the data, the routes, the Roast Lines and the test contracts did not change.
+
+- Idea: the terminal session that made the link becomes a board of panes, like tmux. Tokens Processed is a lime pane, the cost is a white pane, each Roast Line is a pane of output, the command is a black pane with a Copy button.
+- Direction dealt by the design skill: "The well-kept board" (dense tiles, 8px gaps, square, no lines). Palette: forest, black, white and one lime. Type: one family, JetBrains Mono (OFL), weights 400, 500 and 800, self-hosted. The card uses the same tokens.
+- Deviation from the skill's house rules, on the owner's explicit request for a developer look: monospace type outside code blocks. The inspector is run with `--allow mono`.
+- Inspector result on the production build, fixture link: 1 FAIL (eyebrow) and 2 WARN (size-count, no-footage). The eyebrow hits are the caption strip of one pane and the heading of the pane under it, 8px apart; they are not labels over their own headings. The sizes are display lines fitted to their pane width. No honest clip of the subject was found.
+- The broken-link and no-usage pages also fail "few pictures": they have no honest picture to show.

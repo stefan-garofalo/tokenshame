@@ -96,7 +96,7 @@ describe("SharePage of a link with no usage", () => {
     expect(page.document.querySelector("h1")?.textContent).toContain("0");
     expect(page.text).toContain("tokens processed");
     expect(page.document.querySelectorAll("[data-roast-line]")).toHaveLength(0);
-    expect(page.document.querySelector(".warnings")).toBeNull();
+    expect(page.document.querySelector(".log")).toBeNull();
   });
 
   it("says there is nothing to roast, still shows the command, and never says cache", () => {

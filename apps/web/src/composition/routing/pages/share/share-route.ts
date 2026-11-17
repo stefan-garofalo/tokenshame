@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 
 import { ENV } from "../../../../env";
 import { roast } from "../../../../server/roast";
-import display from "./fonts/epilogue-latin-900.woff2?url";
+import display from "./fonts/jetbrains-mono-latin-800.woff2?url";
 import { command } from "./links";
 import { RoutePage } from "./route-page";
 import type { ShareView } from "./share-page";

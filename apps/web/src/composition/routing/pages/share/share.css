@@ -1,48 +1,105 @@
-/* Share Page and broken-link page. Colour, type and space come from the tokens in src/index.css. */
+/* Share Page and broken-link page: a board of panes. Colour, type and space come from the tokens in src/index.css. */
 
-.share a,
-.broken a {
+:where(.share) a {
   color: inherit;
   text-decoration-thickness: 0.07em;
   text-underline-offset: 0.18em;
 }
 
-.share p,
-.broken p {
+:where(.share) :is(p, h1, h2, figure, ul) {
   margin: 0;
 }
 
-.share h1,
-.share h2,
-.broken h1,
-.broken h2 {
+:where(.share) :is(h1, h2) {
   font-weight: var(--ts-display-weight);
-  margin: 0;
 }
 
-/* ---------- hero: the pack ---------- */
+:where(.share) ul {
+  list-style: none;
+  padding: 0;
+}
 
-.hero {
-  background: var(--ts-red);
-  color: var(--ts-red-ink);
+.board {
+  display: grid;
+  gap: var(--ts-gap);
+  padding: var(--ts-margin);
+}
+
+/* ---------- panes: flat fields, square, no lines ---------- */
+
+.pane {
+  background: var(--ts-surface);
+  color: var(--ts-ink);
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
-  gap: clamp(2rem, 6vw, 4rem);
-  padding: var(--ts-margin) var(--ts-margin) clamp(2rem, 8vw, 3rem);
+  gap: 1.25rem;
+  min-width: 0;
+  padding: var(--ts-pad);
 }
 
-@media (min-width: 64em) {
-  .hero {
-    min-height: min(78svh, 52rem);
-    padding-bottom: var(--ts-margin);
-  }
+.pane-lime {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
 }
 
-.wordmark {
+.pane-black {
+  background: var(--ts-black);
+}
+
+.pane-paper {
+  background: var(--ts-paper);
+  color: var(--ts-paper-ink);
+}
+
+.statement {
   font-size: var(--ts-step-lead);
-  font-weight: var(--ts-display-weight);
+  line-height: 1.35;
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+
+.pane-title {
+  font-size: var(--ts-step-lead);
   letter-spacing: var(--ts-display-tracking);
-  text-decoration: none;
+  line-height: 1.15;
+}
+
+.prompt {
+  font-size: var(--ts-step-body);
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.prompt-sign {
+  opacity: 0.6;
+}
+
+.typed {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.caret {
+  background: currentColor;
+  display: inline-block;
+  height: 1.1em;
+  margin-left: 0.15em;
+  vertical-align: text-bottom;
+  width: 0.6em;
+}
+
+/* ---------- first screen ---------- */
+
+.hero {
+  display: grid;
+  gap: var(--ts-gap);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.hero .pane-name {
+  min-height: 22rem;
 }
 
 .lockup {
@@ -66,87 +123,196 @@
   display: block;
 }
 
-.broken {
-  background: var(--ts-red);
-  display: flex;
-  flex-direction: column;
-}
-
-.broken .hero {
-  flex: 1;
-  min-height: 70svh;
-}
-
-.broken .hero-foot {
-  margin-top: auto;
-}
-
-.hero-foot {
-  align-items: end;
-  display: grid;
-  gap: var(--ts-gutter);
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.hero-note {
+.wordmark {
   font-size: var(--ts-step-lead);
-  line-height: 1.3;
-  max-width: 30ch;
-  text-wrap: pretty;
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  text-decoration: none;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--ts-gutter);
+  gap: var(--ts-gap);
+  margin-top: auto;
 }
 
-@media (min-width: 48em) {
-  .hero-foot {
-    grid-template-columns: minmax(0, 1fr) auto;
+.btn {
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: var(--ts-display-weight);
+  justify-content: center;
+  line-height: 1;
+  min-height: 3rem;
+  min-width: 7rem;
+  padding: 0 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform var(--ts-t-press) var(--ts-ease-out),
+    background-color var(--ts-t-hover) ease,
+    color var(--ts-t-hover) ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-accent {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
+}
+
+.btn-paper {
+  background: var(--ts-paper);
+  color: var(--ts-paper-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-accent:hover {
+    background: var(--ts-paper);
   }
 
-  .actions {
-    justify-content: flex-end;
-  }
-
-  .broken .hero-foot {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 40rem);
+  .btn-paper:hover {
+    background: var(--ts-accent);
   }
 }
 
-/* ---------- the warnings: one Roast Line each ---------- */
-
-.warnings {
-  background: var(--ts-ink);
-  color: var(--ts-bg);
-  padding: var(--ts-section) var(--ts-margin);
+.bill-figure {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: var(--ts-display-leading);
+  margin-top: auto;
+  white-space: nowrap;
 }
 
-.warnings ul {
+.bill-note {
+  font-size: var(--ts-step-body);
+  max-width: 34ch;
+}
+
+.note {
+  align-items: center;
+  display: inline-flex;
+  min-height: 2.75rem;
+}
+
+@media (min-width: 64em) {
+  .hero {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .hero .pane-name {
+    grid-column: 1 / span 7;
+    grid-row: 1 / span 2;
+    min-height: 0;
+  }
+
+  .hero .pane-statement {
+    grid-column: 8 / -1;
+  }
+
+  .hero .pane-cost {
+    grid-column: 8 / -1;
+  }
+
+  .broken .pane-statement {
+    grid-row: 1 / span 2;
+  }
+}
+
+/* The broken-link page is the first screen and nothing else: it fills it. */
+.broken .hero {
+  min-height: calc(100svh - 2 * var(--ts-margin));
+}
+
+/* ---------- the side effects: one pane of output each ---------- */
+
+.log {
   display: grid;
-  gap: clamp(3rem, 7vw, 6rem);
-  list-style: none;
-  margin: 0;
+  gap: var(--ts-gap);
+}
+
+.log-head {
+  gap: 0.75rem;
+}
+
+.log-head h2 {
+  font-size: var(--ts-step-head);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1.05;
+  max-width: 40ch;
+}
+
+.log-head p {
+  max-width: 48ch;
+}
+
+.log-list {
+  display: grid;
+  gap: var(--ts-gap);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.roast {
+  gap: 0;
   padding: 0;
 }
 
-.warning {
-  border-top: 0.5rem solid var(--ts-mustard);
-  display: grid;
-  gap: 1.25rem var(--ts-gutter);
-  grid-template-columns: minmax(0, 1fr);
-  padding-top: clamp(1.25rem, 3vw, 2rem);
+.log-list > :nth-child(4n + 2),
+.log-list > :nth-child(4n + 3) {
+  background: var(--ts-black);
 }
 
-.warning-figure {
-  color: var(--ts-mustard);
+.shot {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  overflow: hidden;
 }
 
-.warning-number {
+.shot-picture {
+  aspect-ratio: 16 / 10;
+  display: block;
+  filter: grayscale(1) contrast(1.1);
+  height: auto;
+  mix-blend-mode: multiply;
+  object-fit: cover;
+  width: 100%;
+}
+
+.shot-strip {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--ts-step-small);
+  gap: 0.25rem 1.5rem;
+  justify-content: space-between;
+  padding: 0.5rem var(--ts-pad);
+}
+
+.roast-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: space-between;
+  padding: var(--ts-pad);
+}
+
+.roast-figure {
+  color: var(--ts-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.roast-number {
   font-size: var(--ts-step-figure);
   font-variant-numeric: tabular-nums;
   font-weight: var(--ts-display-weight);
@@ -154,229 +320,155 @@
   line-height: var(--ts-display-leading);
 }
 
-.warning-unit {
-  color: var(--ts-bg);
+.roast-unit {
+  color: var(--ts-ink);
   font-size: var(--ts-step-lead);
-  font-weight: 500;
   line-height: 1.25;
 }
 
-.warning:has(.warning-frame) .warning-figure {
-  align-self: end;
-}
-
-.warning-text {
-  font-size: var(--ts-step-statement);
-  font-weight: 500;
-  line-height: 1.25;
-  max-width: 34ch;
+.roast-text {
+  max-width: 44ch;
   text-wrap: pretty;
 }
 
-.warning-frame {
-  margin-top: 1.5rem;
-  overflow: hidden;
-}
-
-.warning-picture {
-  aspect-ratio: 16 / 10;
-  display: block;
-  filter: grayscale(1) contrast(1.08);
-  height: auto;
-  object-fit: cover;
-  width: 100%;
-}
-
 @media (min-width: 48em) {
-  .warning {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+  .log-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .warning-figure {
-    grid-column: 1 / span 6;
+  /* An odd last pane takes the whole row: the figure on the left, the sentence at the right. */
+  .log-list > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 
-  .warning-body {
-    grid-column: 7 / -1;
-  }
-
-  .warning-frame {
-    max-width: 44rem;
-  }
-}
-
-/* ---------- the bill ---------- */
-
-.section-title {
-  font-size: var(--ts-step-statement);
-  letter-spacing: var(--ts-display-tracking);
-  line-height: 1.1;
-}
-
-.bill {
-  background: var(--ts-mustard);
-  color: var(--ts-mustard-ink);
-  container-type: inline-size;
-  padding: var(--ts-section) var(--ts-margin);
-}
-
-.bill-body {
-  align-items: end;
-  display: grid;
-  gap: clamp(1.5rem, 4vw, 3rem) var(--ts-gutter);
-  grid-template-columns: minmax(0, 1fr);
-  margin-top: clamp(2.5rem, 7vw, 5rem);
-}
-
-.bill-figure {
-  --span: 100;
-  font-variant-numeric: tabular-nums;
-  font-weight: var(--ts-display-weight);
-  letter-spacing: var(--ts-display-tracking);
-  line-height: var(--ts-display-leading);
-  white-space: nowrap;
-}
-
-.bill-caption {
-  align-items: start;
-  display: flex;
-  flex-direction: column;
-  font-size: var(--ts-step-lead);
-  gap: 1rem;
-  line-height: 1.3;
-  max-width: 28ch;
-}
-
-.note {
-  align-items: center;
-  display: inline-flex;
-  font-size: var(--ts-step-body);
-  gap: 0.6em;
-  min-height: 2.75rem;
-}
-
-.note-mark {
-  align-items: center;
-  background: var(--ts-ink);
-  border-radius: 50%;
-  color: var(--ts-mustard);
-  display: inline-flex;
-  font-size: 0.85em;
-  font-weight: var(--ts-display-weight);
-  height: 1.6em;
-  justify-content: center;
-  width: 1.6em;
-}
-
-@media (min-width: 48em) {
-  .bill-body {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
-  }
-
-  .bill-figure {
-    --span: 68;
+  .log-list > :last-child:nth-child(odd) .roast-body {
+    align-items: end;
+    flex-direction: row;
+    gap: var(--ts-gap);
   }
 }
 
 /* ---------- your turn ---------- */
 
 .run {
-  padding: var(--ts-section) var(--ts-margin);
+  display: grid;
+  gap: var(--ts-gap);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.run-title {
+  font-size: var(--ts-step-head);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1.05;
+  max-width: 14ch;
 }
 
 .run-text {
   font-size: var(--ts-step-lead);
-  font-weight: 500;
-  line-height: 1.3;
-  margin-top: 1.75rem;
+  line-height: 1.35;
+  margin-top: auto;
   max-width: 36ch;
   text-wrap: pretty;
 }
 
 .command {
-  background: var(--ts-ink);
-  color: var(--ts-bg);
-  container-type: inline-size;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  margin-top: clamp(2rem, 5vw, 4rem);
-  padding: clamp(1.25rem, 3vw, 2.5rem);
+  margin-top: auto;
 }
 
-.command-text {
-  display: block;
-  font: inherit;
+.command-line {
   font-weight: var(--ts-display-weight);
   letter-spacing: var(--ts-display-tracking);
   line-height: var(--ts-display-leading);
-  user-select: all;
   white-space: nowrap;
 }
 
-.command-copy {
-  background: var(--ts-accent);
-  border: 0;
-  color: var(--ts-accent-ink);
-  cursor: pointer;
+.command-prompt {
+  color: var(--ts-accent);
+}
+
+.command-text {
+  background: none;
+  color: inherit;
   font: inherit;
-  font-weight: var(--ts-display-weight);
-  justify-self: start;
-  min-height: 3rem;
-  min-width: 7rem;
-  padding: 0 1.5rem;
-  transition:
-    transform var(--ts-t-press) var(--ts-ease-out),
-    background-color var(--ts-t-hover) ease,
-    color var(--ts-t-hover) ease;
+  letter-spacing: inherit;
+  padding: 0;
+  user-select: all;
 }
 
-.command-copy:active {
-  transform: scale(0.97);
+.command-copy {
+  align-self: flex-start;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .command-copy:hover {
-    background: var(--ts-bg);
-    color: var(--ts-ink);
+@media (min-width: 64em) {
+  .run {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    min-height: 22rem;
   }
-}
 
-.hero .command {
-  margin-top: 0;
+  .run-main {
+    grid-column: 1 / span 7;
+  }
+
+  .run-command {
+    grid-column: 8 / -1;
+  }
 }
 
 /* ---------- footer: the name again ---------- */
 
 .footer {
-  background: var(--ts-red);
-  color: var(--ts-red-ink);
-  container-type: inline-size;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(3rem, 8vw, 6rem);
-  min-height: min(60svh, 40rem);
-  padding: var(--ts-margin);
+  display: grid;
+  gap: var(--ts-gap);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .footer-note {
-  font-size: var(--ts-step-body);
-  max-width: 30ch;
+  max-width: 40ch;
+}
+
+.footer-links-pane a {
+  font-size: var(--ts-step-lead);
+  font-weight: var(--ts-display-weight);
 }
 
 .footer-mark {
+  color: var(--ts-accent);
   display: block;
   font-weight: var(--ts-display-weight);
   letter-spacing: var(--ts-display-tracking);
   line-height: var(--ts-display-leading);
-  margin-top: auto;
   text-decoration: none;
   white-space: nowrap;
 }
 
 .credits {
+  color: var(--ts-muted);
   font-size: var(--ts-step-small);
-  line-height: 1.5;
-  max-width: 90ch;
+  line-height: 1.6;
+  max-width: 110ch;
+  padding: 0 0.25rem var(--ts-gap);
+}
+
+@media (min-width: 64em) {
+  .footer {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .footer-note-pane {
+    grid-column: 1 / span 8;
+  }
+
+  .footer-links-pane {
+    grid-column: 9 / -1;
+  }
+
+  .footer-mark-pane,
+  .credits {
+    grid-column: 1 / -1;
+  }
 }
 
 /* ---------- motion ---------- */
@@ -396,7 +488,25 @@
 
 @keyframes settle {
   from {
-    transform: scale(1.16);
+    transform: scale(1.12);
+  }
+}
+
+@keyframes shutter {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
 
@@ -405,40 +515,46 @@
     animation: line-up 900ms var(--ts-ease-out) backwards;
   }
 
-  .wordmark,
-  .hero-note,
-  .actions,
-  .hero .command {
-    animation: fade-up var(--ts-t-reveal) var(--ts-ease-out) backwards;
-    animation-delay: 450ms;
+  .typed {
+    animation: type 800ms steps(14, end) 250ms backwards;
   }
 
-  .hero-note {
+  .caret {
+    animation: blink 1100ms steps(1, end) infinite;
+  }
+
+  .hero .wordmark,
+  .hero .statement,
+  .hero .actions,
+  .hero .pane-cost > *,
+  .hero .command {
+    animation: fade-up var(--ts-t-reveal) var(--ts-ease-out) 450ms backwards;
+  }
+
+  .hero .statement {
     animation-delay: 520ms;
   }
 
-  .actions,
+  .hero .actions,
   .hero .command {
     animation-delay: 600ms;
   }
 
-  .hero .command-copy {
-    animation: fade-up var(--ts-t-reveal) var(--ts-ease-out) backwards;
-    animation-delay: 760ms;
+  .hero .pane-cost > * {
+    animation-delay: 700ms;
   }
 }
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .warning-figure,
-    .warning-text,
-    .bill .section-title,
-    .bill-figure,
-    .bill-caption,
-    .run .section-title,
+    .log-head > *,
+    .roast-figure,
+    .roast-text,
+    .run-title,
     .run-text,
     .run .command,
     .footer-note,
+    .footer-links-pane a,
     .footer-mark,
     .credits {
       animation: fade-up linear both;
@@ -446,13 +562,18 @@
       animation-timeline: view();
     }
 
-    .warning-text,
-    .bill-caption,
+    .roast-text,
     .run-text {
       animation-range: entry 10% entry 70%;
     }
 
-    .warning-picture {
+    .shot {
+      animation: shutter linear both;
+      animation-range: entry 0% entry 70%;
+      animation-timeline: view();
+    }
+
+    .shot-picture {
       animation: settle linear both;
       animation-range: entry 0% cover 70%;
       animation-timeline: view();
