@@ -1,4 +1,4 @@
-/* Share Page and broken-link page: a board of panes. Colour, type and space come from the tokens in src/index.css. */
+/* Share Page and broken-link page: a dark board of terminal panes. Colour, type and space come from the tokens in src/index.css. */
 
 :where(.share) a {
   color: inherit;
@@ -25,7 +25,7 @@
   padding: var(--ts-margin);
 }
 
-/* ---------- panes: flat fields, square, no lines ---------- */
+/* ---------- panes: flat fields, square, a title bar, no lines ---------- */
 
 .pane {
   background: var(--ts-surface);
@@ -38,18 +38,25 @@
   padding: var(--ts-pad);
 }
 
-.pane-lime {
-  background: var(--ts-accent);
-  color: var(--ts-accent-ink);
+.pane-raised {
+  background: var(--ts-raised);
 }
 
-.pane-black {
-  background: var(--ts-black);
+/* The title bar bleeds to the pane's edges: a step in tone, like the status line of a multiplexer. */
+.bar {
+  background: var(--ts-bar);
+  color: var(--ts-muted);
+  display: flex;
+  flex: none;
+  font-size: var(--ts-step-small);
+  gap: 1rem;
+  justify-content: space-between;
+  margin: calc(-1 * var(--ts-pad)) calc(-1 * var(--ts-pad)) 0;
+  padding: 0.5rem var(--ts-pad);
 }
 
-.pane-paper {
-  background: var(--ts-paper);
-  color: var(--ts-paper-ink);
+.bar-tag {
+  color: var(--ts-accent);
 }
 
 .statement {
@@ -66,14 +73,14 @@
 }
 
 .prompt {
+  color: var(--ts-ink);
   font-size: var(--ts-step-body);
   font-weight: 500;
-  margin: 0;
   white-space: nowrap;
 }
 
 .prompt-sign {
-  opacity: 0.6;
+  color: var(--ts-accent);
 }
 
 .typed {
@@ -82,7 +89,7 @@
 }
 
 .caret {
-  background: currentColor;
+  background: var(--ts-accent);
   display: inline-block;
   height: 1.1em;
   margin-left: 0.15em;
@@ -108,7 +115,7 @@
   margin-top: auto;
 }
 
-/* Every line spans the container: its font-size is set inline by fitFontSize. */
+/* Every line spans the container: its font-size is set inline by fitFontSize. The figure is lime, the label is text. */
 .mask {
   display: block;
   letter-spacing: var(--ts-display-tracking);
@@ -119,11 +126,16 @@
   white-space: nowrap;
 }
 
+.mask:first-child {
+  color: var(--ts-accent);
+}
+
 .rise {
   display: block;
 }
 
 .wordmark {
+  color: var(--ts-accent);
   font-size: var(--ts-step-lead);
   font-weight: var(--ts-display-weight);
   letter-spacing: var(--ts-display-tracking);
@@ -166,22 +178,24 @@
   color: var(--ts-accent-ink);
 }
 
-.btn-paper {
-  background: var(--ts-paper);
-  color: var(--ts-paper-ink);
+.btn-quiet {
+  background: var(--ts-bar);
+  color: var(--ts-ink);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .btn-accent:hover {
-    background: var(--ts-paper);
+    background: var(--ts-ink);
   }
 
-  .btn-paper:hover {
+  .btn-quiet:hover {
     background: var(--ts-accent);
+    color: var(--ts-accent-ink);
   }
 }
 
 .bill-figure {
+  color: var(--ts-accent);
   font-variant-numeric: tabular-nums;
   font-weight: var(--ts-display-weight);
   letter-spacing: var(--ts-display-tracking);
@@ -197,6 +211,7 @@
 
 .note {
   align-items: center;
+  color: var(--ts-accent);
   display: inline-flex;
   min-height: 2.75rem;
 }
@@ -264,14 +279,18 @@
   padding: 0;
 }
 
-.log-list > :nth-child(4n + 2),
-.log-list > :nth-child(4n + 3) {
-  background: var(--ts-black);
+.roast > .bar {
+  margin: 0;
 }
 
+.log-list > :nth-child(4n + 2),
+.log-list > :nth-child(4n + 3) {
+  background: var(--ts-raised);
+}
+
+/* The picture is a phosphor screen: grey values screened over deep green. */
 .shot {
-  background: var(--ts-accent);
-  color: var(--ts-accent-ink);
+  background: #14331a;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -282,12 +301,14 @@
   display: block;
   filter: grayscale(1) contrast(1.1);
   height: auto;
-  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
   object-fit: cover;
   width: 100%;
 }
 
 .shot-strip {
+  background: var(--ts-bar);
+  color: var(--ts-muted);
   display: flex;
   flex-wrap: wrap;
   font-size: var(--ts-step-small);
@@ -430,6 +451,7 @@
 }
 
 .footer-links-pane a {
+  color: var(--ts-accent);
   font-size: var(--ts-step-lead);
   font-weight: var(--ts-display-weight);
 }

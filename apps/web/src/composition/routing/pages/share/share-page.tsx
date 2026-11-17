@@ -2,6 +2,7 @@ import { useRouter } from "@tanstack/react-router";
 
 import { ENV } from "../../../../env";
 import type { Roast } from "../../../../server/roast";
+import { Bar } from "./components/bar";
 import { Bill } from "./components/bill";
 import { CopyImageButton } from "./components/copy-image-button";
 import { CopyImageSlot } from "./components/copy-image-slot";
@@ -31,11 +32,13 @@ export const SharePage = ({ roast }: { roast: ShareView }) => {
   return (
     <main className="share board">
       <section className="hero">
-        <div className="pane pane-lime pane-name">
+        <div className="pane pane-name">
+          <Bar tag="stdout" title="~/tokenshame" />
           <Prompt />
           <Lockup lines={[figure, label]} />
         </div>
-        <div className="pane pane-statement">
+        <div className="pane pane-raised pane-statement">
+          <Bar title="readme" />
           <a className="wordmark" href={repoUrl}>
             tokenshame
           </a>

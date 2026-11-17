@@ -169,9 +169,11 @@ describe("the tokens of the card", () => {
     expect(colors).toStrictEqual({
       accent: token("accent"),
       accentInk: token("accent-ink"),
+      bar: token("bar"),
       bg: token("bg"),
-      black: token("black"),
       ink: token("ink"),
+      muted: token("muted"),
+      raised: token("raised"),
       surface: token("surface"),
     });
   });

@@ -2,8 +2,8 @@
 
 /*
  * The look of the Share Page, the broken-link page and the Share Card.
- * Idea: the terminal session that made the link becomes a board of panes, like tmux. The token count
- * is the first pane, every Roast Line is a pane of output. The Share Card reads these tokens and nothing else.
+ * Idea: the terminal session that made the link becomes a board of panes, like tmux, on a dark ground. The token
+ * count is the first pane, every Roast Line is a pane of output with a title bar. The Share Card reads these tokens and nothing else.
  */
 
 @font-face {
@@ -31,16 +31,16 @@
 }
 
 :root {
-  /* Colour: forest ground, one step lighter for panes, black and white fields, one lime accent. */
-  --ts-bg: #0f1f10;
-  --ts-surface: #162a17;
-  --ts-ink: #fff;
-  --ts-muted: #9aa39a;
+  /* Colour: a dark terminal. Near-black ground, panes one step lighter, a title bar one step more, one lime
+     accent for figures and the action. Text is a soft white-green at 15:1. */
+  --ts-bg: #050805;
+  --ts-surface: #0b110b;
+  --ts-raised: #121a12;
+  --ts-bar: #1a251a;
+  --ts-ink: #e8f2e5;
+  --ts-muted: #8a9a88;
   --ts-accent: #c6f19d;
-  --ts-accent-ink: #0f1f10;
-  --ts-black: #000;
-  --ts-paper: #fff;
-  --ts-paper-ink: #0f1f10;
+  --ts-accent-ink: #0b140b;
 
   /* Type: one monospace family. Display is weight 800, tightened; text is 400 and 500. */
   --ts-font: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;

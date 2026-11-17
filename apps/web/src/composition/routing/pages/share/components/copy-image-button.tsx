@@ -4,7 +4,7 @@ const copiedForMs = 1600;
 
 type Status = "idle" | "copied" | "failed";
 
-const classes = "btn btn-paper";
+const classes = "btn btn-quiet";
 
 // What the browser can do never changes, so there is nothing to subscribe to.
 const subscribeToNothing = () => () => {

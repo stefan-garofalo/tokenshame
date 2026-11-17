@@ -3,11 +3,13 @@
 
 export const colors = {
   accent: "#c6f19d",
-  accentInk: "#0f1f10",
-  bg: "#0f1f10",
-  black: "#000",
-  ink: "#fff",
-  surface: "#162a17",
+  accentInk: "#0b140b",
+  bar: "#1a251a",
+  bg: "#050805",
+  ink: "#e8f2e5",
+  muted: "#8a9a88",
+  raised: "#121a12",
+  surface: "#0b110b",
 } as const;
 
 export const family = "JetBrains Mono";

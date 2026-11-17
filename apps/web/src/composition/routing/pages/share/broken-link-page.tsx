@@ -1,3 +1,4 @@
+import { Bar } from "./components/bar";
 import { CommandBox } from "./components/command-box";
 import { Lockup } from "./components/lockup";
 import { Prompt } from "./components/prompt";
@@ -8,11 +9,13 @@ import "./share.css";
 export const BrokenLinkPage = () => (
   <main className="share board broken">
     <section className="hero">
-      <div className="pane pane-lime pane-name">
+      <div className="pane pane-name">
+        <Bar tag="exit 1" title="~/tokenshame" />
         <Prompt />
         <Lockup lines={["this roast is broken.", `Run ${command}`]} />
       </div>
-      <div className="pane pane-statement">
+      <div className="pane pane-raised pane-statement">
+        <Bar title="readme" />
         <a className="wordmark" href={repoUrl}>
           tokenshame
         </a>

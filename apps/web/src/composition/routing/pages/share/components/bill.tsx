@@ -1,10 +1,12 @@
 import type { Roast } from "../../../../../server/roast";
 import { fitFontSize } from "../fit-width";
+import { Bar } from "./bar";
 import { HowWeCalculated } from "./how-we-calculated";
 
 /** The estimated cost: the one key number besides Tokens Processed. */
 export const Bill = ({ cost }: { cost: Roast["cost"] }) => (
-  <section aria-labelledby="bill-title" className="pane pane-paper pane-cost">
+  <section aria-labelledby="bill-title" className="pane pane-cost">
+    <Bar title="cost.log" />
     <h2 className="pane-title" id="bill-title">
       The bill
     </h2>
