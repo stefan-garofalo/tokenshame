@@ -47,7 +47,7 @@ Baseline commits before T1 (scaffold, lint tooling, CLI scaffold, web and ui lay
 ## Deviations From the Plan
 
 - **Launcher on Windows.** AC-012 and the plan name `start`. The CLI uses `rundll32 url.dll,FileProtocolHandler <url>` on win32 because `cmd /c start` runs `&` in a URL as a second command. A Share Link is base64url and holds no `&`. Not run on real Windows.
-- **Licence.** T14 first declared `MIT`. The owner has chosen no licence and the repo has no LICENSE file, so the field was removed. The README states there is no licence file yet.
+- **Licence.** T14 first declared `MIT`; it was removed while the owner had chosen none. The owner then asked for all open items to be done, and MIT was set: `LICENSE` at the root and in `apps/cli`, the `license` field of the CLI package, and the README.
 - **`apps/web/vite.config.ts`** (T9 file, edited three times as defect repairs): `ssrInjectMode: "resolved-env"` (see Surprises) and an optional `WEB_BUILD_DIR` so HTTP tests build into their own folder.
 - **`share/index.ts` exports only `shareRoute`.** `SharePage` and `BrokenLinkPage` live in their own files and the route reaches them through that export. The seam table in the plan lists them as composition exports; behavior is the same and the lint rules pass.
 - **Shell header removed.** T11 removed `<Header />` from `root-document.tsx` and deleted `shells/root/header.tsx` (the user's file, orphaned by the redirect and the design). Recorded as a scope transfer approved by the parent.

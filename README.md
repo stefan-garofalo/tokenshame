@@ -207,4 +207,4 @@ The decisions, the spec and the task plan live in the repository:
 
 ## Licence
 
-The repository has no licence file yet. The owner has not chosen one.
+MIT. See [LICENSE](LICENSE).
