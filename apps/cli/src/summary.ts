@@ -7,6 +7,9 @@ import * as Schema from "effect/Schema";
 
 import type { UsageRecord } from "./agents/types";
 
+/** The Usage Summary covers the last month of work: this many days back from now. */
+export const windowDays = 30;
+
 const noTokens: Tokens = { cacheRead: 0, cacheWrite: 0, input: 0, output: 0 };
 
 const add = (left: Tokens, right: Tokens): Tokens => ({
@@ -37,7 +40,7 @@ const localDay = (at: number): string => {
 };
 
 /**
- * Builds the Usage Summary of every record found, all time (AC-008).
+ * Builds the Usage Summary of the records it is given: the caller keeps the last {@link windowDays}.
  *
  * - `models`: the top {@link maxModels} models by tokens, then by id. A model with no
  *   tokens adds nothing, so it is left out.

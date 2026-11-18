@@ -2,6 +2,7 @@ import { tokensProcessed } from "@tokenshame/share-link/summary";
 import type { Summary, Tokens } from "@tokenshame/share-link/summary";
 
 import type { SkippedSource } from "./agents/types";
+import { windowDays } from "./summary";
 
 const count = (value: number): string => value.toLocaleString("en-US");
 
@@ -46,7 +47,7 @@ export const renderSummary = (summary: Summary, url: string): string => {
     ["other", ...cells(summary.other)],
   ]);
   return [
-    "Usage Summary (exactly what the Share Link carries)",
+    `Usage Summary, last ${String(windowDays)} days (exactly what the Share Link carries)`,
     "",
     ...facts,
     "",
@@ -59,6 +60,10 @@ export const renderSummary = (summary: Summary, url: string): string => {
 /** Names a source that exists but could not be read, with its cause. */
 export const renderSkipped = ({ agent, detail, path }: SkippedSource): string =>
   `Skipped ${agent}: ${detail} (${path})`;
+
+/** Logs exist, but none of their usage falls inside the window. */
+export const renderNoRecentUsage = (): string =>
+  `No usage in the last ${String(windowDays)} days, so there is nothing to share.`;
 
 /** The no-logs message: the folders that were checked, and no Share Link. */
 export const renderNoLogs = (paths: readonly string[]): string =>

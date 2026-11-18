@@ -18,8 +18,8 @@ import { Command, Flag } from "effect/cli";
 import { version } from "../package.json";
 import type { Open } from "./prompt";
 import { openInBrowser, shareLink } from "./prompt";
-import { renderNoLogs, renderSkipped, renderSummary } from "./render";
-import { summarize } from "./summary";
+import { renderNoLogs, renderNoRecentUsage, renderSkipped, renderSummary } from "./render";
+import { summarize, windowDays } from "./summary";
 
 /** The site the Share Link opens on. Only the user's browser contacts it. */
 const shareOrigin = "https://tokenshame.vercel.app";
@@ -57,15 +57,19 @@ export const filterWarnings =
     }
   };
 
+const dayMs = 86_400_000;
+
 /**
- * One run: read every Usage Source, print the exact Usage Summary and the Share Link, and
- * open the link only after Enter (never on a dry run). Returns the exit code: 0, or 1 when
- * no Usage Source has data. Nothing here touches the network (INV-002).
+ * One run: read every Usage Source, keep the last {@link windowDays} days, print the exact
+ * Usage Summary and the Share Link, and open the link only after Enter (never on a dry run).
+ * Returns the exit code: 0, or 1 when there is no usage in the window. Nothing here
+ * touches the network (INV-002).
  */
 export const run = (
   dryRun: boolean,
   home: string,
   open: Open,
+  now = Date.now(),
 ): Effect.Effect<
   number,
   never,
@@ -82,10 +86,16 @@ export const run = (
       }
     }
 
-    const records = results.flatMap((result) => (result._tag === "Read" ? result.records : []));
-    if (!Array.isReadonlyArrayNonEmpty(records)) {
+    const all = results.flatMap((result) => (result._tag === "Read" ? result.records : []));
+    if (!Array.isReadonlyArrayNonEmpty(all)) {
       const checked = results.flatMap((result) => (result._tag === "Skipped" ? [result.path] : []));
       yield* Console.error(renderNoLogs([...new Set(checked)]));
+      return 1;
+    }
+    const since = now - windowDays * dayMs;
+    const records = all.filter(({ at }) => at >= since);
+    if (!Array.isReadonlyArrayNonEmpty(records)) {
+      yield* Console.error(renderNoRecentUsage());
       return 1;
     }
 

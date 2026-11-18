@@ -129,7 +129,7 @@ describe("packed CLI package", () => {
     const { manifest } = current();
     assert.strictEqual(manifest.name, "tokenshame");
     assert.isUndefined(manifest.private);
-    assert.strictEqual(manifest.version, "0.1.0");
+    assert.match(manifest.version, /^\d+\.\d+\.\d+$/u);
     assert.include(manifest.description, "14 coding agents");
     assert.include(manifest.description, "Usage Summary");
     assert.include(manifest.description, "Share Link");

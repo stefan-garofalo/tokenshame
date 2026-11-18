@@ -139,11 +139,15 @@ interface Outcome {
   readonly prompts: number;
 }
 
+/** "Now" for a run: a few days after the fixture logs, so they all fall inside the window. */
+const fixtureNow = local(12, 12).getTime();
+
 const execute = (
   dryRun: boolean,
   home: string,
   inputs: readonly Terminal.UserInput[],
   open?: Open,
+  now = fixtureNow,
 ): Effect.Effect<Outcome> =>
   Effect.gen(function* execution() {
     const logs: string[] = [];
@@ -177,7 +181,7 @@ const execute = (
       Effect.sync(() => {
         opened.push(url);
       });
-    const code = yield* run(dryRun, home, open ?? stub).pipe(
+    const code = yield* run(dryRun, home, open ?? stub, now).pipe(
       Effect.provideService(Terminal.Terminal, terminal),
       Effect.provideService(Console.Console, console_),
       Effect.provide(NodeServices.layer),
@@ -226,7 +230,7 @@ describe("tokenshame", () => {
       assert.strictEqual(
         outcome.logs,
         [
-          "Usage Summary (exactly what the Share Link carries)",
+          "Usage Summary, last 30 days (exactly what the Share Link carries)",
           "",
           "Tokens processed  3,460",
           "Sessions          2",
@@ -327,6 +331,41 @@ describe("tokenshame", () => {
       assert.notInclude(outcome.errors, "Codex");
       assert.include(outcome.logs, "gpt-synthetic-1");
       assert.include(outcome.logs, "Share Link: ");
+    }),
+  );
+
+  // --- the last month of work only ----------------------------------------------------
+
+  it.effect("leaves out usage older than 30 days", () =>
+    Effect.gen(function* check() {
+      // On February 4 the window starts January 5, 12:00: only the 14:00 lines of January 5 count.
+      const outcome = yield* execute(
+        true,
+        twoSessionHome(),
+        [],
+        undefined,
+        local(35, 12).getTime(),
+      );
+      assert.strictEqual(outcome.code, 0);
+      assert.include(outcome.logs, "model-a");
+      assert.notInclude(outcome.logs, "model-b");
+      assert.include(outcome.logs, "Sessions          1");
+    }),
+  );
+
+  it.effect("prints no Share Link when every log is older than 30 days", () =>
+    Effect.gen(function* check() {
+      const outcome = yield* execute(
+        false,
+        twoSessionHome(),
+        [enter],
+        undefined,
+        local(60, 12).getTime(),
+      );
+      assert.strictEqual(outcome.code, 1);
+      assert.include(outcome.errors, "No usage in the last 30 days");
+      assert.notInclude(outcome.logs, "Share Link");
+      assert.deepStrictEqual(outcome.opened, []);
     }),
   );
 
