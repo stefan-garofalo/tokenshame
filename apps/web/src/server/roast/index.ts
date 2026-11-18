@@ -38,7 +38,7 @@ export interface Roast {
   weightedTokens: number;
   /** The rest of the Usage Summary the page shows: session count and the local hour with most tokens. */
   month: { sessions: number; busiestHour: number };
-  /** What the same tokens would cost at API list prices. The page turns it into hours of pay. */
+  /** What the same tokens would cost at API list prices: the cigarettes, and the page's hours of pay. */
   cost: { usd: number; figure: string };
   /** Cost per model in link order, with the model's name when we know it. */
   models: readonly { name: string; known: boolean; usd: number }[];
@@ -64,10 +64,12 @@ export const roast = (summary: Summary): Roast => {
   const tokens = tokensProcessed(summary);
 
   const lines = rank(
-    impactsOf({ output: outputTokens(summary), tokens, weighted }).map(({ id, amount }) => {
-      const { severity, ...line } = render(id, amount);
-      return { ...line, dread: dreadOf(severity, line.value) };
-    }),
+    impactsOf({ costUsd: usd, output: outputTokens(summary), tokens, weighted }).map(
+      ({ id, amount }) => {
+        const { severity, ...line } = render(id, amount);
+        return { ...line, dread: dreadOf(severity, line.value) };
+      },
+    ),
     keyOf(summary),
   );
 
