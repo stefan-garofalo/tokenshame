@@ -1,0 +1,883 @@
+/* Share Page and broken-link page: a month of agent work in a black editor theme. Colour, type and space come from src/index.css. */
+
+:where(.share) a {
+  color: inherit;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.18em;
+}
+
+:where(.share) :is(p, h1, h2, figure, ul, ol) {
+  margin: 0;
+}
+
+:where(.share) :is(h1, h2) {
+  font-weight: var(--ts-display-weight);
+}
+
+:where(.share) :is(ul, ol) {
+  list-style: none;
+  padding: 0;
+}
+
+/* With viewport-fit=cover the page paints under the notch; the content keeps clear of it. */
+.share {
+  --edge-left: max(var(--ts-margin), env(safe-area-inset-left, 0px));
+  --edge-right: max(var(--ts-margin), env(safe-area-inset-right, 0px));
+  display: flow-root;
+  overflow-x: clip;
+  padding: 0 var(--edge-right) env(safe-area-inset-bottom, 0px) var(--edge-left);
+}
+
+/* ---------- top bar ---------- */
+
+.nav {
+  align-items: baseline;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  padding: 28px 0;
+}
+
+.wordmark {
+  color: var(--ts-accent);
+  font-size: var(--ts-step-lead);
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.9375rem;
+  gap: 0.25rem 1.5rem;
+  justify-content: flex-end;
+}
+
+/* On a phone the nav keeps one link on one line; "how we calculated this" is in the footer too. */
+.nav-links .note {
+  display: none;
+}
+
+@media (min-width: 48em) {
+  .nav-links .note {
+    display: inline;
+  }
+}
+
+.nav-links a {
+  color: var(--ts-muted);
+  text-decoration: none;
+  transition: color var(--ts-t-hover) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-links a:hover {
+    color: var(--ts-ink);
+  }
+}
+
+/* ---------- first screen: the count, and the month as a source file ---------- */
+
+.hero {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.hero-text {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding-top: clamp(1rem, 6vh, 4.5rem);
+}
+
+.prompt {
+  color: var(--ts-muted);
+  font-size: var(--ts-step-body);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.prompt-sign {
+  color: var(--ts-accent);
+}
+
+.typed {
+  color: var(--ts-ink);
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.caret {
+  background: var(--ts-accent);
+  display: inline-block;
+  height: 1.1em;
+  margin-left: 0.15em;
+  vertical-align: text-bottom;
+  width: 0.6em;
+}
+
+.lockup {
+  container-type: inline-size;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Every line spans the container: its font-size is set inline by fitFontSize. The figure is amber, the label is ink. */
+.mask {
+  display: block;
+  letter-spacing: var(--ts-display-tracking);
+  line-height: var(--ts-display-leading);
+  margin-bottom: -0.1em;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  white-space: nowrap;
+}
+
+.mask:first-child {
+  color: var(--ts-accent);
+}
+
+.rise {
+  display: block;
+}
+
+.statement {
+  font-size: var(--ts-step-lead);
+  line-height: 1.4;
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ts-gap);
+}
+
+.btn {
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: var(--ts-display-weight);
+  justify-content: center;
+  line-height: 1;
+  min-height: 3rem;
+  min-width: 7rem;
+  padding: 0 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform var(--ts-t-press) var(--ts-ease-out),
+    background-color var(--ts-t-hover) ease,
+    color var(--ts-t-hover) ease;
+}
+
+.btn:active,
+.tile-go:active,
+.tile-mark:active {
+  transform: scale(0.97);
+}
+
+.btn-accent {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
+}
+
+.btn-quiet {
+  background: var(--ts-raised);
+  color: var(--ts-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-accent:hover {
+    background: var(--ts-ink);
+  }
+
+  .btn-quiet:hover {
+    background: var(--ts-bar);
+  }
+}
+
+/* The stage: one flat amber field with a chamfered corner, bleeding off the right and bottom edges. */
+.stage {
+  --cut: 72px;
+  background: var(--ts-accent);
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut));
+  margin: 0 calc(-1 * var(--edge-right)) 0 calc(-1 * var(--edge-left));
+  min-height: 22rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Far enough in that the cut corner never clips the tab. */
+  padding: 48px 0 0 16px;
+}
+
+/* ---------- the editor: a cropped piece of the product's own interface ---------- */
+
+.editor {
+  background: var(--ts-surface);
+  border: 1px solid var(--ts-bar);
+  border-bottom: 0;
+  border-radius: 8px 0 0 0;
+  border-right: 0;
+  color: var(--ts-ink);
+  flex: 1;
+  font-size: 0.8125rem;
+}
+
+@media (min-width: 48em) {
+  .editor {
+    font-size: 0.875rem;
+    min-width: 34rem;
+  }
+}
+
+.editor-tabs {
+  background: var(--ts-raised);
+  border-bottom: 1px solid var(--ts-bar);
+  border-radius: 8px 0 0 0;
+  display: flex;
+}
+
+.editor-tab {
+  background: var(--ts-surface);
+  border-right: 1px solid var(--ts-bar);
+  border-top: 2px solid var(--ts-accent);
+  color: var(--ts-ink);
+  margin-bottom: -1px;
+  padding: 0.55rem 1.1rem 0.6rem;
+}
+
+.editor-code {
+  display: grid;
+  font: inherit;
+  line-height: 1.75;
+  margin: 0;
+  padding: 1rem 0 2.5rem;
+  white-space: pre;
+}
+
+.editor-line {
+  display: block;
+}
+
+.editor-line code {
+  font: inherit;
+}
+
+.editor-gutter {
+  color: var(--ts-faint);
+  display: inline-block;
+  margin-right: 1rem;
+  text-align: right;
+  user-select: none;
+  width: 3.5ch;
+}
+
+.tok-key {
+  color: var(--ts-syn-key);
+}
+
+.tok-prop {
+  color: var(--ts-syn-prop);
+}
+
+.tok-num {
+  color: var(--ts-accent);
+}
+
+.tok-str {
+  color: var(--ts-syn-str);
+}
+
+.tok-com {
+  color: var(--ts-muted);
+  font-style: italic;
+}
+
+.tok-err {
+  color: var(--ts-syn-err);
+}
+
+@media (min-width: 64em) {
+  .hero {
+    align-items: end;
+    column-gap: var(--ts-gap);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    min-height: calc(100svh - 86px);
+  }
+
+  .hero-text {
+    align-self: start;
+    grid-column: 1 / span 6;
+    padding-top: 9vh;
+  }
+
+  .stage {
+    align-self: stretch;
+    grid-column: 7 / -1;
+    margin: 18vh calc(-1 * var(--edge-right)) 0 0;
+    padding: 56px 0 0 56px;
+  }
+
+  .editor {
+    font-size: 0.9375rem;
+  }
+}
+
+/* The broken-link page is the first screen and nothing else; its command is the one action. */
+.broken .statement {
+  display: grid;
+  gap: 1rem;
+}
+
+.broken .command {
+  font-size: var(--ts-step-head);
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+}
+
+/* ---------- live: the cost as hours of the visitor's pay ---------- */
+
+.hours {
+  background: var(--ts-surface);
+  display: grid;
+  gap: 1.75rem;
+  grid-template-columns: minmax(0, 1fr);
+  margin: var(--ts-section) calc(-1 * var(--edge-right)) 0 calc(-1 * var(--edge-left));
+  padding: 3rem var(--edge-right) 3rem var(--edge-left);
+}
+
+.hours-title {
+  font-size: var(--ts-step-head);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1.1;
+  max-width: 20ch;
+}
+
+.rate {
+  align-self: start;
+  background: var(--ts-raised);
+  border: 1px solid var(--ts-bar);
+  border-radius: 6px;
+  display: grid;
+  gap: 0.5rem;
+  max-width: 400px;
+  padding: 0.9rem 1rem 0.6rem;
+}
+
+.rate-row {
+  display: flex;
+  font-size: 0.875rem;
+  justify-content: space-between;
+}
+
+.rate-row output {
+  color: var(--ts-accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--ts-display-weight);
+}
+
+/* A horizontal drag moves the thumb; a vertical one still scrolls the page. */
+.rate-input {
+  accent-color: var(--ts-accent);
+  touch-action: pan-y;
+  cursor: pointer;
+  height: 44px;
+  margin: 0;
+  width: 100%;
+}
+
+.hours-figure {
+  align-self: end;
+  color: var(--ts-accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 0.8;
+}
+
+.hours-number {
+  font-size: clamp(5.5rem, 19vw, 20rem);
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+}
+
+.hours-unit {
+  color: var(--ts-ink);
+  display: block;
+  font-size: var(--ts-step-lead);
+  line-height: 1.3;
+  margin-top: 1rem;
+}
+
+.hours-note {
+  max-width: 34ch;
+}
+
+@media (min-width: 64em) {
+  .hours {
+    min-height: 84svh;
+    padding-block: clamp(3rem, 8vh, 5rem);
+    align-content: space-between;
+    grid-template-columns: minmax(0, 1fr) 34ch;
+    grid-template-rows: auto auto minmax(4rem, 1fr) auto;
+  }
+
+  .hours-title,
+  .rate {
+    grid-column: 1 / -1;
+  }
+
+  .hours-figure,
+  .hours-note {
+    align-self: end;
+    grid-row: 4;
+  }
+
+  .hours-unit {
+    display: inline;
+    margin: 0 0 0 0.5rem;
+    white-space: nowrap;
+  }
+
+  .hours-note {
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* ---------- the Roast Lines: a figure, a sentence and a picture each ---------- */
+
+.log {
+  display: grid;
+  gap: 2rem;
+  padding-top: var(--ts-section);
+}
+
+.log-title {
+  font-size: var(--ts-step-head);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1.05;
+}
+
+.log-list {
+  display: grid;
+  gap: 3.5rem var(--ts-gap);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.roast {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* A picture is grey on black: every photograph gets the same treatment. */
+.shot {
+  background: var(--ts-surface);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.shot-picture {
+  aspect-ratio: 4 / 3;
+  display: block;
+  filter: grayscale(1) contrast(1.15) brightness(0.85);
+  height: auto;
+  object-fit: cover;
+  object-position: 50% 30%;
+  width: 100%;
+}
+
+.shot-strip {
+  background: var(--ts-raised);
+  order: -1;
+  color: var(--ts-ink);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--ts-step-small);
+  gap: 0.25rem 1.5rem;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+}
+
+.roast-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.roast-figure {
+  color: var(--ts-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.roast-number {
+  font-size: var(--ts-step-figure);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: var(--ts-display-leading);
+}
+
+.roast-unit {
+  color: var(--ts-ink);
+  font-size: var(--ts-step-lead);
+  line-height: 1.25;
+}
+
+.roast-text {
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+@media (min-width: 48em) {
+  .log-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* The top line takes the whole row: a large picture, the figure beside it. */
+  .log-list > :first-child {
+    align-items: end;
+    grid-column: 1 / -1;
+    grid-template-columns: 7fr 5fr;
+    column-gap: 2.5rem;
+  }
+
+  .log-list > :first-child .roast-number {
+    font-size: clamp(5rem, 11vw, 11rem);
+  }
+}
+
+/* ---------- the close: the command inside the sentence ---------- */
+
+.run {
+  display: grid;
+  gap: 1.5rem;
+  padding: var(--ts-section) 0;
+}
+
+.run-title {
+  font-size: clamp(2rem, 1rem + 4vw, 5rem);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1.15;
+}
+
+.command {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.15em;
+  vertical-align: baseline;
+}
+
+.command-text {
+  background: var(--ts-raised);
+  color: var(--ts-ink);
+  font: inherit;
+  letter-spacing: inherit;
+  padding: 0 0.25em;
+  user-select: all;
+}
+
+.command-copy {
+  font-size: inherit;
+  min-height: 1.15em;
+  min-width: 0;
+  padding: 0 0.3em;
+}
+
+/* On a phone the command alone is the headline: "Run" would push it to a third line. */
+.run-verb {
+  display: none;
+}
+
+@media (min-width: 48em) {
+  .run-verb {
+    display: inline;
+  }
+}
+
+.run-text {
+  max-width: 48ch;
+}
+
+/* ---------- footer: a board of tiles ---------- */
+
+.footer {
+  display: grid;
+  gap: var(--ts-gap);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 calc(-1 * var(--ts-margin) + 12px);
+  padding-bottom: 12px;
+}
+
+.tile {
+  background: var(--ts-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  padding: 20px;
+}
+
+.tile-note,
+.tile-nav,
+.tile-hour,
+.tile-mark,
+.tile-go {
+  grid-column: 1 / -1;
+}
+
+.tile-nav a {
+  display: inline-block;
+  padding: 0.35rem 0;
+}
+
+.tile-note p {
+  font-size: var(--ts-step-lead);
+  line-height: 1.35;
+  max-width: 30ch;
+}
+
+.tile-nav ul {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.tile-hour p {
+  font-size: var(--ts-step-lead);
+  line-height: 1.35;
+}
+
+.tile-mark {
+  background: var(--ts-ink);
+  color: var(--ts-bg);
+  container-type: inline-size;
+  justify-content: center;
+  min-height: 160px;
+  text-decoration: none;
+}
+
+.tile-mark span {
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tile-go {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
+  font-size: var(--ts-step-head);
+  font-weight: var(--ts-display-weight);
+  justify-content: space-between;
+  letter-spacing: var(--ts-display-tracking);
+  min-height: 160px;
+  text-decoration: none;
+  transition:
+    background-color var(--ts-t-hover) ease,
+    transform var(--ts-t-press) var(--ts-ease-out);
+}
+
+.tile-arrow {
+  align-self: flex-end;
+  fill: none;
+  height: 48px;
+  stroke: currentColor;
+  stroke-width: 4;
+  transition: transform var(--ts-t-hover) var(--ts-ease-out);
+  width: 48px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile-go:hover {
+    background: var(--ts-ink);
+  }
+
+  .tile-go:hover .tile-arrow {
+    transform: translate(4px, -4px);
+  }
+}
+
+.credits {
+  grid-column: 1 / -1;
+  line-height: 1.6;
+  max-width: 110ch;
+  padding: 0.5rem 0.25rem 0;
+}
+
+@media (min-width: 64em) {
+  .footer {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .tile-note {
+    grid-column: 1 / span 5;
+    min-height: 220px;
+  }
+
+  .tile-nav {
+    grid-column: 6 / span 4;
+  }
+
+  .tile-hour {
+    grid-column: 10 / -1;
+  }
+
+  .tile-mark {
+    grid-column: 1 / span 8;
+    min-height: 320px;
+  }
+
+  .tile-go {
+    grid-column: 9 / -1;
+  }
+}
+
+/* ---------- motion ---------- */
+
+@keyframes line-up {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes shutter {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes stage-in {
+  from {
+    transform: translateY(40px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: line-up 900ms var(--ts-ease-out) backwards;
+  }
+
+  .typed {
+    animation: type 800ms steps(14, end) 250ms backwards;
+  }
+
+  .caret {
+    animation: blink 1100ms steps(1, end) infinite;
+  }
+
+  .hero .statement,
+  .hero .actions {
+    animation: fade-up var(--ts-t-reveal) var(--ts-ease-out) 520ms backwards;
+  }
+
+  .hero .actions {
+    animation-delay: 600ms;
+  }
+
+  .stage {
+    animation: stage-in 1100ms var(--ts-ease-out) 300ms backwards;
+  }
+
+  /* The source file writes itself in, one line after another. */
+  .editor-line {
+    animation: fade-up 500ms var(--ts-ease-out) backwards;
+  }
+
+  .editor-line:nth-child(1) {
+    animation-delay: 700ms;
+  }
+
+  .editor-line:nth-child(2) {
+    animation-delay: 780ms;
+  }
+
+  .editor-line:nth-child(3) {
+    animation-delay: 860ms;
+  }
+
+  .editor-line:nth-child(4) {
+    animation-delay: 940ms;
+  }
+
+  .editor-line:nth-child(5) {
+    animation-delay: 1020ms;
+  }
+
+  .editor-line:nth-child(6) {
+    animation-delay: 1100ms;
+  }
+
+  .editor-line:nth-child(7) {
+    animation-delay: 1180ms;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hours-title,
+    .rate,
+    .hours-figure,
+    .hours-note,
+    .log-title,
+    .roast-figure,
+    .roast-text,
+    .run-title,
+    .run-text,
+    .tile {
+      animation: fade-up linear both;
+      animation-range: entry 0% entry 60%;
+      animation-timeline: view();
+    }
+
+    .roast-text,
+    .hours-note,
+    .run-text {
+      animation-range: entry 10% entry 70%;
+    }
+
+    .shot {
+      animation: shutter linear both;
+      animation-range: entry 0% entry 70%;
+      animation-timeline: view();
+    }
+
+    .shot-picture {
+      animation: settle linear both;
+      animation-range: entry 0% cover 70%;
+      animation-timeline: view();
+    }
+  }
+}

@@ -1,0 +1,3 @@
+{"timestamp":"2026-01-03T10:00:00.000Z","type":"session_meta","payload":{"id":"2","timestamp":"2026-01-03T10:00:00.000Z","cli_version":"0.0.0","model_provider":"synthetic"}}
+{"timestamp":"2026-01-03T10:00:01.000Z","type":"turn_context","payload":{"turn_id":"turn-1","model":"gpt-synthetic-2","effort":"medium"}}
+{"timestamp":"2026-01-03T10:00:02.000Z","type":"event_msg","payload":{"type":"token_count","info":{"total_token_usage":{"input_tokens":1000,"cached_input_tokens":500,"output_tokens":70,"reasoning_output_tokens":0,"cache_write_input_tokens":0,"total_tokens":1070},"last_token_usage":{"input_tokens":1,"cached_input_tokens":0,"output_tokens":1,"reasoning_output_tokens":0,"cache_write_input_tokens":0,"total_tokens":2},"model_context_window":200000},"rate_limits":null}}

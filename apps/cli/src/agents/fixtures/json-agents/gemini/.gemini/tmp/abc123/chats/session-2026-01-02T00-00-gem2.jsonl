@@ -1,0 +1,4 @@
+{"sessionId":"gem-two","projectHash":"abc123","startTime":"2026-01-02T00:00:00.000Z","kind":"main"}
+{"id":"a","timestamp":"2026-01-02T00:00:01.000Z","type":"user","content":[{"text":"fake prompt"}]}
+{"id":"b","timestamp":"2026-01-02T00:00:02.000Z","type":"gemini","content":"","model":"gemini-2.5-pro","tokens":{"input":10,"output":5,"cached":0,"thoughts":0,"tool":0,"total":15}}
+{"id":"b","timestamp":"2026-01-02T00:00:02.000Z","type":"gemini","content":"fake reply","model":"gemini-2.5-pro","tokens":{"input":20,"output":8,"cached":5,"thoughts":2,"tool":0,"total":30}}

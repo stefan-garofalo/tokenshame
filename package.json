@@ -16,7 +16,9 @@
       "effect": "4.1.2",
       "@effect/platform-node": "4.1.2",
       "tsdown": "0.23.5",
-      "@types/node": "^26.4.1"
+      "@types/node": "^26.4.1",
+      "@effect/vitest": "4.1.2",
+      "vitest": "5.1.0"
     }
   },
   "type": "module",
@@ -24,6 +26,7 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "check-types": "turbo run check-types",
+    "test": "turbo run test",
     "dev:web": "turbo run dev -F web --",
     "env:generate": "varlock codegen --path ./apps/web/",
     "postinstall": "varlock codegen --path ./apps/web/",
@@ -43,7 +46,8 @@
     "oxlint": "1.90.0",
     "turbo": "^2.11.7",
     "typescript": "catalog:",
-    "varlock": "catalog:"
+    "varlock": "catalog:",
+    "vitest": "catalog:"
   },
   "packageManager": "bun@1.4.0"
 }

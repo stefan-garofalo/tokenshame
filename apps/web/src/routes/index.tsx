@@ -1,7 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { HomePage } from "../composition/routing";
+const repoUrl = "https://github.com/stefan-garofalo/tokenshame";
 
 export const Route = createFileRoute("/")({
-  component: HomePage,
+  beforeLoad: () => {
+    throw redirect({ href: repoUrl, statusCode: 308 });
+  },
 });

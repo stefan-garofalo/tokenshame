@@ -1,1 +1,137 @@
 @import "@tokenshame/ui/globals.css";
+
+/*
+ * The look of the Share Page, the broken-link page and the Share Card.
+ * Idea: a month of agent work, open in a code editor. Figures are number literals in the theme's
+ * accent; the editor fragments carry the theme's terminal colours.
+ *
+ * Colour follows Omarchy's theme files (github.com/basecamp/omarchy, themes/<name>/colors.toml):
+ * each token below names the colors.toml slot it comes from. Dark is Matte Black, the black
+ * theme, and is the default; light is Flexoki Light. The Share Card reads the dark values.
+ */
+
+@font-face {
+  font-display: block;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 800;
+  src: url("./composition/routing/pages/share/fonts/jetbrains-mono-latin-800.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./composition/routing/pages/share/fonts/jetbrains-mono-latin-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./composition/routing/pages/share/fonts/jetbrains-mono-latin-400.woff2") format("woff2");
+}
+
+:root {
+  /* Colour, dark: Omarchy Matte Black. */
+  color-scheme: dark light;
+  --ts-bg: #090909; /* darker_background */
+  --ts-surface: #121212; /* background */
+  --ts-raised: #1e1e1e; /* lighter_background */
+  --ts-bar: #2a2a2a; /* selection */
+  --ts-ink: #eaeaea; /* bright_cyan */
+  --ts-muted: #8a8a8d; /* light_foreground */
+  --ts-faint: #555555; /* dark_foreground */
+  --ts-accent: #e68e0d; /* accent */
+  --ts-accent-ink: #090909; /* darker_background */
+  --ts-syn-key: #d35f5f; /* red */
+  --ts-syn-str: #ffc107; /* green */
+  --ts-syn-prop: #bebebe; /* foreground */
+  --ts-syn-err: #d35f5f; /* magenta */
+
+  /* Type: one monospace family. Display is weight 800, tightened; text is 400 and 500. */
+  --ts-font: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ts-display-weight: 800;
+  --ts-display-tracking: -0.04em;
+  --ts-display-leading: 0.95;
+  --ts-step-small: 0.8125rem;
+  --ts-step-body: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
+  --ts-step-lead: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --ts-step-head: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  --ts-step-figure: clamp(3.25rem, 1.6rem + 6.5vw, 7rem);
+
+  /* Space: one page margin, one gap between tiles, one padding inside a tile, one gap between sections. */
+  --ts-gap: 8px;
+  --ts-margin: clamp(16px, 2.8vw, 40px);
+  --ts-pad: clamp(1.25rem, 2.2vw, 1.75rem);
+  --ts-section: clamp(5rem, 11vw, 10rem);
+
+  /* Motion */
+  --ts-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ts-t-press: 140ms;
+  --ts-t-hover: 180ms;
+  --ts-t-reveal: 700ms;
+}
+
+/* Colour, light: Omarchy Flexoki Light, for a device set to light mode. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --ts-bg: #fffcf0; /* background */
+    --ts-surface: #f2efe4; /* dark_background */
+    --ts-raised: #e6e4d9; /* lighter_background */
+    --ts-bar: #cecdc3; /* selection */
+    --ts-ink: #100f0f; /* foreground */
+    --ts-muted: #575653; /* Flexoki base-700: light_foreground is too close to ink, tx-2 too faint on the tiles */
+    --ts-faint: #878580; /* dark_foreground */
+    --ts-accent: #205ea6; /* accent */
+    --ts-accent-ink: #fffcf0; /* background */
+    /* The colors.toml terminal colours are too light for text on paper, so code uses Flexoki's darker shades. */
+    --ts-syn-key: #a02f6f; /* Flexoki magenta-600 */
+    --ts-syn-str: #536907; /* Flexoki green-700 */
+    --ts-syn-prop: #1c6c66; /* Flexoki cyan-700 */
+    --ts-syn-err: #d14d41; /* red */
+  }
+}
+
+html {
+  -webkit-tap-highlight-color: transparent; /* no grey flash on tap; controls have their own :active */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Taps fire at once (no double-tap-zoom wait), and a long press on a control does not select its label. */
+a,
+button {
+  touch-action: manipulation;
+}
+
+button,
+.btn {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  background: var(--ts-bg);
+  color: var(--ts-ink);
+  font-family: var(--ts-font);
+  font-size: var(--ts-step-body);
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ts-accent);
+  outline-offset: 3px;
+}

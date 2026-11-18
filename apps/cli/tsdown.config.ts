@@ -1,9 +1,8 @@
 import { defineConfig } from "tsdown";
 
-// Effect and platform deps are devDependencies, so tsdown inlines them:
-// the published package has zero runtime dependencies to audit.
+// Effect, the platform deps, and @tokenshame/share-link are devDependencies, so tsdown
+// inlines them: the published package has zero runtime dependencies to audit.
 export default defineConfig({
-  copy: [{ from: "../web/dist/client", rename: "web", to: "dist" }],
   entry: ["src/index.ts"],
   platform: "node",
   target: "node22",
