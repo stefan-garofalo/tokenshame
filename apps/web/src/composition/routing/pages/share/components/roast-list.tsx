@@ -5,7 +5,7 @@ import { pictures } from "../pictures";
 export const RoastList = ({ lines }: { lines: readonly RoastLine[] }) => (
   <section aria-labelledby="log-title" className="log">
     <h2 className="log-title" id="log-title">
-      What that adds up to
+      The damage
     </h2>
     <ol className="log-list">
       {lines.map(({ figure, id, text, unit }) => {

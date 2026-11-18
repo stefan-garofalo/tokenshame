@@ -8,8 +8,8 @@ export const RunYourOwn = () => (
       <CommandBox />
     </h2>
     <p className="run-text">
-      It reads the usage logs your coding agents already keep on your machine and shows your own
-      last 30 days.
+      Your turn. It reads the usage logs your agents already keep on your machine and tells you what
+      you did.
     </p>
   </section>
 );

@@ -15,18 +15,21 @@ export interface RenderedLine {
 
 /**
  * One way to say an impact. `perBase` is how many of this rung's unit fit in the
- * impact's base unit. `text` gets the figure and the unit already joined.
+ * impact's base unit. `text` gets the figure and the unit already joined. A rung is
+ * used from `min` up (1 unless set). A `whole` rung counts whole units: people, not 3.4 of them.
  */
 interface Rung {
   perBase: number;
   one: string;
   many: string;
   text: (quantity: string) => string;
+  min?: number;
+  whole?: boolean;
 }
 
 interface Template {
   severity: number;
-  /** Largest unit first. The first rung that gives a figure of at least 1 wins. */
+  /** Largest unit first. The first rung that reaches its `min` wins. */
   rungs: readonly Rung[];
 }
 
@@ -40,52 +43,56 @@ const unitRung = (
   text: (quantity: string) => string,
 ): Rung => ({ perBase, one, many, text });
 
-const supplied = (quantity: string): string =>
-  `Your tokens drank enough water to supply a village of 1,000 people for ${quantity}.`;
+const parched = (quantity: string): string =>
+  `${quantity} went without their daily water minimum so you could ship that refactor.`;
 
-const heated = (quantity: string): string =>
-  `The GPUs behind your tokens gave off enough heat to warm a home for ${quantity}.`;
+const thirsty = (quantity: string): string =>
+  `One person went ${quantity} without their daily water minimum so you could ship that refactor.`;
 
 const coal = (quantity: string): string =>
-  `Your tokens put out as much CO2 as ${quantity} of Vindhyachal, India's most polluting coal plant.`;
+  `That's ${quantity} of Vindhyachal, India's dirtiest coal plant, running just for you.`;
 
 const cigarettes = (quantity: string): string =>
-  `At API prices your tokens cost as much as ${quantity}.`;
+  `You could have bought ${quantity} instead. Healthier, honestly.`;
 
 const flown = (quantity: string): string =>
-  `Your tokens emitted the CO2 of ${quantity} from London to New York, one way, economy.`;
+  `Same CO2 as ${quantity} from London to New York, minus the free snacks.`;
 
-const absorbed = (quantity: string): string =>
-  `It takes ${quantity} to absorb the CO2 your tokens made.`;
-
-const emitted = (quantity: string): string => `Your tokens put ${quantity} of CO2 into the air.`;
-
-const asMuchText = (quantity: string): string => `Your tokens hold as much text as ${quantity}.`;
+const asMuchText = (quantity: string): string =>
+  `That's as much text as ${quantity}. Mostly to rename a variable.`;
 
 const reading = (quantity: string): string =>
-  `Reading all of the output would take you ${quantity}.`;
+  `Reading all that output would take you ${quantity}. You skimmed it.`;
+
+const absorbed = (quantity: string): string => `That's ${quantity} to clean up after you.`;
+
+const heated = (quantity: string): string =>
+  `The GPUs behind your tokens could have heated a home for ${quantity}. Cozy.`;
+
+const emitted = (quantity: string): string => `You put ${quantity} of CO2 into the air. For vibes.`;
 
 const laptops = (quantity: string): string =>
-  `The electricity behind your tokens adds up to ${quantity}.`;
+  `That's ${quantity}. Your battery anxiety could never.`;
 
 const floppies = (quantity: string): string =>
-  `Saved as plain text, your tokens would fill ${quantity}.`;
+  `Saved as plain text, that's ${quantity}. Ask your dad what those are.`;
 
 /**
- * Public copy. Lines blame the reader ("you did this"), stay concrete, and state one comparison
- * without a punchline. The damage comes first: water, coal, cigarettes, flights, trees, heat,
+ * Public copy. A meme, not a report: each line blames the reader ("you did this"), keeps one
+ * real number from a cited source, and ends deadpan. The damage comes first: water, coal, cigarettes, flights, trees, heat,
  * CO2; then what the same tokens are in text, reading time, laptop charges and floppy disks.
  * They never use the word "cache" and never mention ozone.
  */
 const templates = {
-  villages: {
+  water: {
     severity: 9,
+    // Person-days of the WHO minimum. From three, count people; below, how long one person went without.
     rungs: [
-      unitRung(1 / days, "year", "years", supplied),
-      unitRung(1, "day", "days", supplied),
-      unitRung(24, "hour", "hours", supplied),
-      unitRung(1440, "minute", "minutes", supplied),
-      unitRung(86_400, "second", "seconds", supplied),
+      { ...unitRung(1, "person", "people", parched), min: 3, whole: true },
+      unitRung(1, "day", "days", thirsty),
+      unitRung(24, "hour", "hours", thirsty),
+      unitRung(1440, "minute", "minutes", thirsty),
+      unitRung(86_400, "second", "seconds", thirsty),
     ],
   },
   coal: {
@@ -114,7 +121,7 @@ const templates = {
   wikipedia: {
     severity: 7,
     rungs: [
-      unitRung(1, "copy of English Wikipedia", "copies of English Wikipedia", asMuchText),
+      unitRung(1, "English Wikipedia", "English Wikipedias", asMuchText),
       unitRung(100, "percent of English Wikipedia", "percent of English Wikipedia", asMuchText),
     ],
   },
@@ -190,15 +197,16 @@ export const formatFigure = (value: number): string => {
 
 export const render = (id: ImpactId, amount: number): RenderedLine => {
   const { severity, rungs } = templates[id];
-  // The largest unit that gives a figure of at least 1, or the smallest unit when none does.
+  // The largest unit that reaches its minimum, or the smallest unit when none does.
   let [chosen] = rungs;
   for (const rung of rungs) {
     chosen = rung;
-    if (amount * rung.perBase >= 1) {
+    if (amount * rung.perBase >= (rung.min ?? 1)) {
       break;
     }
   }
-  const value = amount * chosen.perBase;
+  const raw = amount * chosen.perBase;
+  const value = chosen.whole === true ? Math.floor(raw) : raw;
   const figure = formatFigure(value);
   const unit = figure === "1" ? chosen.one : chosen.many;
   return { id, text: chosen.text(`${figure} ${unit}`), figure, unit, value, severity };

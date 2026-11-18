@@ -264,3 +264,11 @@ Owner direction: theme the page with Omarchy's theming, with a black dark mode, 
 - Phone: `viewport-fit=cover` with safe-area padding, `theme-color` per scheme, no tap highlight, `touch-action: manipulation` on links and buttons, no text selection on controls, press feedback on the tiles, the slider keeps vertical page scroll (`touch-action: pan-y`). The nav keeps one link on a phone, the editor fits the screen instead of cropping the code, the hours block drops its full-screen height, the footer tiles go full width. The root shell uses `min-h-svh`, not a fixed `h-svh`.
 - Bug found while testing on a phone-size viewport: an edit had turned the Roast Line sentences into `display: none` below 48em, so phones showed figures without sentences. Fixed; the sentences render at every width.
 - Inspector (light scheme, the headless default): 0 FAIL. WARN palette-cream is Flexoki's paper colour, chosen as the Omarchy light theme. Real-device checks still needed: tap feel, safe areas in landscape, the slider under a thumb.
+
+## Revision: a meme, not a report (2026-11-18)
+
+Owner direction, from colleagues' feedback: the page read too serious; make it cynical and sassy, a meme, and turn the water comparison into people going without water, worded gently ("couldn't meet their water minimum", not "killed").
+
+- Water: the line counts person-days of the WHO 20-litre daily minimum. Below three person-days it says how long one person went without; from three it counts whole people. The `villagePopulation` factor is gone; the id is now `water`.
+- Every Roast Line keeps its cited number and ends deadpan ("Healthier, honestly.", "You skimmed it.", "For vibes."). Lines that can reach the card avoid the word "agent".
+- Page copy follows: "No judgment. Some judgment.", "The damage", "Peak shame hour", "Get roasted", the X post "I am not okay.", the broken link "skill issue".

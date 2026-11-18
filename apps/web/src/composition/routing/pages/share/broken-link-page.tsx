@@ -8,7 +8,7 @@ import { command } from "./links";
 import { Nav } from "./share-page";
 import "./share.css";
 
-const errorComment = "// the link is damaged or cut short";
+const errorComment = "// link is damaged or cut short. skill issue";
 
 /** Shown for a link that does not decode. It sends the visitor to get a fresh roast. */
 export const BrokenLinkPage = () => (
@@ -19,7 +19,7 @@ export const BrokenLinkPage = () => (
         <Prompt />
         <Lockup lines={["this roast is broken.", `Run ${command}`]} />
         <p className="statement">
-          One command makes a new one: <CommandBox />
+          Even the roast gave up. Make a new one: <CommandBox />
         </p>
       </div>
       <div className="stage">

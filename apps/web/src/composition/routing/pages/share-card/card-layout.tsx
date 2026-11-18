@@ -157,7 +157,7 @@ const BrokenCard = ({ domain }: { domain: string }) => (
       <div style={{ display: "flex", flexDirection: "column", rowGap: 24 }}>
         <Lockup lines={["this roast is broken.", `Run ${command}`]} />
         <div style={{ display: "flex", fontSize: 28, fontWeight: textWeight, lineHeight: 1.3 }}>
-          The link is damaged or cut short. One command makes a new one.
+          Even the roast gave up. Make a new one.
         </div>
       </div>
       <Domain domain={domain} />

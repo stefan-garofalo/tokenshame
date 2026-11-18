@@ -55,15 +55,15 @@ export const SharePage = ({ roast }: { roast: ShareView }) => {
           <Lockup lines={[figure, label]} />
           <p className="statement">
             {hasLines
-              ? "What your coding agents got through in the last 30 days."
-              : "Nothing to roast: no usage in the last 30 days."}
+              ? "Your coding agents, last 30 days. No judgment. Some judgment."
+              : "Nothing to roast: no usage in the last 30 days. Suspiciously clean."}
           </p>
           <div className="actions">
             <PostOnXSlot>
               {sharePath && (
                 <PostOnXButton
                   pageUrl={`${ENV.SITE_ORIGIN}${sharePath}`}
-                  text={`My coding agents processed ${figure} tokens in the last 30 days.`}
+                  text={`My coding agents burned through ${figure} tokens in 30 days. I am not okay.`}
                 />
               )}
             </PostOnXSlot>

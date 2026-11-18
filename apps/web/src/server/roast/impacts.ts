@@ -3,7 +3,7 @@ import type { Summary, Tokens } from "@tokenshame/share-link/summary";
 import { factors } from "./factors";
 
 export type ImpactId =
-  | "villages"
+  | "water"
   | "coal"
   | "packs"
   | "flights"
@@ -17,7 +17,7 @@ export type ImpactId =
 
 /**
  * One Impact Estimate. `amount` is in the id's base unit:
- * villages: village-days supplied, coal: plant-hours, packs: packs of cigarettes,
+ * water: person-days of the WHO minimum of water, coal: plant-hours, packs: packs of cigarettes,
  * flights: one-way flights, trees: tree-years, homes: home-years of heating,
  * tons: tons of CO2, wikipedia: copies of English Wikipedia, reading: working days
  * of reading, laptops: full laptop charges, floppies: floppy disks.
@@ -67,10 +67,9 @@ export const impactsOf = ({ tokens, output, weighted, costUsd }: ImpactBase): re
   const kwh = weighted * factors.energyPerToken.value;
   const tons = (kwh * factors.gridCo2.value) / 1_000_000;
   const litres = kwh * factors.waterPerKwh.value;
-  const villageLitresPerDay = factors.villagePopulation.value * factors.waterPerPerson.value;
 
   const all: readonly Impact[] = [
-    { id: "villages", amount: litres / villageLitresPerDay },
+    { id: "water", amount: litres / factors.waterPerPerson.value },
     { id: "coal", amount: (tons / factors.coalPlantCo2.value) * hoursPerYear },
     { id: "packs", amount: costUsd / factors.cigarettePackPrice.value },
     { id: "flights", amount: tons / factors.flightCo2.value },

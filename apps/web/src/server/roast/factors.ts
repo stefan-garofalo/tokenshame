@@ -80,12 +80,6 @@ export const factors = {
     "https://www.odyssee-mure.eu/publications/efficiency-by-sector/households/household-eu.pdf",
     "EU average, 0.74 toe per dwelling (ODYSSEE-MURE, from Eurostat), at 11,630 kWh per toe. The range across member states is about 700 to 16,500 kWh. All GPU electricity ends up as heat.",
   ),
-  villagePopulation: factor(
-    1000,
-    "people per village",
-    "https://en.wikipedia.org/wiki/2011_Census_of_India",
-    "Round number chosen by us. The 2011 Census of India counts 833,087,662 rural people in more than 600,000 villages, about 1,300 per village on average. Many villages are smaller.",
-  ),
   waterPerPerson: factor(
     20,
     "litres per person per day",

@@ -74,9 +74,9 @@ describe("same link, same lines (AC-037, INV-003)", () => {
 
   it("puts the most dreadful comparison first and keeps the next two for the card", () => {
     const { lines, cardLines } = roast(fixture);
-    expect(lines[0].id).toBe("villages");
+    expect(lines[0].id).toBe("water");
     expect(new Set(cardLines.map(({ id }) => id))).toStrictEqual(
-      new Set(["coal", "packs", "villages"]),
+      new Set(["coal", "packs", "water"]),
     );
   });
 
@@ -101,7 +101,7 @@ describe("weighted tokens (AC-034)", () => {
     // Same weighted tokens, so every line computed from energy is the same.
     const energy = ({ lines }: typeof cacheOnly) =>
       lines.filter(({ id }) =>
-        ["coal", "flights", "homes", "laptops", "tons", "trees", "villages"].includes(id),
+        ["coal", "flights", "homes", "laptops", "tons", "trees", "water"].includes(id),
       );
     expect(energy(cacheOnly)).toStrictEqual(energy(inputOnly));
   });
@@ -199,7 +199,7 @@ describe("public copy (AC-033)", () => {
 describe("comparison set (AC-036)", () => {
   const byId = Object.fromEntries(roast(fixture).lines.map((line) => [line.id, line]));
 
-  it("covers villages, flights, tons, coal, trees, homes, a vice, and the text the tokens hold", () => {
+  it("covers water, flights, tons, coal, trees, homes, a vice, and the text the tokens hold", () => {
     expect(new Set(Object.keys(byId))).toStrictEqual(
       new Set([
         "coal",
@@ -211,30 +211,38 @@ describe("comparison set (AC-036)", () => {
         "reading",
         "tons",
         "trees",
-        "villages",
+        "water",
         "wikipedia",
       ]),
     );
   });
 
-  it("names the coal plant, the flight route, the villages, the vice and Wikipedia", () => {
+  it("names the coal plant, the flight route, the water minimum, the vice and Wikipedia", () => {
     expect(byId.coal.text).toContain("Vindhyachal");
     expect(byId.flights.text).toContain("New York");
-    expect(byId.villages.text).toMatch(/village/iu);
+    expect(byId.water.text).toMatch(/water minimum/iu);
     expect(byId.packs.text).toMatch(/cigarette/iu);
     expect(byId.wikipedia.text).toContain("English Wikipedia");
   });
 
-  it("states each comparison without a punchline", () => {
-    for (const { text } of roast(fixture).lines) {
-      expect(text.split(". ")).toHaveLength(1);
-    }
+  it("counts how long one person went without water, then whole people from three person-days", () => {
+    // 20 liters is one person-day of the WHO minimum; 1.08 liters per kWh; 0.24 mWh per token.
+    const perPersonDay = 20 / 1.08 / 2.4e-7;
+    const water = (days: number) =>
+      withModel({ input: Math.round(days * perPersonDay) }).lines.find(({ id }) => id === "water");
+
+    expect(water(0.5)?.text).toMatch(/^One person went 12 hours without/u);
+    expect(water(2)?.text).toMatch(/^One person went 2 days without/u);
+    expect(water(7.6)?.text).toMatch(/^7 people went without/u);
   });
 
   it("reads the output tokens at the cited reading speed, eight hours a day", () => {
     const written = withModel({ output: 1_000_000 }).lines.find(({ id }) => id === "reading");
     // 1M tokens is 750,000 words; at 238 a minute and 480 minutes a day, 6.6 working days.
     expect(written?.figure).toBe("6.6");
+    expect(written?.text).toBe(
+      "Reading all that output would take you 6.6 working days. You skimmed it.",
+    );
     expect(written?.unit).toBe("working days");
   });
 });

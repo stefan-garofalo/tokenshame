@@ -24,7 +24,7 @@ export const Hours = ({ cost }: { cost: Roast["cost"] }) => {
   return (
     <section aria-labelledby="hours-title" className="hours">
       <h2 className="hours-title" id="hours-title">
-        What is an hour of your time worth?
+        What is an hour of you worth?
       </h2>
       <div className="rate" data-ui>
         <label className="rate-row" htmlFor={inputId}>
@@ -44,11 +44,11 @@ export const Hours = ({ cost }: { cost: Roast["cost"] }) => {
       </div>
       <p className="hours-figure">
         <span className="hours-number">{hours}</span>{" "}
-        <span className="hours-unit">{hours === "1.0" ? "hour" : "hours"} of your pay</span>
+        <span className="hours-unit">{hours === "1.0" ? "hour" : "hours"} of your salary</span>
       </p>
       <p className="hours-note">
-        At API list prices these tokens cost {cost.figure}, which is that many hours at your rate.
-        The slider starts at the median pay of US software developers.
+        At API prices this month cost {cost.figure}. The slider starts at the median US developer,
+        so adjust your ego accordingly.
       </p>
     </section>
   );

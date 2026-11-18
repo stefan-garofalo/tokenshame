@@ -5,7 +5,7 @@ import floppies from "./pictures/floppies.jpg";
 import laptops from "./pictures/laptops.jpg";
 import reading from "./pictures/reading.jpg";
 import trees from "./pictures/trees.jpg";
-import villages from "./pictures/villages.jpg";
+import water from "./pictures/water.jpg";
 import wikipedia from "./pictures/wikipedia.jpg";
 
 /**
@@ -35,14 +35,14 @@ const licences = {
 /** The picture of each Roast Line. */
 export const pictures = new Map<ImpactId, Picture>([
   [
-    "villages",
+    "water",
     {
       ...licences.bySa4,
       alt: "A hand pump for water under a tree at the edge of a village field",
       author: "Bhaveshkumar855",
       height: 720,
       page: "https://commons.wikimedia.org/wiki/File:Water_pump_in_Uttar_Pardesh,_India,_2014.jpg",
-      src: villages,
+      src: water,
       title: "Water pump in Uttar Pardesh, India, 2014",
       width: 960,
     },

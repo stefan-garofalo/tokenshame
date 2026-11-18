@@ -8,7 +8,7 @@ const literal = (value: number): string =>
   String(Math.round(value)).replaceAll(/\B(?=(?:\d{3})+(?!\d))/gu, "_");
 
 // Code comments, kept as strings: in JSX a bare `//` would read as a comment.
-const headerComment = "// your last 30 days of usage";
+const headerComment = "// your last 30 days, no excuses";
 const costComment = "// API list prices";
 
 /** An hour of the day as `14:00`. */

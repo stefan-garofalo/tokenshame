@@ -39,9 +39,10 @@ const titleAndDescription = (data?: ShareLoaderData) => {
   }
   const [first] = data.lines;
   // A link with no usage has no Roast Lines to quote.
-  const quote = first?.text ?? "Nothing to roast: no usage in the last 30 days.";
+  const quote =
+    first?.text ?? "Nothing to roast: no usage in the last 30 days. Suspiciously clean.";
   return {
-    description: `${quote} Run ${command} to get yours.`,
+    description: `${quote} Run ${command} to get roasted.`,
     title: `${data.headline.figure} ${data.headline.label}`,
   };
 };

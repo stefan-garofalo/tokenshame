@@ -18,8 +18,8 @@ export const SiteFooter = ({
   <footer className="footer">
     <div className="tile tile-note">
       <p>
-        The link holds your usage numbers and nothing else. Your prompts and code stay on your
-        machine.
+        The link holds your numbers and nothing else. Your prompts stay private. Your shame does
+        not.
       </p>
     </div>
     <nav aria-label="More about tokenshame" className="tile tile-nav">
@@ -38,7 +38,7 @@ export const SiteFooter = ({
     {busiestHour !== undefined && (
       <div className="tile tile-hour">
         <p>
-          Your agents worked hardest at <span className="tok-num">{clock(busiestHour)}</span>.
+          Peak shame hour: <span className="tok-num">{clock(busiestHour)}</span>.
         </p>
       </div>
     )}
@@ -46,7 +46,7 @@ export const SiteFooter = ({
       <span style={{ fontSize: fitFontSize(name, 92) }}>{name}</span>
     </a>
     <a className="tile tile-go" href="#run">
-      <span>Run your own</span>
+      <span>Get roasted</span>
       <svg aria-hidden="true" className="tile-arrow" viewBox="0 0 48 48">
         <path d="M10 38 38 10M16 10h22v22" />
       </svg>
