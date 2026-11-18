@@ -1,9 +1,6 @@
 import type { ImpactId } from "../../../../server/roast";
 import coal from "./pictures/coal.jpg";
 import flights from "./pictures/flights.jpg";
-import floppies from "./pictures/floppies.jpg";
-import laptops from "./pictures/laptops.jpg";
-import reading from "./pictures/reading.jpg";
 import trees from "./pictures/trees.jpg";
 import water from "./pictures/water.jpg";
 import wikipedia from "./pictures/wikipedia.jpg";
@@ -87,19 +84,6 @@ export const pictures = new Map<ImpactId, Picture>([
     },
   ],
   [
-    "reading",
-    {
-      ...licences.pd,
-      alt: "Margaret Hamilton beside a stack of printed Apollo flight software listings as tall as she is",
-      author: "Draper Laboratory, restored by Adam Cuerden",
-      height: 960,
-      page: "https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg",
-      src: reading,
-      title: "Margaret Hamilton - restoration",
-      width: 772,
-    },
-  ],
-  [
     "flights",
     {
       ...licences.bySa2,
@@ -109,32 +93,6 @@ export const pictures = new Map<ImpactId, Picture>([
       page: "https://commons.wikimedia.org/wiki/File:WingOverLittlePuffyClouds-Mar2013_(35035579590).jpg",
       src: flights,
       title: "WingOverLittlePuffyClouds-Mar2013",
-      width: 960,
-    },
-  ],
-  [
-    "laptops",
-    {
-      ...licences.bySa4,
-      alt: "An open 16-inch MacBook Pro on a shop table, showing the Wikipedia home page",
-      author: "Premeditated",
-      height: 720,
-      page: "https://commons.wikimedia.org/wiki/File:MacBook_Pro_16_(M1_Pro,_2021)_-_Wikipedia.jpg",
-      src: laptops,
-      title: "MacBook Pro 16 (M1 Pro, 2021) - Wikipedia",
-      width: 960,
-    },
-  ],
-  [
-    "floppies",
-    {
-      ...licences.bySa4,
-      alt: "A clipped stack of black 3.5-inch floppy disks in a museum case",
-      author: "JIP",
-      height: 720,
-      page: "https://commons.wikimedia.org/wiki/File:Floppy_disks_and_ink_bottle_in_a_museum_at_the_Latvian_National_Library.jpg",
-      src: floppies,
-      title: "Floppy disks and ink bottle in a museum at the Latvian National Library",
       width: 960,
     },
   ],

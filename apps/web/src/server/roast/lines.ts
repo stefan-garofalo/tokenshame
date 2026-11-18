@@ -1,5 +1,4 @@
 import { factors } from "./factors";
-import { workdayMinutes } from "./impacts";
 import type { ImpactId } from "./impacts";
 
 /** A Roast Line before ranking. `value` is the number in `unit`, `figure` is how it reads. */
@@ -52,17 +51,11 @@ const thirsty = (quantity: string): string =>
 const coal = (quantity: string): string =>
   `That's ${quantity} of Vindhyachal, India's dirtiest coal plant, running just for you.`;
 
-const cigarettes = (quantity: string): string =>
-  `You could have bought ${quantity} instead. Healthier, honestly.`;
+const meals = (quantity: string): string =>
+  `Your API bill could have bought ${quantity} for kids in low-income countries. You bought a refactor.`;
 
 const flown = (quantity: string): string =>
   `Same CO2 as ${quantity} from London to New York, minus the free snacks.`;
-
-const asMuchText = (quantity: string): string =>
-  `That's as much text as ${quantity}. Mostly to rename a variable.`;
-
-const reading = (quantity: string): string =>
-  `Reading all that output would take you ${quantity}. You skimmed it.`;
 
 const absorbed = (quantity: string): string => `That's ${quantity} to clean up after you.`;
 
@@ -71,17 +64,19 @@ const heated = (quantity: string): string =>
 
 const emitted = (quantity: string): string => `You put ${quantity} of CO2 into the air. For vibes.`;
 
-const laptops = (quantity: string): string =>
-  `That's ${quantity}. Your battery anxiety could never.`;
+const chadPeople = (quantity: string): string =>
+  `${quantity} in Chad live on that much electricity for a whole year.`;
 
-const floppies = (quantity: string): string =>
-  `Saved as plain text, that's ${quantity}. Ask your dad what those are.`;
+const chadPerson = (quantity: string): string =>
+  `One person in Chad lives on that much electricity for ${quantity}.`;
+
+const unread = (quantity: string): string =>
+  `That's as much text as ${quantity}, and nobody is ever going to read it.`;
 
 /**
- * Public copy. A meme, not a report: each line blames the reader ("you did this"), keeps one
- * real number from a cited source, and ends deadpan. The damage comes first: water, coal, cigarettes, flights, trees, heat,
- * CO2; then what the same tokens are in text, reading time, laptop charges and floppy disks.
- * They never use the word "cache" and never mention ozone.
+ * Public copy. A meme, not a report: every line turns the tokens into a cost someone else pays,
+ * keeps one real number from a cited source, and ends deadpan. The damage is ranked by how bad
+ * it sounds. Lines never use the word "cache" and never mention ozone.
  */
 const templates = {
   water: {
@@ -104,25 +99,15 @@ const templates = {
       unitRung(3_600_000, "millisecond", "milliseconds", coal),
     ],
   },
-  packs: {
+  meals: {
     severity: 8,
-    rungs: [
-      unitRung(1, "pack of cigarettes", "packs of cigarettes", cigarettes),
-      unitRung(20, "cigarette", "cigarettes", cigarettes),
-    ],
+    rungs: [unitRung(1, "school meal", "school meals", meals)],
   },
   flights: {
     severity: 7,
     rungs: [
       unitRung(1, "flight", "flights", flown),
       unitRung(factors.flightKm.value, "kilometer of a flight", "kilometers of a flight", flown),
-    ],
-  },
-  wikipedia: {
-    severity: 7,
-    rungs: [
-      unitRung(1, "English Wikipedia", "English Wikipedias", asMuchText),
-      unitRung(100, "percent of English Wikipedia", "percent of English Wikipedia", asMuchText),
     ],
   },
   trees: {
@@ -142,14 +127,6 @@ const templates = {
       unitRung(525_600, "minute", "minutes", heated),
     ],
   },
-  reading: {
-    severity: 6,
-    rungs: [
-      unitRung(1, "working day", "working days", reading),
-      unitRung(8, "hour", "hours", reading),
-      unitRung(workdayMinutes, "minute", "minutes", reading),
-    ],
-  },
   tons: {
     severity: 5,
     rungs: [
@@ -158,13 +135,21 @@ const templates = {
       unitRung(1_000_000, "gram", "grams", emitted),
     ],
   },
-  laptops: {
-    severity: 5,
-    rungs: [unitRung(1, "full MacBook Pro charge", "full MacBook Pro charges", laptops)],
+  power: {
+    severity: 7,
+    // Person-years of Chad's electricity. From two, count people; below, how long one person lives on it.
+    rungs: [
+      { ...unitRung(1, "person", "people", chadPeople), min: 2, whole: true },
+      unitRung(days, "day", "days", chadPerson),
+      unitRung(hours, "hour", "hours", chadPerson),
+    ],
   },
-  floppies: {
-    severity: 4,
-    rungs: [unitRung(1, "floppy disk", "floppy disks", floppies)],
+  wikipedia: {
+    severity: 6,
+    rungs: [
+      unitRung(1, "English Wikipedia", "English Wikipedias", unread),
+      unitRung(100, "percent of English Wikipedia", "percent of English Wikipedia", unread),
+    ],
   },
 } satisfies Record<ImpactId, Template>;
 

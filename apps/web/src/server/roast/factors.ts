@@ -86,24 +86,11 @@ export const factors = {
     "https://iris.who.int/server/api/core/bitstreams/c1461987-2c3f-4e63-8f4c-7e44498e5644/content",
     "WHO basic access to water: at least 20 L per person per day, for drinking and basic hygiene. WHO calls it a guide, not a formal guideline.",
   ),
-  cigarettePackPrice: factor(
-    9.95,
-    "US dollars per pack of 20 cigarettes",
-    "https://tobaccoinsider.com/usa-cigarette-prices/",
-    "US average retail price of a mainstream brand, weighted by sales volume, with taxes (page posted 2026-08-26). The unweighted state average is $10.34.",
-  ),
   wordsPerToken: factor(
     0.75,
     "English words per token",
     "https://developers.openai.com/api/docs/concepts",
     "OpenAI's rule of thumb: a token is about 4 characters or 0.75 words of English text. Anthropic puts it near 3.5 characters, and newer Claude models make about 30% more tokens for the same text. Code differs from prose.",
-    added,
-  ),
-  charsPerToken: factor(
-    4,
-    "characters of English text per token",
-    "https://developers.openai.com/api/docs/concepts",
-    "Same rule of thumb as wordsPerToken. We count one byte per character, which holds for plain ASCII text.",
     added,
   ),
   wikipediaWords: factor(
@@ -113,25 +100,18 @@ export const factors = {
     "The last measured count, from 1 March 2026. The same page gives a larger running estimate that is not a measurement.",
     added,
   ),
-  readingWpm: factor(
-    238,
-    "words per minute, silent reading of English non-fiction",
-    "https://doi.org/10.1016/j.jml.2019.104047",
-    "Brysbaert, Journal of Memory and Language 109, 2019: a meta-analysis of 190 studies with 18,573 readers. Most adults read non-fiction at 175 to 300 words a minute. People read code more slowly than prose.",
+  schoolMealUsd: factor(
+    0.12,
+    "US dollars per school meal in a low-income country",
+    "https://www.info-cooperazione.it/wp-content/uploads/2025/10/WFP-0000168637.pdf",
+    "WFP, State of School Feeding Worldwide 2024, Annex II, Table A2.5: $22.09 per child per year in low-income countries, over 180 school days. The country data comes mostly from 2019 to 2024 surveys. Other estimates run from $0.25 to $0.55 a meal. The source is a copy of the WFP report; wfp.org blocks automated reads.",
     added,
   ),
-  floppyBytes: factor(
-    1_474_560,
-    "bytes on a 3.5-inch HD floppy disk",
-    "https://en.wikipedia.org/wiki/Disk_formatting",
-    "The formatted capacity sold as 1.44 MB: 80 tracks on each of 2 sides, 18 sectors of 512 bytes per track.",
-    added,
-  ),
-  laptopBatteryKwh: factor(
-    0.1,
-    "kWh in one full MacBook Pro 16-inch battery",
-    "https://www.apple.com/macbook-pro/specs/",
-    "Apple lists a 100-watt-hour battery and an actual rating of 99.6 Wh. Charging losses are left out.",
+  chadElectricityKwh: factor(
+    18.2,
+    "kWh of electricity generated per person per year in Chad",
+    "https://ourworldindata.org/grapher/per-capita-electricity-generation",
+    "Our World in Data, from Ember and the Energy Institute, 2024. It counts electricity generated, not used: Chad's grid loses some on the way, so a person there uses less.",
     added,
   ),
   devHourlyWage: factor(

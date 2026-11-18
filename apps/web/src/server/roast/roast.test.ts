@@ -76,7 +76,7 @@ describe("same link, same lines (AC-037, INV-003)", () => {
     const { lines, cardLines } = roast(fixture);
     expect(lines[0].id).toBe("water");
     expect(new Set(cardLines.map(({ id }) => id))).toStrictEqual(
-      new Set(["coal", "packs", "water"]),
+      new Set(["coal", "meals", "water"]),
     );
   });
 
@@ -84,11 +84,11 @@ describe("same link, same lines (AC-037, INV-003)", () => {
     const orders = new Set<string>();
     for (let sessions = 0; sessions < 300; sessions += 1) {
       const { lines } = roast({ ...fixture, sessions });
-      // In this summary the coal and packs lines tie for second place.
-      expect(lines[1].dread).toBe(lines[2].dread);
-      orders.add(`${lines[1].id}>${lines[2].id}`);
+      // In this summary the power and flights lines tie for fourth place.
+      expect(lines[3].dread).toBe(lines[4].dread);
+      orders.add(`${lines[3].id}>${lines[4].id}`);
     }
-    expect(orders).toStrictEqual(new Set(["coal>packs", "packs>coal"]));
+    expect(orders).toStrictEqual(new Set(["flights>power", "power>flights"]));
   });
 });
 
@@ -101,7 +101,7 @@ describe("weighted tokens (AC-034)", () => {
     // Same weighted tokens, so every line computed from energy is the same.
     const energy = ({ lines }: typeof cacheOnly) =>
       lines.filter(({ id }) =>
-        ["coal", "flights", "homes", "laptops", "tons", "trees", "water"].includes(id),
+        ["coal", "flights", "homes", "power", "tons", "trees", "water"].includes(id),
       );
     expect(energy(cacheOnly)).toStrictEqual(energy(inputOnly));
   });
@@ -199,16 +199,14 @@ describe("public copy (AC-033)", () => {
 describe("comparison set (AC-036)", () => {
   const byId = Object.fromEntries(roast(fixture).lines.map((line) => [line.id, line]));
 
-  it("covers water, flights, tons, coal, trees, homes, a vice, and the text the tokens hold", () => {
+  it("covers water, coal, school meals, flights, trees, homes, CO2, Chad's electricity and text", () => {
     expect(new Set(Object.keys(byId))).toStrictEqual(
       new Set([
         "coal",
         "flights",
-        "floppies",
         "homes",
-        "laptops",
-        "packs",
-        "reading",
+        "meals",
+        "power",
         "tons",
         "trees",
         "water",
@@ -217,12 +215,17 @@ describe("comparison set (AC-036)", () => {
     );
   });
 
-  it("names the coal plant, the flight route, the water minimum, the vice and Wikipedia", () => {
+  it("names the coal plant, the flight route, the water minimum and Wikipedia", () => {
     expect(byId.coal.text).toContain("Vindhyachal");
     expect(byId.flights.text).toContain("New York");
     expect(byId.water.text).toMatch(/water minimum/iu);
-    expect(byId.packs.text).toMatch(/cigarette/iu);
+
     expect(byId.wikipedia.text).toContain("English Wikipedia");
+  });
+
+  it("prices the bill in school meals and the power in Chad", () => {
+    expect(byId.meals.text).toMatch(/school meals/iu);
+    expect(byId.power.text).toContain("Chad");
   });
 
   it("counts how long one person went without water, then whole people from three person-days", () => {
@@ -234,16 +237,6 @@ describe("comparison set (AC-036)", () => {
     expect(water(0.5)?.text).toMatch(/^One person went 12 hours without/u);
     expect(water(2)?.text).toMatch(/^One person went 2 days without/u);
     expect(water(7.6)?.text).toMatch(/^7 people went without/u);
-  });
-
-  it("reads the output tokens at the cited reading speed, eight hours a day", () => {
-    const written = withModel({ output: 1_000_000 }).lines.find(({ id }) => id === "reading");
-    // 1M tokens is 750,000 words; at 238 a minute and 480 minutes a day, 6.6 working days.
-    expect(written?.figure).toBe("6.6");
-    expect(written?.text).toBe(
-      "Reading all that output would take you 6.6 working days. You skimmed it.",
-    );
-    expect(written?.unit).toBe("working days");
   });
 });
 

@@ -5,22 +5,20 @@ import { factors } from "./factors";
 export type ImpactId =
   | "water"
   | "coal"
-  | "packs"
+  | "meals"
   | "flights"
   | "trees"
   | "homes"
   | "tons"
-  | "wikipedia"
-  | "reading"
-  | "laptops"
-  | "floppies";
+  | "power"
+  | "wikipedia";
 
 /**
  * One Impact Estimate. `amount` is in the id's base unit:
- * water: person-days of the WHO minimum of water, coal: plant-hours, packs: packs of cigarettes,
+ * water: person-days of the WHO minimum of water, coal: plant-hours, meals: school meals,
  * flights: one-way flights, trees: tree-years, homes: home-years of heating,
- * tons: tons of CO2, wikipedia: copies of English Wikipedia, reading: working days
- * of reading, laptops: full laptop charges, floppies: floppy disks.
+ * tons: tons of CO2, power: person-years of electricity in Chad, wikipedia: copies of
+ * English Wikipedia.
  */
 export interface Impact {
   id: ImpactId;
@@ -31,8 +29,6 @@ export interface Impact {
 export interface ImpactBase {
   /** Tokens Processed: every count, unweighted. */
   tokens: number;
-  /** Output tokens: the text the agents wrote. */
-  output: number;
   /** Tokens that cost compute, see {@link weightedTokens}. */
   weighted: number;
   /** What the tokens would cost at API list prices. */
@@ -40,11 +36,6 @@ export interface ImpactBase {
 }
 
 const hoursPerYear = 8760;
-
-/** A working day of reading, in minutes: eight hours. */
-export const workdayMinutes = 8 * 60;
-
-const words = (tokens: number): number => tokens * factors.wordsPerToken.value;
 
 /** Tokens that cost compute: a cache read counts at the single weight from factors. */
 const weigh = ({ input, output, cacheRead, cacheWrite }: Tokens): number =>
@@ -55,15 +46,12 @@ const allTokens = (summary: Summary): readonly Tokens[] => [...summary.models, s
 export const weightedTokens = (summary: Summary): number =>
   allTokens(summary).reduce((total, tokens) => total + weigh(tokens), 0);
 
-export const outputTokens = (summary: Summary): number =>
-  allTokens(summary).reduce((total, { output }) => total + output, 0);
-
 /**
  * Impact Estimates for one summary. Energy, CO2 and water come from the weighted tokens; the
- * cigarettes from the cost; text volume and reading time from the raw counts. An impact of zero
+ * school meals from the cost; the text volume from the raw counts. An impact of zero
  * is left out: there is nothing to roast.
  */
-export const impactsOf = ({ tokens, output, weighted, costUsd }: ImpactBase): readonly Impact[] => {
+export const impactsOf = ({ tokens, weighted, costUsd }: ImpactBase): readonly Impact[] => {
   const kwh = weighted * factors.energyPerToken.value;
   const tons = (kwh * factors.gridCo2.value) / 1_000_000;
   const litres = kwh * factors.waterPerKwh.value;
@@ -71,17 +59,15 @@ export const impactsOf = ({ tokens, output, weighted, costUsd }: ImpactBase): re
   const all: readonly Impact[] = [
     { id: "water", amount: litres / factors.waterPerPerson.value },
     { id: "coal", amount: (tons / factors.coalPlantCo2.value) * hoursPerYear },
-    { id: "packs", amount: costUsd / factors.cigarettePackPrice.value },
+    { id: "meals", amount: costUsd / factors.schoolMealUsd.value },
     { id: "flights", amount: tons / factors.flightCo2.value },
     { id: "trees", amount: tons / factors.treeCo2.value },
     { id: "homes", amount: kwh / factors.homeHeating.value },
     { id: "tons", amount: tons },
-    { id: "wikipedia", amount: words(tokens) / factors.wikipediaWords.value },
-    { id: "reading", amount: words(output) / factors.readingWpm.value / workdayMinutes },
-    { id: "laptops", amount: kwh / factors.laptopBatteryKwh.value },
+    { id: "power", amount: kwh / factors.chadElectricityKwh.value },
     {
-      id: "floppies",
-      amount: (tokens * factors.charsPerToken.value) / factors.floppyBytes.value,
+      id: "wikipedia",
+      amount: (tokens * factors.wordsPerToken.value) / factors.wikipediaWords.value,
     },
   ];
   return all.filter(({ amount }) => amount > 0);
