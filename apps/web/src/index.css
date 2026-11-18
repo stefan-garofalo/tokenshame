@@ -2,9 +2,12 @@
 
 /*
  * The look of the Share Page, the broken-link page and the Share Card.
- * Idea: a month of agent work, open in a code editor on a black screen. Figures are number literals
- * in the one amber accent; the editor fragments carry the other syntax colours. The Share Card reads
- * these tokens and nothing else.
+ * Idea: a month of agent work, open in a code editor. Figures are number literals in the theme's
+ * accent; the editor fragments carry the theme's terminal colours.
+ *
+ * Colour follows Omarchy's theme files (github.com/basecamp/omarchy, themes/<name>/colors.toml):
+ * each token below names the colors.toml slot it comes from. Dark is Matte Black, the black
+ * theme, and is the default; light is Flexoki Light. The Share Card reads the dark values.
  */
 
 @font-face {
@@ -32,21 +35,21 @@
 }
 
 :root {
-  /* Colour: a black editor theme. Pure black ground, a surface one step up for panels and tiles,
-     raised for tab bars and controls. One amber accent for figures and the main action; the
-     syntax colours appear only inside editor fragments. */
-  --ts-bg: #000000;
-  --ts-surface: #0d0d0d;
-  --ts-raised: #171717;
-  --ts-bar: #262626;
-  --ts-ink: #ededed;
-  --ts-muted: #9a9a9a;
-  --ts-accent: #ffb454;
-  --ts-accent-ink: #000000;
-  --ts-syn-key: #ff8f40;
-  --ts-syn-str: #aad94c;
-  --ts-syn-prop: #59c2ff;
-  --ts-syn-err: #f07178;
+  /* Colour, dark: Omarchy Matte Black. */
+  color-scheme: dark light;
+  --ts-bg: #090909; /* darker_background */
+  --ts-surface: #121212; /* background */
+  --ts-raised: #1e1e1e; /* lighter_background */
+  --ts-bar: #2a2a2a; /* selection */
+  --ts-ink: #eaeaea; /* bright_cyan */
+  --ts-muted: #8a8a8d; /* light_foreground */
+  --ts-faint: #555555; /* dark_foreground */
+  --ts-accent: #e68e0d; /* accent */
+  --ts-accent-ink: #090909; /* darker_background */
+  --ts-syn-key: #d35f5f; /* red */
+  --ts-syn-str: #ffc107; /* green */
+  --ts-syn-prop: #bebebe; /* foreground */
+  --ts-syn-err: #d35f5f; /* magenta */
 
   /* Type: one monospace family. Display is weight 800, tightened; text is 400 and 500. */
   --ts-font: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -72,9 +75,43 @@
   --ts-t-reveal: 700ms;
 }
 
+/* Colour, light: Omarchy Flexoki Light, for a device set to light mode. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --ts-bg: #fffcf0; /* background */
+    --ts-surface: #f2efe4; /* dark_background */
+    --ts-raised: #e6e4d9; /* lighter_background */
+    --ts-bar: #cecdc3; /* selection */
+    --ts-ink: #100f0f; /* foreground */
+    --ts-muted: #575653; /* Flexoki base-700: light_foreground is too close to ink, tx-2 too faint on the tiles */
+    --ts-faint: #878580; /* dark_foreground */
+    --ts-accent: #205ea6; /* accent */
+    --ts-accent-ink: #fffcf0; /* background */
+    /* The colors.toml terminal colours are too light for text on paper, so code uses Flexoki's darker shades. */
+    --ts-syn-key: #a02f6f; /* Flexoki magenta-600 */
+    --ts-syn-str: #536907; /* Flexoki green-700 */
+    --ts-syn-prop: #1c6c66; /* Flexoki cyan-700 */
+    --ts-syn-err: #d14d41; /* red */
+  }
+}
+
 html {
+  -webkit-tap-highlight-color: transparent; /* no grey flash on tap; controls have their own :active */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+/* Taps fire at once (no double-tap-zoom wait), and a long press on a control does not select its label. */
+a,
+button {
+  touch-action: manipulation;
+}
+
+button,
+.btn {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 body {

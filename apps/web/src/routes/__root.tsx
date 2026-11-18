@@ -11,7 +11,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     links: [{ href: appCss, rel: "stylesheet" }],
     meta: [
       { charSet: "utf-8" },
-      { content: "width=device-width, initial-scale=1", name: "viewport" },
+      { content: "width=device-width, initial-scale=1, viewport-fit=cover", name: "viewport" },
+      // The browser chrome takes the page's top colour: Omarchy Matte Black, or Flexoki Light.
+      { content: "#090909", media: "(prefers-color-scheme: dark)", name: "theme-color" },
+      { content: "#fffcf0", media: "(prefers-color-scheme: light)", name: "theme-color" },
+      { content: "dark light", name: "color-scheme" },
       { title: "tokenshame" },
     ],
   }),

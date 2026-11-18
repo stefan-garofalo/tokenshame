@@ -1,15 +1,15 @@
-// The Share Card draws no stylesheet, so it copies the tokens of `src/index.css` (the `--ts-*` custom
-// properties). `share-card.test.tsx` fails when a value drifts from the Share Page's.
+// The Share Card draws no stylesheet, so it copies the dark (Omarchy Matte Black) tokens of
+// `src/index.css` (the `--ts-*` custom properties). `share-card.test.tsx` fails when a value drifts from the Share Page's.
 
 export const colors = {
-  accent: "#ffb454",
-  accentInk: "#000000",
-  bar: "#262626",
-  bg: "#000000",
-  ink: "#ededed",
-  muted: "#9a9a9a",
-  raised: "#171717",
-  surface: "#0d0d0d",
+  accent: "#e68e0d",
+  accentInk: "#090909",
+  bar: "#2a2a2a",
+  bg: "#090909",
+  ink: "#eaeaea",
+  muted: "#8a8a8d",
+  raised: "#1e1e1e",
+  surface: "#121212",
 } as const;
 
 export const family = "JetBrains Mono";
