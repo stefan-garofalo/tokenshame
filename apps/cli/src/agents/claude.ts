@@ -64,7 +64,7 @@ const LogLine = Schema.Struct({
 const decodeCache = Schema.decodeUnknownOption(Schema.fromJsonString(StatsCache));
 const decodeLogLine = Schema.decodeUnknownOption(Schema.fromJsonString(LogLine));
 
-/** A usage record from the logs; `key` is set when the line can be de-duplicated. */
+/** A usage record from the logs; `key` is set when the line has a message id to de-duplicate on. */
 interface LoggedMessage {
   readonly key: string | undefined;
   readonly record: UsageRecord;
@@ -172,29 +172,29 @@ const parseLog = (text: string, fileSession: string): LoggedMessage[] =>
           if (Number.isNaN(record.at) || !hasTokens(record)) {
             return [];
           }
-          const key =
-            message.id !== undefined && requestId !== undefined
-              ? `${message.id}:${requestId}`
-              : undefined;
+          // Newer Claude Code versions write no requestId, so the message id alone is the key.
+          const key = message.id === undefined ? undefined : `${message.id}:${requestId ?? ""}`;
           return [{ key, record }];
         },
       }),
     );
 
-/** Keep the first line of each `message.id` + `requestId`; lines with no such pair always count. */
+/**
+ * Keep one line per message. Claude Code writes a line for each content block of a message, and
+ * the counts grow while it streams, so the last line of a `message.id` (+ `requestId`) is the
+ * final one. Lines with no message id always count.
+ */
 const uniqueRecords = (messages: readonly LoggedMessage[]): UsageRecord[] => {
-  const seen = new Set<string>();
+  const byKey = new Map<string, UsageRecord>();
   const records: UsageRecord[] = [];
   for (const { key, record } of messages) {
-    if (key !== undefined) {
-      if (seen.has(key)) {
-        continue;
-      }
-      seen.add(key);
+    if (key === undefined) {
+      records.push(record);
+    } else {
+      byKey.set(key, record);
     }
-    records.push(record);
   }
-  return records;
+  return [...records, ...byKey.values()];
 };
 
 const message = (error: PlatformError): string => error.message;

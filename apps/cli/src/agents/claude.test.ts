@@ -54,6 +54,16 @@ describe(readClaude, () => {
     }),
   );
 
+  it.effect("counts a message once when its lines have no requestId, and keeps the last line", () =>
+    Effect.map(readRecords("no-request-id"), (records) => {
+      // Claude Code writes one line per content block of a message, with no requestId.
+      // The output count grows while the message streams, so the last line is the final one.
+      assert.deepStrictEqual(totalsByModel(records), [
+        ["claude-sonnet-4-5-20250929", 5, 403, 3000, 110],
+      ]);
+    }),
+  );
+
   it.effect("reads the logs alone when stats-cache.json is missing", () =>
     Effect.map(readRecords("duplicates"), (records) => {
       assert.strictEqual(records.length, 3);
