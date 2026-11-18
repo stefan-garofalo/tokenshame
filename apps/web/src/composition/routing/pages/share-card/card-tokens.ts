@@ -2,14 +2,14 @@
 // properties). `share-card.test.tsx` fails when a value drifts from the Share Page's.
 
 export const colors = {
-  accent: "#c6f19d",
-  accentInk: "#0b140b",
-  bar: "#1a251a",
-  bg: "#050805",
-  ink: "#e8f2e5",
-  muted: "#8a9a88",
-  raised: "#121a12",
-  surface: "#0b110b",
+  accent: "#ffb454",
+  accentInk: "#000000",
+  bar: "#262626",
+  bg: "#000000",
+  ink: "#ededed",
+  muted: "#9a9a9a",
+  raised: "#171717",
+  surface: "#0d0d0d",
 } as const;
 
 export const family = "JetBrains Mono";

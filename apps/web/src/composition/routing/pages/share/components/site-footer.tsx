@@ -1,29 +1,56 @@
 import type { ReactNode } from "react";
 
 import { fitFontSize } from "../fit-width";
-import { repoUrl } from "../links";
-import { Bar } from "./bar";
+import { npmUrl, repoUrl } from "../links";
+import { HowWeCalculated } from "./how-we-calculated";
+import { clock } from "./month-file";
 
 const name = "tokenshame";
 
-/** The close: one honest sentence about what the link holds, and the name again at full width. */
-export const SiteFooter = ({ children }: { children?: ReactNode }) => (
+/** The close: a board of tiles, the name again at full width, and the way back to the command. */
+export const SiteFooter = ({
+  busiestHour,
+  children,
+}: {
+  busiestHour?: number;
+  children?: ReactNode;
+}) => (
   <footer className="footer">
-    <div className="pane footer-note-pane">
-      <Bar title="privacy" />
-      <p className="footer-note">
-        The link carries the numbers and nothing else. No prompts, no account.
+    <div className="tile tile-note">
+      <p>
+        The link holds your usage numbers and nothing else. Your prompts and code stay on your
+        machine.
       </p>
     </div>
-    <div className="pane pane-raised footer-links-pane">
-      <Bar title="source" />
-      <a href={repoUrl}>Source on GitHub</a>
-    </div>
-    <div className="pane footer-mark-pane">
-      <a className="footer-mark" href={repoUrl} style={{ fontSize: fitFontSize(name) }}>
-        {name}
-      </a>
-    </div>
+    <nav aria-label="More about tokenshame" className="tile tile-nav">
+      <ul>
+        <li>
+          <HowWeCalculated />
+        </li>
+        <li>
+          <a href={repoUrl}>Source on GitHub</a>
+        </li>
+        <li>
+          <a href={npmUrl}>tokenshame on npm</a>
+        </li>
+      </ul>
+    </nav>
+    {busiestHour !== undefined && (
+      <div className="tile tile-hour">
+        <p>
+          Your agents worked hardest at <span className="tok-num">{clock(busiestHour)}</span>.
+        </p>
+      </div>
+    )}
+    <a className="tile tile-mark" href={repoUrl}>
+      <span style={{ fontSize: fitFontSize(name, 92) }}>{name}</span>
+    </a>
+    <a className="tile tile-go" href="#run">
+      <span>Run your own</span>
+      <svg aria-hidden="true" className="tile-arrow" viewBox="0 0 48 48">
+        <path d="M10 38 38 10M16 10h22v22" />
+      </svg>
+    </a>
     {children}
   </footer>
 );

@@ -2,8 +2,9 @@
 
 /*
  * The look of the Share Page, the broken-link page and the Share Card.
- * Idea: the terminal session that made the link becomes a board of panes, like tmux, on a dark ground. The token
- * count is the first pane, every Roast Line is a pane of output with a title bar. The Share Card reads these tokens and nothing else.
+ * Idea: a month of agent work, open in a code editor on a black screen. Figures are number literals
+ * in the one amber accent; the editor fragments carry the other syntax colours. The Share Card reads
+ * these tokens and nothing else.
  */
 
 @font-face {
@@ -31,16 +32,21 @@
 }
 
 :root {
-  /* Colour: a dark terminal. Near-black ground, panes one step lighter, a title bar one step more, one lime
-     accent for figures and the action. Text is a soft white-green at 15:1. */
-  --ts-bg: #050805;
-  --ts-surface: #0b110b;
-  --ts-raised: #121a12;
-  --ts-bar: #1a251a;
-  --ts-ink: #e8f2e5;
-  --ts-muted: #8a9a88;
-  --ts-accent: #c6f19d;
-  --ts-accent-ink: #0b140b;
+  /* Colour: a black editor theme. Pure black ground, a surface one step up for panels and tiles,
+     raised for tab bars and controls. One amber accent for figures and the main action; the
+     syntax colours appear only inside editor fragments. */
+  --ts-bg: #000000;
+  --ts-surface: #0d0d0d;
+  --ts-raised: #171717;
+  --ts-bar: #262626;
+  --ts-ink: #ededed;
+  --ts-muted: #9a9a9a;
+  --ts-accent: #ffb454;
+  --ts-accent-ink: #000000;
+  --ts-syn-key: #ff8f40;
+  --ts-syn-str: #aad94c;
+  --ts-syn-prop: #59c2ff;
+  --ts-syn-err: #f07178;
 
   /* Type: one monospace family. Display is weight 800, tightened; text is 400 and 500. */
   --ts-font: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -53,11 +59,11 @@
   --ts-step-head: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
   --ts-step-figure: clamp(3.25rem, 1.6rem + 6.5vw, 7rem);
 
-  /* Space: one gap between panes, one margin around the board, one padding inside a pane. */
+  /* Space: one page margin, one gap between tiles, one padding inside a tile, one gap between sections. */
   --ts-gap: 8px;
-  --ts-margin: clamp(8px, 1vw, 12px);
-  --ts-pad: clamp(1rem, 2.2vw, 1.75rem);
-  --ts-section: clamp(1.5rem, 4vw, 3rem);
+  --ts-margin: clamp(16px, 2.8vw, 40px);
+  --ts-pad: clamp(1.25rem, 2.2vw, 1.75rem);
+  --ts-section: clamp(5rem, 11vw, 10rem);
 
   /* Motion */
   --ts-ease-out: cubic-bezier(0.22, 1, 0.36, 1);

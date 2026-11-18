@@ -14,13 +14,16 @@ export interface Factor {
 
 const checkedOn = "2026-11-11";
 
-const factor = (value: number, unit: string, source: string, note: string): Factor => ({
-  value,
-  unit,
-  source,
-  date: checkedOn,
-  note,
-});
+const factor = (
+  value: number,
+  unit: string,
+  source: string,
+  note: string,
+  date = checkedOn,
+): Factor => ({ value, unit, source, date, note });
+
+/** The day the comparisons added on 2026-11-18 were read and checked. */
+const added = "2026-11-18";
 
 export const factors = {
   cacheReadWeight: factor(
@@ -59,40 +62,60 @@ export const factors = {
     "https://greencalculus.com/convert/co2e-to-flights-london-new-york/",
     "Used to show a small share of a flight as kilometers flown.",
   ),
-  coalPlantCo2: factor(
-    33_877_953,
-    "tons CO2 per year, Vindhyachal Super Thermal Power Station (NTPC, Madhya Pradesh, India)",
-    "https://doi.org/10.1088/1748-9326/ac13f1",
-    "2018 emissions of the plant ranked second worst on Earth in Grant, Zelinka and Mitova, Environmental Research Letters 16(9), 2021. It is India's top CO2 emitter among power plants. Climate TRACE lists a similar 33.4 Mt for a later year. We spread the year evenly over 8,760 hours.",
+  wordsPerToken: factor(
+    0.75,
+    "English words per token",
+    "https://developers.openai.com/api/docs/concepts",
+    "OpenAI's rule of thumb: a token is about 4 characters or 0.75 words of English text. Anthropic puts it near 3.5 characters, and newer Claude models make about 30% more tokens for the same text. Code differs from prose.",
+    added,
   ),
-  treeCo2: factor(
-    0.06,
-    "tons CO2 absorbed per urban tree per year",
-    "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references",
-    "US EPA: 36.4 lb of carbon per year for a medium urban tree over its first ten years (0.060 t CO2). A forest tree can differ.",
+  charsPerToken: factor(
+    4,
+    "characters of English text per token",
+    "https://developers.openai.com/api/docs/concepts",
+    "Same rule of thumb as wordsPerToken. We count one byte per character, which holds for plain ASCII text.",
+    added,
   ),
-  homeHeating: factor(
-    8600,
-    "kWh of space heating per dwelling per year",
-    "https://www.odyssee-mure.eu/publications/efficiency-by-sector/households/household-eu.pdf",
-    "EU average, 0.74 toe per dwelling (ODYSSEE-MURE, from Eurostat), at 11,630 kWh per toe. The range across member states is about 700 to 16,500 kWh. All GPU electricity ends up as heat.",
+  wikipediaWords: factor(
+    5_125_583_368,
+    "words in the articles of English Wikipedia",
+    "https://en.wikipedia.org/wiki/Wikipedia:Size_of_Wikipedia",
+    "The last measured count, from 1 March 2026. The same page gives a larger running estimate that is not a measurement.",
+    added,
   ),
-  villagePopulation: factor(
-    1000,
-    "people per village",
-    "https://en.wikipedia.org/wiki/2011_Census_of_India",
-    "Round number chosen by us. The 2011 Census of India counts 833,087,662 rural people in more than 600,000 villages, about 1,300 per village on average. Many villages are smaller.",
+  readingWpm: factor(
+    238,
+    "words per minute, silent reading of English non-fiction",
+    "https://doi.org/10.1016/j.jml.2019.104047",
+    "Brysbaert, Journal of Memory and Language 109, 2019: a meta-analysis of 190 studies with 18,573 readers. Most adults read non-fiction at 175 to 300 words a minute. People read code more slowly than prose.",
+    added,
   ),
-  waterPerPerson: factor(
-    20,
-    "litres per person per day",
-    "https://iris.who.int/server/api/core/bitstreams/c1461987-2c3f-4e63-8f4c-7e44498e5644/content",
-    "WHO basic access to water: at least 20 L per person per day, for drinking and basic hygiene. WHO calls it a guide, not a formal guideline.",
+  floppyBytes: factor(
+    1_474_560,
+    "bytes on a 3.5-inch HD floppy disk",
+    "https://en.wikipedia.org/wiki/Disk_formatting",
+    "The formatted capacity sold as 1.44 MB: 80 tracks on each of 2 sides, 18 sectors of 512 bytes per track.",
+    added,
   ),
-  cigarettePackPrice: factor(
-    9.95,
-    "US dollars per pack of 20 cigarettes",
-    "https://tobaccoinsider.com/usa-cigarette-prices/",
-    "US average retail price of a mainstream brand, weighted by sales volume, with taxes (page posted 2026-08-26). The unweighted state average is $10.34.",
+  laptopBatteryKwh: factor(
+    0.1,
+    "kWh in one full MacBook Pro 16-inch battery",
+    "https://www.apple.com/macbook-pro/specs/",
+    "Apple lists a 100-watt-hour battery and an actual rating of 99.6 Wh. Charging losses are left out.",
+    added,
+  ),
+  bathLitres: factor(
+    80,
+    "litres of water in a typical bath",
+    "https://waterwise.org.uk/how-to-save-water/",
+    "Waterwise, the UK water-efficiency charity. A full tub holds more: an Australian utility gives 140 litres.",
+    added,
+  ),
+  devHourlyWage: factor(
+    64.44,
+    "US dollars per hour, median pay of US software developers, QA analysts and testers",
+    "https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm",
+    "US Bureau of Labor Statistics, May 2025. It is the only hourly median BLS gives for the group. The page's slider starts here and the reader can move it.",
+    added,
   ),
 } satisfies Record<string, Factor>;

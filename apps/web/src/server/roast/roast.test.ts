@@ -74,21 +74,24 @@ describe("same link, same lines (AC-037, INV-003)", () => {
 
   it("puts the most dreadful comparison first and keeps the next two for the card", () => {
     const { lines, cardLines } = roast(fixture);
-    expect(lines[0].id).toBe("villages");
+    expect(lines[0].id).toBe("wikipedia");
     expect(new Set(cardLines.map(({ id }) => id))).toStrictEqual(
-      new Set(["coal", "packs", "villages"]),
+      new Set(["flights", "reading", "wikipedia"]),
     );
   });
 
   it("breaks a dread tie by a hash of the summary, so tied lines swap places between summaries", () => {
     const orders = new Set<string>();
+    // 40M input tokens is 9.6 kWh: 96 laptop charges and 10 liters of water, two figures of
+    // equal severity and equal digits, so the laptops and baths lines tie.
+    const base = summaryOf([{ model: "claude-opus-4-5", ...zeros, input: 40_000_000 }]);
     for (let sessions = 0; sessions < 300; sessions += 1) {
-      const { lines } = roast({ ...fixture, sessions });
-      // In this summary the coal and packs lines tie for second place.
-      expect(lines[1].dread).toBe(lines[2].dread);
-      orders.add(`${lines[1].id}>${lines[2].id}`);
+      const { lines } = roast({ ...base, sessions });
+      const tied = lines.filter(({ id }) => id === "laptops" || id === "baths");
+      expect(tied[0]?.dread).toBe(tied[1]?.dread);
+      orders.add(tied.map(({ id }) => id).join(">"));
     }
-    expect(orders).toStrictEqual(new Set(["coal>packs", "packs>coal"]));
+    expect(orders).toStrictEqual(new Set(["laptops>baths", "baths>laptops"]));
   });
 });
 
@@ -98,9 +101,10 @@ describe("weighted tokens (AC-034)", () => {
     const inputOnly = withModel({ input: 1_000_000_000 });
     expect(factors.cacheReadWeight.value).toBeCloseTo(0.1);
     expect(cacheOnly.weightedTokens).toBeCloseTo(10_000_000_000 * factors.cacheReadWeight.value);
-    // Same weighted tokens, so every line that does not depend on price is the same.
-    const unpriced = ({ lines }: typeof cacheOnly) => lines.filter(({ id }) => id !== "packs");
-    expect(unpriced(cacheOnly)).toStrictEqual(unpriced(inputOnly));
+    // Same weighted tokens, so every line computed from energy is the same.
+    const energy = ({ lines }: typeof cacheOnly) =>
+      lines.filter(({ id }) => ["baths", "flights", "laptops"].includes(id));
+    expect(energy(cacheOnly)).toStrictEqual(energy(inputOnly));
   });
 
   it("counts input, output and cache writes at full weight", () => {
@@ -196,17 +200,24 @@ describe("public copy (AC-033)", () => {
 describe("comparison set (AC-036)", () => {
   const byId = Object.fromEntries(roast(fixture).lines.map((line) => [line.id, line]));
 
-  it("covers villages, flights, tons, coal, trees, homes and a vice", () => {
+  it("covers text volume, reading time, storage, energy, CO2 and water", () => {
     expect(new Set(Object.keys(byId))).toStrictEqual(
-      new Set(["coal", "flights", "homes", "packs", "tons", "trees", "villages"]),
+      new Set(["baths", "flights", "floppies", "laptops", "reading", "wikipedia"]),
     );
   });
 
-  it("names the coal plant, the flight route and the villages", () => {
-    expect(byId.coal.text).toContain("Vindhyachal");
+  it("names Wikipedia, the flight route, the laptop and the disk", () => {
+    expect(byId.wikipedia.text).toContain("English Wikipedia");
     expect(byId.flights.text).toContain("New York");
-    expect(byId.villages.text).toMatch(/village/iu);
-    expect(byId.packs.text).toMatch(/cigarette/iu);
+    expect(byId.laptops.text).toContain("MacBook Pro");
+    expect(byId.floppies.text).toContain("floppy disks");
+  });
+
+  it("reads the output tokens at the cited reading speed, eight hours a day", () => {
+    const written = withModel({ output: 1_000_000 }).lines.find(({ id }) => id === "reading");
+    // 1M tokens is 750,000 words; at 238 a minute and 480 minutes a day, 6.6 working days.
+    expect(written?.figure).toBe("6.6");
+    expect(written?.unit).toBe("working days");
   });
 });
 

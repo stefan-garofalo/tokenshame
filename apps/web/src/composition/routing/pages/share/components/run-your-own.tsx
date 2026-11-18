@@ -1,21 +1,15 @@
-import { Bar } from "./bar";
 import { CommandBox } from "./command-box";
 
+/** The close: the command sits inside the sentence that asks for it. */
 export const RunYourOwn = () => (
-  <section aria-labelledby="run-title" className="run">
-    <div className="pane run-main">
-      <Bar title="next" />
-      <h2 className="run-title" id="run-title">
-        Get your own roast.
-      </h2>
-      <p className="run-text">
-        Run this in a terminal. It reads your local usage, shows you the numbers and asks before it
-        opens anything.
-      </p>
-    </div>
-    <div className="pane pane-raised run-command">
-      <Bar tag="zsh" title="run" />
+  <section aria-labelledby="run-title" className="run" id="run">
+    <h2 className="run-title" id="run-title">
+      <span className="run-verb">Run </span>
       <CommandBox />
-    </div>
+    </h2>
+    <p className="run-text">
+      It reads the usage logs your coding agents already keep on your machine and shows your own
+      last 30 days.
+    </p>
   </section>
 );

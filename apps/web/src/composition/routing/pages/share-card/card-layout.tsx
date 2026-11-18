@@ -5,8 +5,8 @@ import { command } from "../share/links";
 import type { CardContent, CardLine } from "./card-content";
 import { card, colors, display, family, textWeight, tracking } from "./card-tokens";
 
-// The card is a dark board of terminal panes, as the Share Page is: a pane with the figure on the left,
-// three panes of output on the right, each under a title bar. The card has no container, so the viewport
+// The card is the Share Page's editor theme on black: a pane with the month's figure on the left,
+// three panes of output on the right, each under a tab bar. The card has no container, so the viewport
 // is the card: `1cqw` is 1% of its width, and a lockup line spans the width inside the left pane.
 const leftWidth = 680;
 const rightWidth = card.width - 2 * card.margin - card.gap - leftWidth;
@@ -94,7 +94,7 @@ const Output = ({
   const at = text.indexOf(quantity);
   return (
     <div style={{ ...pane(index === 1 ? colors.raised : colors.surface), flex: 1 }}>
-      <Bar title={`out ${index + 1}/${total}`} />
+      <Bar title={`out ${String(index + 1)}/${String(total)}`} />
       <div
         style={{
           ...body,
@@ -125,7 +125,7 @@ const SharedCard = ({
 }) => (
   <>
     <div style={{ ...pane(colors.surface), width: leftWidth }}>
-      <Bar tag="stdout" title="~/tokenshame" />
+      <Bar tag="last 30 days" title="month.ts" />
       <div style={{ ...body, justifyContent: "space-between" }}>
         <Prompt />
         <Lockup lines={[content.figure, content.label]} />
@@ -151,7 +151,7 @@ const SharedCard = ({
 // What the broken-link page says, set the same way.
 const BrokenCard = ({ domain }: { domain: string }) => (
   <div style={{ ...pane(colors.surface), flex: 1 }}>
-    <Bar tag="exit 1" title="~/tokenshame" />
+    <Bar tag="exit 1" title="link.ts" />
     <div style={{ ...body, justifyContent: "space-between" }}>
       <Prompt />
       <div style={{ display: "flex", flexDirection: "column", rowGap: 24 }}>

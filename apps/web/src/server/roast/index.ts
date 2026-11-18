@@ -9,7 +9,7 @@
 import type { Summary } from "@tokenshame/share-link/summary";
 import { tokensProcessed } from "@tokenshame/share-link/summary";
 
-import { impactsOf, weightedTokens } from "./impacts";
+import { impactsOf, outputTokens, weightedTokens } from "./impacts";
 import type { ImpactId } from "./impacts";
 import { formatCount, formatUsd, render } from "./lines";
 import { cardSize, dreadOf, keyOf, rank } from "./pick";
@@ -36,7 +36,9 @@ export interface Roast {
   headline: { tokens: number; figure: string; label: "tokens processed" };
   /** Tokens that cost compute: what the impacts are computed from. */
   weightedTokens: number;
-  /** What the same tokens would cost at API list prices. */
+  /** The rest of the Usage Summary the page shows: session count and the local hour with most tokens. */
+  month: { sessions: number; busiestHour: number };
+  /** What the same tokens would cost at API list prices. The page turns it into hours of pay. */
   cost: { usd: number; figure: string };
   /** Cost per model in link order, with the model's name when we know it. */
   models: readonly { name: string; known: boolean; usd: number }[];
@@ -59,19 +61,20 @@ export const roast = (summary: Summary): Roast => {
     models.reduce((total, { usd: modelUsd }) => total + modelUsd, 0) +
     costOf(summary.other, fallbackPrice);
   const weighted = weightedTokens(summary);
+  const tokens = tokensProcessed(summary);
 
   const lines = rank(
-    impactsOf(weighted, usd).map(({ id, amount }) => {
+    impactsOf({ output: outputTokens(summary), tokens, weighted }).map(({ id, amount }) => {
       const { severity, ...line } = render(id, amount);
       return { ...line, dread: dreadOf(severity, line.value) };
     }),
     keyOf(summary),
   );
 
-  const tokens = tokensProcessed(summary);
   return {
     headline: { tokens, figure: formatCount(tokens), label: "tokens processed" },
     weightedTokens: weighted,
+    month: { sessions: summary.sessions, busiestHour: summary.busiestHour },
     cost: { usd, figure: formatUsd(usd) },
     models,
     lines,
