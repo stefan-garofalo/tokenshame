@@ -1,8 +1,5 @@
 import type { Summary } from "@tokenshame/share-link/summary";
 
-/** The card shows this many of the page's lines. */
-export const cardSize = 3;
-
 /**
  * Dread, as one number. A figure of at least 1 outranks a fraction, so a line
  * like "0.04 flights" goes last. Next comes the editorial severity of the

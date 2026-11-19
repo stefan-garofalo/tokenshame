@@ -740,6 +740,354 @@
   }
 }
 
+/* ---------- the Wrapped: one full-screen slide per chapter, snapped as the visitor scrolls ---------- */
+
+:root:has(.wrapped) {
+  scroll-snap-type: y proximity;
+}
+
+.share.wrapped {
+  padding: 0;
+}
+
+.slide {
+  --slide-pad: clamp(1.5rem, 5vh, 3.5rem);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-height: 100svh;
+  padding: var(--slide-pad) var(--edge-right)
+    calc(var(--slide-pad) + env(safe-area-inset-bottom, 0px)) var(--edge-left);
+  scroll-snap-align: start;
+}
+
+/* A scroll-linked bar across the top, in whatever colour the slide under it is not. */
+.progress {
+  background: #fff;
+  display: none;
+  height: 4px;
+  inset: 0 0 auto;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  position: fixed;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 10;
+}
+
+@supports (animation-timeline: scroll()) {
+  .progress {
+    animation: progress linear both;
+    animation-timeline: scroll(root);
+    display: block;
+  }
+}
+
+@keyframes progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.next {
+  align-items: center;
+  align-self: flex-start;
+  color: inherit;
+  display: inline-flex;
+  font-size: var(--ts-step-lead);
+  font-weight: var(--ts-display-weight);
+  gap: 0.5rem;
+  letter-spacing: var(--ts-display-tracking);
+  min-height: 44px;
+  text-decoration: none;
+  transition: transform var(--ts-t-press) var(--ts-ease-out);
+  /* A control, not content: a long press neither selects "Next" nor opens the link callout. */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.next:active {
+  transform: scale(0.97);
+}
+
+.next-arrow {
+  fill: none;
+  height: 1.25em;
+  stroke: currentColor;
+  stroke-width: 4;
+  transition: transform var(--ts-t-hover) var(--ts-ease-out);
+  width: 1.25em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .next:hover .next-arrow {
+    transform: translateY(4px);
+  }
+}
+
+/* The first slide: the count on the accent field, in the field's own ink. */
+.slide-start {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
+  padding-top: 0;
+}
+
+.slide-start :is(.wordmark, .nav-links a, .prompt, .prompt-sign, .typed, .mask:first-child) {
+  color: inherit;
+}
+
+.slide-start .caret {
+  background: currentColor;
+}
+
+.start-body {
+  container-type: inline-size;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: flex-end;
+}
+
+/* The first Next is the page's one action: a filled button in the field's ink. */
+.slide-start .next {
+  background: var(--ts-accent-ink);
+  color: var(--ts-accent);
+  min-height: 3rem;
+  padding: 0 1.5rem;
+}
+
+.start-facts {
+  font-size: var(--ts-step-lead);
+  font-weight: 500;
+}
+
+/* A KPI slide: a whole field of colour, the figure as wide as the slide, then what it is of. */
+:is(.field-water, .field-ice, .field-glacier, .field-ocean, .field-land) {
+  background: var(--field);
+  color: var(--ts-field-ink);
+}
+
+.field-water {
+  --field: var(--ts-field-water);
+}
+
+.field-ice {
+  --field: var(--ts-field-ice);
+}
+
+.field-glacier {
+  --field: var(--ts-field-glacier);
+}
+
+.field-ocean {
+  --field: var(--ts-field-ocean);
+}
+
+.field-land {
+  --field: var(--ts-field-land);
+}
+
+/* On a phone: the picture as a band, then the figure, then the words at the foot. */
+.slide-kpi {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-areas: "picture" "figure" "body";
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+}
+
+/* A found picture, grey and multiplied into the field: a duotone in the slide's own colour.
+   The frame clips it, so the picture can settle from a slight zoom. */
+.kpi-picture {
+  grid-area: picture;
+  height: 26svh;
+  mix-blend-mode: multiply;
+  overflow: clip;
+}
+
+.kpi-picture img {
+  display: block;
+  filter: grayscale(1) contrast(1.2);
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.kpi-figure {
+  align-self: end;
+  container-type: inline-size;
+  grid-area: figure;
+}
+
+.kpi-figure span {
+  display: block;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 0.85;
+  white-space: nowrap;
+}
+
+.kpi-body {
+  display: grid;
+  gap: 1.25rem;
+  grid-area: body;
+  justify-items: start;
+}
+
+.kpi-title {
+  font-size: var(--ts-step-head);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1.05;
+  max-width: 22ch;
+}
+
+.kpi-text {
+  font-size: var(--ts-step-lead);
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: 36ch;
+  text-wrap: pretty;
+}
+
+/* The slides that were sections keep their look and lose their section spacing. */
+.wrapped .hours {
+  margin: 0;
+  min-height: 100svh;
+}
+
+.wrapped .log {
+  min-height: 100svh;
+}
+
+/* The close: the bento to post, and the buttons that post it. */
+.slide-receipt {
+  justify-content: center;
+}
+
+.receipt-title {
+  font-size: var(--ts-step-head);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1.05;
+}
+
+.bento {
+  display: grid;
+  gap: var(--ts-gap);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 75rem;
+}
+
+.bento-tile {
+  background: var(--field, var(--ts-surface));
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  line-height: 1.3;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.bento-tokens {
+  container-type: inline-size;
+  grid-column: 1 / -1;
+}
+
+.bento-count {
+  color: var(--ts-accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+.bento-figure {
+  font-size: var(--ts-step-head);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--ts-display-weight);
+  letter-spacing: var(--ts-display-tracking);
+  line-height: 1;
+}
+
+/* The quip is set at the lead size, so it reads as the tile's punchline, not a label for the tile below. */
+.bento-quip {
+  font-size: var(--ts-step-lead);
+  font-weight: var(--ts-display-weight);
+  line-height: 1.2;
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+/* On two columns the fifth KPI takes the whole row. */
+.bento .field-land {
+  grid-column: 1 / -1;
+}
+
+.bento-foot {
+  background: var(--ts-accent);
+  color: var(--ts-accent-ink);
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-weight: var(--ts-display-weight);
+  grid-column: 1 / -1;
+  justify-content: space-between;
+}
+
+.close {
+  padding: var(--ts-section) var(--edge-right) env(safe-area-inset-bottom, 0px) var(--edge-left);
+}
+
+.close .run {
+  padding-top: 0;
+}
+
+@media (min-width: 64em) {
+  /* The picture takes the full height of one side; every other slide puts it on the other side. */
+  .slide-kpi {
+    column-gap: 3rem;
+    grid-template-areas: "figure picture" "body picture";
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: 1fr auto;
+  }
+
+  .slide-kpi:nth-of-type(odd) {
+    grid-template-areas: "picture figure" "picture body";
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+
+  .kpi-picture {
+    height: 100%;
+  }
+
+  .bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .bento .field-land {
+    grid-column: auto;
+  }
+
+  .bento-tokens {
+    grid-column: span 3;
+    justify-content: space-between;
+    min-height: 15rem;
+  }
+
+  .bento-tile {
+    min-height: 13rem;
+    padding: 1.25rem;
+  }
+
+  .bento-foot {
+    grid-column: 1 / -1;
+    min-height: 0;
+  }
+}
+
 /* ---------- motion ---------- */
 
 @keyframes line-up {
@@ -779,6 +1127,19 @@
   }
 }
 
+@keyframes figure-up {
+  from {
+    opacity: 0;
+    transform: translateY(25%);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
 @keyframes stage-in {
   from {
     transform: translateY(40px);
@@ -805,6 +1166,21 @@
 
   .hero .actions {
     animation-delay: 600ms;
+  }
+
+  /* The first slide: the words follow the count's rise, one after another. */
+  .slide-start .statement,
+  .start-facts,
+  .slide-start .next {
+    animation: fade-up var(--ts-t-reveal) var(--ts-ease-out) 520ms backwards;
+  }
+
+  .start-facts {
+    animation-delay: 600ms;
+  }
+
+  .slide-start .next {
+    animation-delay: 680ms;
   }
 
   .stage {
@@ -856,6 +1232,10 @@
     .roast-text,
     .run-title,
     .run-text,
+    .kpi-title,
+    .kpi-text,
+    .receipt-title,
+    .bento-tile,
     .tile {
       animation: fade-up linear both;
       animation-range: entry 0% entry 60%;
@@ -868,6 +1248,20 @@
       animation-range: entry 10% entry 70%;
     }
 
+    /* The Wrapped reveal: a KPI's figure rises in as its slide scrolls into place,
+       and the picture settles from a slight zoom. */
+    .kpi-figure span {
+      animation: figure-up linear both;
+      animation-range: entry 10% cover 35%;
+      animation-timeline: view();
+    }
+
+    .kpi-picture img {
+      animation: settle linear both;
+      animation-range: entry 0% cover 60%;
+      animation-timeline: view();
+    }
+
     .shot {
       animation: shutter linear both;
       animation-range: entry 0% entry 70%;
@@ -877,6 +1271,17 @@
     .shot-picture {
       animation: settle linear both;
       animation-range: entry 0% cover 70%;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* Reduced motion keeps the reveal as a fade and drops the travel. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: reduce) {
+    .kpi-figure span {
+      animation: fade linear both;
+      animation-range: entry 10% cover 35%;
       animation-timeline: view();
     }
   }

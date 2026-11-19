@@ -2,15 +2,34 @@ import type { CSSProperties } from "react";
 
 import { fitFontSize } from "../share/fit-width";
 import { command } from "../share/links";
-import type { CardContent, CardLine } from "./card-content";
-import { card, colors, display, family, textWeight, tracking } from "./card-tokens";
+import type { CardContent, CardKpi } from "./card-content";
+import {
+  card,
+  colors,
+  display,
+  family,
+  fieldInk,
+  fields,
+  textWeight,
+  tracking,
+} from "./card-tokens";
 
-// The card is the Share Page's editor theme on black: a pane with the month's figure on the left,
-// three panes of output on the right, each under a tab bar. The card has no container, so the viewport
-// is the card: `1cqw` is 1% of its width, and a lockup line spans the width inside the left pane.
+// The card is the bento of the Share Page's last slide: the full token count and the KPIs as tiles,
+// each on its slide's colour. The card has no container, so the viewport is the card: `1cqw` is 1% of
+// its width, and a line set with `fitFontSize` spans a share of the card's width.
 const leftWidth = 680;
-const rightWidth = card.width - 2 * card.margin - card.gap - leftWidth;
 const spanPercent = ((leftWidth - 2 * card.pad) / card.width) * 100;
+
+// Four columns of KPI tiles; the token count takes three of them, the first KPI the fourth.
+const columns = 4;
+const tileWidth = (card.width - 2 * card.margin - (columns - 1) * card.gap) / columns;
+const countSpan = ((3 * tileWidth + 2 * card.gap - 2 * card.pad) / card.width) * 100;
+const tilePad = 20;
+const figureSpan = ((tileWidth - 2 * tilePad) / card.width) * 100;
+const rows = { foot: 50, top: 290 } as const;
+const maxCountSize = "200px";
+// The first KPI has a taller tile, so its figure may be larger.
+const maxFigureSize = { first: "120px", other: "88px" } as const;
 // A short number would grow past the pane; the cap keeps it inside.
 const maxLockupSize = "150px";
 
@@ -81,40 +100,99 @@ const Domain = ({ domain }: { domain: string }) => (
   </div>
 );
 
-// The number inside the sentence is the figure of the line: lime, like the figures of the Share Page.
-const Output = ({
-  index,
-  line: { quantity, text },
-  total,
-}: {
-  index: number;
-  line: CardLine;
-  total: number;
-}) => {
-  const at = text.indexOf(quantity);
-  return (
-    <div style={{ ...pane(index === 1 ? colors.raised : colors.surface), flex: 1 }}>
-      <Bar title={`out ${String(index + 1)}/${String(total)}`} />
+const Tile = ({ kpi, maxSize }: { kpi: CardKpi; maxSize: string }) => (
+  <div
+    style={{
+      background: fields[kpi.id],
+      color: fieldInk,
+      display: "flex",
+      flex: 1,
+      flexDirection: "column",
+      fontFamily: family,
+      fontSize: 20,
+      fontWeight: textWeight,
+      lineHeight: 1.25,
+      padding: tilePad,
+      rowGap: 6,
+    }}
+  >
+    <div
+      style={{
+        fontSize: `min(${fitFontSize(kpi.figure, figureSpan)}, ${maxSize})`,
+        fontWeight: display.weight,
+        letterSpacing: tracking,
+        lineHeight: 1,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {kpi.figure}
+    </div>
+    <div>{`${kpi.unit} ${kpi.tile.label}`}</div>
+    <div style={{ fontWeight: display.weight, marginTop: "auto" }}>{kpi.tile.quip}</div>
+  </div>
+);
+
+const Count = ({ content }: { content: Extract<CardContent, { _tag: "Shared" }> }) => (
+  <div
+    style={{
+      ...pane(colors.surface),
+      flex: 1,
+      justifyContent: "space-between",
+      padding: card.pad,
+    }}
+  >
+    <div style={{ color: colors.muted, display: "flex", fontSize: 22, fontWeight: textWeight }}>
+      {content.kpis.length > 0
+        ? "your last 30 days with AI, wrapped"
+        : "nothing to roast. suspiciously clean."}
+    </div>
+    <div style={{ display: "flex", flexDirection: "column", rowGap: 10 }}>
       <div
         style={{
-          ...body,
-          fontSize: 20,
-          fontWeight: textWeight,
-          justifyContent: "center",
-          lineHeight: 1.4,
-          paddingBottom: 14,
-          paddingTop: 14,
+          color: colors.accent,
+          fontSize: `min(${fitFontSize(content.figure, countSpan)}, ${maxCountSize})`,
+          fontWeight: display.weight,
+          letterSpacing: tracking,
+          lineHeight: display.leading,
+          whiteSpace: "nowrap",
         }}
       >
-        <span>
-          {text.slice(0, at)}
-          <span style={{ color: colors.accent, fontWeight: display.weight }}>{quantity}</span>
-          {text.slice(at + quantity.length)}
-        </span>
+        {content.figure}
+      </div>
+      <div style={{ display: "flex", fontSize: 30, fontWeight: display.weight }}>
+        {`${content.label} in 30 days`}
       </div>
     </div>
-  );
-};
+  </div>
+);
+
+const Foot = ({ domain }: { domain: string }) => (
+  <div
+    style={{
+      alignItems: "center",
+      background: colors.accent,
+      color: colors.accentInk,
+      display: "flex",
+      flex: "none",
+      fontFamily: family,
+      fontSize: 22,
+      fontWeight: display.weight,
+      height: rows.foot,
+      justifyContent: "space-between",
+      padding: `0 ${tilePad}px`,
+    }}
+  >
+    <span>cry about it.</span>
+    <span>{`${command} · ${domain}`}</span>
+  </div>
+);
+
+const row = (height?: number): CSSProperties => ({
+  columnGap: card.gap,
+  display: "flex",
+  flex: height === undefined ? 1 : "none",
+  height,
+});
 
 const SharedCard = ({
   content,
@@ -122,31 +200,29 @@ const SharedCard = ({
 }: {
   content: Extract<CardContent, { _tag: "Shared" }>;
   domain: string;
-}) => (
-  <>
-    <div style={{ ...pane(colors.surface), width: leftWidth }}>
-      <Bar tag="last 30 days" title="month.ts" />
-      <div style={{ ...body, justifyContent: "space-between" }}>
-        <Prompt />
-        <Lockup lines={[content.figure, content.label]} />
-        <Domain domain={domain} />
+}) => {
+  const [first, ...others] = content.kpis;
+  return (
+    <div style={{ display: "flex", flex: 1, flexDirection: "column", rowGap: card.gap }}>
+      <div style={row(first ? rows.top : undefined)}>
+        <Count content={content} />
+        {first && (
+          <div style={{ display: "flex", width: tileWidth }}>
+            <Tile kpi={first} maxSize={maxFigureSize.first} />
+          </div>
+        )}
       </div>
+      {others.length > 0 && (
+        <div style={row()}>
+          {others.map((kpi) => (
+            <Tile key={kpi.id} kpi={kpi} maxSize={maxFigureSize.other} />
+          ))}
+        </div>
+      )}
+      <Foot domain={domain} />
     </div>
-    <div
-      style={{
-        display: "flex",
-        flex: 1,
-        flexDirection: "column",
-        gap: card.gap,
-        width: rightWidth,
-      }}
-    >
-      {content.lines.map((line, index) => (
-        <Output index={index} key={line.text} line={line} total={content.lines.length} />
-      ))}
-    </div>
-  </>
-);
+  );
+};
 
 // What the broken-link page says, set the same way.
 const BrokenCard = ({ domain }: { domain: string }) => (
@@ -166,9 +242,9 @@ const BrokenCard = ({ domain }: { domain: string }) => (
 );
 
 /**
- * The Share Card: the lockup in a dark pane, the three Roast Lines as panes of output, the domain and
- * the command in the first pane. A link that does not decode gets the same colors and type with the
- * message of the broken-link page.
+ * The Share Card: the bento of the Share Page, with the full token count, the KPI tiles, and a foot
+ * with the command and the domain. A link that does not decode gets the same colors and type with
+ * the message of the broken-link page.
  */
 export const CardLayout = ({ content, domain }: { content: CardContent; domain: string }) => (
   <div

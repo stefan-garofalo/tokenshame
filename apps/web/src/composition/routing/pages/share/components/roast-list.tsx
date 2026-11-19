@@ -1,11 +1,15 @@
 import type { RoastLine } from "../../../../../server/roast";
 import { pictures } from "../pictures";
+import { NextLink } from "./next-link";
 
-/** Every Roast Line in engine order: the figure, the sentence, and a picture of what it compares with. */
-export const RoastList = ({ lines }: { lines: readonly RoastLine[] }) => (
-  <section aria-labelledby="log-title" className="log">
+/**
+ * The Roast Lines that are not KPIs, in engine order: the figure, the sentence, and a picture of
+ * what it compares with when there is one.
+ */
+export const RoastList = ({ lines, next }: { lines: readonly RoastLine[]; next: string }) => (
+  <section aria-labelledby="log-title" className="slide log" id="damage">
     <h2 className="log-title" id="log-title">
-      The damage
+      The rest of the damage
     </h2>
     <ol className="log-list">
       {lines.map(({ figure, id, text, unit }) => {
@@ -41,5 +45,6 @@ export const RoastList = ({ lines }: { lines: readonly RoastLine[] }) => (
         );
       })}
     </ol>
+    <NextLink href={next} />
   </section>
 );

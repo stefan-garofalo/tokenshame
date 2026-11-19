@@ -60,6 +60,14 @@ describe("Share Page as the server renders it", () => {
       expect(href).toContain(`url=${encodeURIComponent(pageUrl)}`);
     });
 
+    it("writes the post as a villain: the water, then cry about it", () => {
+      const href = anchorWith(page.document, "Post on X")?.getAttribute("href") ?? "";
+
+      expect(new URL(href).searchParams.get("text")).toBe(
+        "I made AI drink 66 bottles of water this month. Cry about it 💧",
+      );
+    });
+
     it("falls back to an Open image link to the card where the image cannot be copied", () => {
       expect(anchorWith(page.document, "Open image")?.getAttribute("href")).toBe(
         `/r/${fixture.link}/og.png`,

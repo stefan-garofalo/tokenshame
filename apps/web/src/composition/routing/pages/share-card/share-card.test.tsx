@@ -11,7 +11,7 @@ import type { WebServer } from "../../../../../tests/http-harness";
 import { roast } from "../../../../server/roast";
 import { CardLayout } from "./card-layout";
 import { cardContentOf } from "./card-content";
-import { colors, display, tracking } from "./card-tokens";
+import { colors, display, fieldInk, fields, tracking } from "./card-tokens";
 
 const buildTimeoutMs = 300_000;
 const firstImageBudgetMs = 1000;
@@ -80,21 +80,17 @@ describe("GET /r/<link>/og.png of the fixture link", () => {
     expect(again.bytes.equals(card.bytes)).toBeTruthy();
   });
 
-  it("shows the first three Roast Lines of the page, word for word", async () => {
+  it("shows the KPIs of the page's slides, in the same order", async () => {
     const page = await fetch(`${server.url}/r/${fixture.link}`);
     const { document } = new JSDOM(await page.text()).window;
-    const pageLines = [...document.querySelectorAll("[data-roast-line]")].map(
-      (element) => element.textContent,
-    );
+    const slides = [...document.querySelectorAll(".slide-kpi")].map((slide) => slide.id);
     const content = await cardContentOf(fixture.link);
-
-    const cardLines = result.cardLines.map(({ text }) => text);
 
     expect(content).toMatchObject({
       _tag: "Shared",
-      lines: cardLines.map((text) => ({ text })),
+      kpis: result.kpis.map(({ figure, id, tile, unit }) => ({ figure, id, tile, unit })),
     });
-    expect(pageLines.slice(0, 3)).toStrictEqual(cardLines);
+    expect(slides).toStrictEqual(result.kpis.map(({ id }) => id));
   });
 
   describe("of a broken link", () => {
@@ -125,13 +121,15 @@ describe("GET /r/<link>/og.png of the fixture link", () => {
 });
 
 describe("the words of the card", () => {
-  it("are the headline, the three Roast Lines, the domain and the command", async () => {
+  it("are the full count, every KPI tile, the domain and the command", async () => {
     const text = await textOf(fixture.link);
 
     expect(text).toContain(result.headline.figure);
     expect(text).toContain("tokens processed");
-    for (const { text: line } of result.cardLines) {
-      expect(text).toContain(line);
+    for (const { figure, tile, unit } of result.kpis) {
+      expect(text).toContain(figure);
+      expect(text).toContain(`${unit} ${tile.label}`);
+      expect(text).toContain(tile.quip);
     }
     expect(text).toContain(domain);
     expect(text).toContain("npx tokenshame");
@@ -176,6 +174,13 @@ describe("the tokens of the card", () => {
       raised: token("raised"),
       surface: token("surface"),
     });
+  });
+
+  it("are the Wrapped fields of the Share Page", () => {
+    expect(fieldInk).toBe(token("field-ink"));
+    for (const [id, color] of Object.entries(fields)) {
+      expect(color).toBe(token(`field-${id}`));
+    }
   });
 
   it("are the display type of the Share Page", () => {

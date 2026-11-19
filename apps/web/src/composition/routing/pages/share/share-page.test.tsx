@@ -28,12 +28,33 @@ describe("SharePage of the fixture link", () => {
     expect(page.text).toContain("tokens processed");
   });
 
-  it("shows every Roast Line, in engine order", () => {
+  it("shows every Roast Line, the KPI slides first, then the rest in engine order", () => {
     const shown = [...page.document.querySelectorAll("[data-roast-line]")].map(
       (line) => line.textContent,
     );
 
-    expect(shown).toStrictEqual(result.lines.map(({ text }) => text));
+    expect(shown).toStrictEqual([...result.kpis, ...result.rest].map(({ text }) => text));
+  });
+
+  it("gives each KPI its own slide, and links every slide to the next", () => {
+    const ids = result.kpis.map(({ id }) => id);
+    const slides = ids.map((id) => page.document.querySelector(`#${id}`));
+    const targets = [...page.document.querySelectorAll("a.next")].map((link) =>
+      link.getAttribute("href"),
+    );
+
+    expect(slides.every((slide) => slide?.matches("section.slide"))).toBeTruthy();
+    expect(targets).toStrictEqual([...ids, "damage", "hours", "receipt"].map((id) => `#${id}`));
+  });
+
+  it("closes on a bento of the full count and every KPI", () => {
+    const bento = page.document.querySelector(".bento")?.textContent ?? "";
+
+    expect(bento).toContain(result.headline.figure);
+    for (const { figure, tile } of result.kpis) {
+      expect(bento).toContain(figure);
+      expect(bento).toContain(tile.quip);
+    }
   });
 
   it("shows the estimated cost", () => {

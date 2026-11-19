@@ -26,8 +26,8 @@ const loader = ({ params }: { params: LinkParams }) =>
       Effect.match({
         onFailure: (): ShareLoaderData => ({ _tag: "Broken" }),
         onSuccess: (summary): ShareLoaderData => {
-          const { cost, headline, lines, month } = roast(summary);
-          return { _tag: "Shared", cost, headline, lines, month };
+          const { cost, headline, kpis, month, rest } = roast(summary);
+          return { _tag: "Shared", cost, headline, kpis, month, rest };
         },
       }),
     ),
@@ -37,7 +37,7 @@ const titleAndDescription = (data?: ShareLoaderData) => {
   if (data?._tag !== "Shared") {
     return { description: brokenDescription, title: brokenTitle };
   }
-  const [first] = data.lines;
+  const [first] = [...data.kpis, ...data.rest];
   // A link with no usage has no Roast Lines to quote.
   const quote =
     first?.text ?? "Nothing to roast: no usage in the last 30 days. Suspiciously clean.";

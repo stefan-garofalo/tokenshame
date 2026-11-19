@@ -47,7 +47,7 @@ describe("share route head of the fixture link", () => {
 
     expect(content(meta, "property", "og:title")).toBe("1,094,660,000 tokens processed");
     expect(content(meta, "name", "twitter:title")).toBe(content(meta, "property", "og:title"));
-    expect(content(meta, "name", "description")).toContain(result.lines[0].text);
+    expect(content(meta, "name", "description")).toContain(result.kpis[0].text);
     expect(content(meta, "property", "og:description")).toBe(content(meta, "name", "description"));
     expect(content(meta, "name", "twitter:description")).toBe(content(meta, "name", "description"));
   });

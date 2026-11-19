@@ -51,6 +51,15 @@
   --ts-syn-prop: #bebebe; /* foreground */
   --ts-syn-err: #d35f5f; /* magenta */
 
+  /* Wrapped fields: one flat colour per KPI slide and bento tile, the same in both modes, from
+     Flexoki's 400 and 200 shades (the palette of Omarchy's light theme). Ink on them is Flexoki black. */
+  --ts-field-ink: #100f0f;
+  --ts-field-water: #4385be; /* blue-400 */
+  --ts-field-ice: #87d3c3; /* cyan-200 */
+  --ts-field-glacier: #92bfdb; /* blue-200 */
+  --ts-field-ocean: #3aa99f; /* cyan-400 */
+  --ts-field-land: #879a39; /* green-400 */
+
   /* Type: one monospace family. Display is weight 800, tightened; text is 400 and 500. */
   --ts-font: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --ts-display-weight: 800;

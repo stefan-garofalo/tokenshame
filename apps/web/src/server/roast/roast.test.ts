@@ -26,6 +26,9 @@ const failureOf = async (property: (summary: Summary) => boolean): Promise<strin
 const withModel = (usage: Partial<typeof zeros>) =>
   roast(summaryOf([{ model: "claude-opus-4-5", ...zeros, ...usage }]));
 
+/** Every Roast Line of a result: the KPIs, then the rest. */
+const linesOf = ({ kpis, rest }: ReturnType<typeof roast>) => [...kpis, ...rest];
+
 const publicStrings = (summary: Summary): string[] => {
   const result = roast(summary);
   return [
@@ -33,7 +36,8 @@ const publicStrings = (summary: Summary): string[] => {
     result.headline.figure,
     result.cost.figure,
     ...result.models.map(({ name }) => name),
-    ...result.lines.flatMap(({ text, figure, unit }) => [text, figure, unit]),
+    ...linesOf(result).flatMap(({ text, figure, unit }) => [text, figure, unit]),
+    ...result.kpis.flatMap(({ tile }) => [tile.label, tile.quip]),
   ];
 };
 
@@ -62,31 +66,28 @@ describe("same link, same lines (AC-037, INV-003)", () => {
     ).resolves.toBeUndefined();
   });
 
-  it("lists lines by dread, highest first, and the card takes the first three", async () => {
+  it("ranks the rest by dread, highest first, for every summary", async () => {
     await expect(
       failureOf((summary) => {
-        const { lines, cardLines } = roast(summary);
-        const ranked = lines.every((line, at) => at === 0 || lines[at - 1].dread >= line.dread);
-        return ranked && JSON.stringify(cardLines) === JSON.stringify(lines.slice(0, 3));
+        const { rest } = roast(summary);
+        return rest.every((line, at) => at === 0 || rest[at - 1].dread >= line.dread);
       }),
     ).resolves.toBeUndefined();
   });
 
-  it("puts the most dreadful comparison first and keeps the next two for the card", () => {
-    const { lines, cardLines } = roast(fixture);
-    expect(lines[0].id).toBe("water");
-    expect(new Set(cardLines.map(({ id }) => id))).toStrictEqual(
-      new Set(["coal", "meals", "water"]),
-    );
+  it("gives the bento its KPIs in a fixed order: water, sea ice, glacier, ocean, land", () => {
+    const { kpis, rest } = roast(fixture);
+    expect(kpis.map(({ id }) => id)).toStrictEqual(["water", "ice", "glacier", "ocean", "land"]);
+    expect(rest[0].id).toBe("meals");
   });
 
   it("breaks a dread tie by a hash of the summary, so tied lines swap places between summaries", () => {
     const orders = new Set<string>();
     for (let sessions = 0; sessions < 300; sessions += 1) {
-      const { lines } = roast({ ...fixture, sessions });
-      // In this summary the power and flights lines tie for fourth place.
-      expect(lines[3].dread).toBe(lines[4].dread);
-      orders.add(`${lines[3].id}>${lines[4].id}`);
+      const { rest } = roast({ ...fixture, sessions });
+      // In this summary the power and flights lines tie for third place.
+      expect(rest[2].dread).toBe(rest[3].dread);
+      orders.add(`${rest[2].id}>${rest[3].id}`);
     }
     expect(orders).toStrictEqual(new Set(["flights>power", "power>flights"]));
   });
@@ -99,10 +100,7 @@ describe("weighted tokens (AC-034)", () => {
     expect(factors.cacheReadWeight.value).toBeCloseTo(0.1);
     expect(cacheOnly.weightedTokens).toBeCloseTo(10_000_000_000 * factors.cacheReadWeight.value);
     // Same weighted tokens, so every line computed from energy is the same.
-    const energy = ({ lines }: typeof cacheOnly) =>
-      lines.filter(({ id }) =>
-        ["coal", "flights", "homes", "power", "tons", "trees", "water"].includes(id),
-      );
+    const energy = (result: typeof cacheOnly) => linesOf(result).filter(({ id }) => id !== "meals");
     expect(energy(cacheOnly)).toStrictEqual(energy(inputOnly));
   });
 
@@ -138,7 +136,7 @@ describe("unknown models (AC-021)", () => {
       { name: expect.any(String), known: false, usd: expect.any(Number) },
     ]);
     expect(result.cost.usd).toBeGreaterThan(0);
-    expect(result.lines.length).toBeGreaterThan(0);
+    expect(result.kpis.length).toBeGreaterThan(0);
   });
 
   it("never prints the raw model id", () => {
@@ -157,8 +155,8 @@ describe("empty and tiny summaries", () => {
     expect(result.headline.tokens).toBe(0);
     expect(result.cost.usd).toBe(0);
     expect(result.weightedTokens).toBe(0);
-    expect(result.lines).toStrictEqual([]);
-    expect(result.cardLines).toStrictEqual([]);
+    expect(result.kpis).toStrictEqual([]);
+    expect(result.rest).toStrictEqual([]);
   });
 
   it("never yields NaN or Infinity, and every line shows its figure", async () => {
@@ -170,11 +168,11 @@ describe("empty and tiny summaries", () => {
           result.cost.usd,
           result.weightedTokens,
           ...result.models.map(({ usd }) => usd),
-          ...result.lines.flatMap(({ value, dread }) => [value, dread]),
+          ...linesOf(result).flatMap(({ value, dread }) => [value, dread]),
         ];
         return (
           numbers.every(Number.isFinite) &&
-          result.lines.every(
+          linesOf(result).every(
             ({ text, figure }) => text.includes(figure) && !/NaN|Infinity/u.test(text),
           )
         );
@@ -184,9 +182,9 @@ describe("empty and tiny summaries", () => {
 });
 
 describe("public copy (AC-033)", () => {
-  it("never says cache or ozone, for any summary", async () => {
+  it("never says cache, agent or ozone, for any summary", async () => {
     await expect(
-      failureOf((summary) => !/cache|ozone/iu.test(publicStrings(summary).join("\n"))),
+      failureOf((summary) => !/cache|agent|ozone/iu.test(publicStrings(summary).join("\n"))),
     ).resolves.toBeUndefined();
   });
 
@@ -197,30 +195,44 @@ describe("public copy (AC-033)", () => {
 });
 
 describe("comparison set (AC-036)", () => {
-  const byId = Object.fromEntries(roast(fixture).lines.map((line) => [line.id, line]));
+  const byId = Object.fromEntries(linesOf(roast(fixture)).map((line) => [line.id, line]));
 
-  it("covers water, coal, school meals, flights, trees, homes, CO2, Chad's electricity and text", () => {
+  it("covers water, sea ice, glacier, ocean, land, coal, meals, flights, trees, homes, CO2 and Chad", () => {
     expect(new Set(Object.keys(byId))).toStrictEqual(
       new Set([
         "coal",
         "flights",
+        "glacier",
         "homes",
+        "ice",
+        "land",
         "meals",
+        "ocean",
         "power",
         "tons",
         "trees",
         "water",
-        "wikipedia",
       ]),
     );
   });
 
-  it("names the coal plant, the flight route, the water minimum and Wikipedia", () => {
+  it("names the coal plant and the flight route", () => {
     expect(byId.coal.text).toContain("Vindhyachal");
     expect(byId.flights.text).toContain("New York");
-    expect(byId.water.text).toMatch(/water minimum/iu);
+  });
 
-    expect(byId.wikipedia.text).toContain("English Wikipedia");
+  it("names the drought, the Arctic, the glacier, the ocean and the data center", () => {
+    expect(byId.water.text).toContain("drought zone");
+    expect(byId.ice.text).toContain("Arctic sea ice");
+    expect(byId.glacier.text).toContain("glacier ice");
+    expect(byId.ocean.text).toContain("ocean");
+    expect(byId.land.text).toContain("data center land");
+  });
+
+  it("counts melted sea ice in battery-hen cages", () => {
+    const ice = roast(fixture).kpis.find(({ id }) => id === "ice");
+    expect(ice?.unit).toBe("battery-hen cage");
+    expect(ice?.tile.label).toBe("of Arctic sea ice");
   });
 
   it("prices the bill in school meals and the power in Chad", () => {
@@ -228,15 +240,18 @@ describe("comparison set (AC-036)", () => {
     expect(byId.power.text).toContain("Chad");
   });
 
-  it("counts how long one person went without water, then whole people from three person-days", () => {
-    // 20 liters is one person-day of the WHO minimum; 1.08 liters per kWh; 0.24 mWh per token.
-    const perPersonDay = 20 / 1.08 / 2.4e-7;
-    const water = (days: number) =>
-      withModel({ input: Math.round(days * perPersonDay) }).lines.find(({ id }) => id === "water");
+  it("counts water in whole 500 mL bottles, a fifth of them from a drought zone", () => {
+    // 1.08 litres per kWh; 0.24 mWh per token.
+    const perLitre = 1 / 1.08 / 2.4e-7;
+    const water = (litres: number) =>
+      withModel({ input: Math.round(litres * perLitre) }).kpis.find(({ id }) => id === "water");
 
-    expect(water(0.5)?.text).toMatch(/^One person went 12 hours without/u);
-    expect(water(2)?.text).toMatch(/^One person went 2 days without/u);
-    expect(water(7.6)?.text).toMatch(/^7 people went without/u);
+    expect(water(0.25)?.text).toMatch(/^You drank 250 milliliters of water\. A fifth of it/u);
+    expect(water(2.1)?.text).toMatch(/^You drank 4 bottles of water\. A fifth of it/u);
+    expect(water(10.1)?.text).toBe(
+      "You drank 20 bottles of water. 4 came from a drought zone. Cry about it.",
+    );
+    expect(water(10.1)?.tile.quip).toBe("4 from a drought zone");
   });
 });
 

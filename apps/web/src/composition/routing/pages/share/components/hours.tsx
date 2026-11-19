@@ -2,6 +2,7 @@ import { useId, useState } from "react";
 
 import { factors } from "../../../../../server/roast";
 import type { Roast } from "../../../../../server/roast";
+import { NextLink } from "./next-link";
 
 const minRate = 10;
 const maxRate = 300;
@@ -16,13 +17,13 @@ const formatHours = (hours: number): string =>
  * The cost as hours of the visitor's own pay. The slider starts at the median hourly pay of US
  * software developers. Without script the figure stays at that rate.
  */
-export const Hours = ({ cost }: { cost: Roast["cost"] }) => {
+export const Hours = ({ cost, next }: { cost: Roast["cost"]; next: string }) => {
   const [rate, setRate] = useState(Math.round(factors.devHourlyWage.value));
   const inputId = useId();
   const hours = formatHours(cost.usd / rate);
 
   return (
-    <section aria-labelledby="hours-title" className="hours">
+    <section aria-labelledby="hours-title" className="slide hours" id="hours">
       <h2 className="hours-title" id="hours-title">
         What is an hour of you worth?
       </h2>
@@ -50,6 +51,7 @@ export const Hours = ({ cost }: { cost: Roast["cost"] }) => {
         At API prices this month cost {cost.figure}. The slider starts at the median US developer,
         so adjust your ego accordingly.
       </p>
+      <NextLink href={next} />
     </section>
   );
 };

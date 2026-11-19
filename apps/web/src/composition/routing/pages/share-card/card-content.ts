@@ -2,12 +2,10 @@ import { decode } from "@tokenshame/share-link/link";
 import * as Effect from "effect/Effect";
 
 import { roast } from "../../../../server/roast";
+import type { Kpi } from "../../../../server/roast";
 
-/** One Roast Line of the card: the sentence, and the part of it that is the number. */
-export interface CardLine {
-  readonly text: string;
-  readonly quantity: string;
-}
+/** One KPI tile of the card: the figure, its unit, and the tile's label and quip. */
+export type CardKpi = Pick<Kpi, "figure" | "id" | "tile" | "unit">;
 
 /** What the card says for one Share Link. A link that does not decode gets the generic card. */
 export type CardContent =
@@ -15,7 +13,7 @@ export type CardContent =
       readonly _tag: "Shared";
       readonly figure: string;
       readonly label: string;
-      readonly lines: readonly CardLine[];
+      readonly kpis: readonly CardKpi[];
     }
   | { readonly _tag: "Broken" };
 
@@ -26,15 +24,12 @@ export const cardContentOf = (link: string): Promise<CardContent> =>
       Effect.match({
         onFailure: (): CardContent => ({ _tag: "Broken" }),
         onSuccess: (summary): CardContent => {
-          const { cardLines, headline } = roast(summary);
+          const { headline, kpis } = roast(summary);
           return {
             _tag: "Shared",
             figure: headline.figure,
             label: headline.label,
-            lines: cardLines.map(({ figure, text, unit }) => ({
-              quantity: `${figure} ${unit}`,
-              text,
-            })),
+            kpis: kpis.map(({ figure, id, tile, unit }) => ({ figure, id, tile, unit })),
           };
         },
       }),

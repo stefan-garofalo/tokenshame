@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { fitFontSize } from "../fit-width";
 import { npmUrl, repoUrl } from "../links";
 import { HowWeCalculated } from "./how-we-calculated";
-import { clock } from "./month-file";
+import { clock } from "../clock";
 
 const name = "tokenshame";
 
