@@ -18,5 +18,5 @@ const maxFontSize = "20rem";
  * The `font-size` that makes `text` span `span` percent of the nearest container's width, up to a cap.
  * The container needs `container-type: inline-size`.
  */
-export const fitFontSize = (text: string, span: number | string = 100): string =>
-  `min(calc(${span} * 1cqw / ${fitWidth(text)}), ${maxFontSize})`;
+export const fitFontSize = (text: string, span: number | string = 100, max = maxFontSize): string =>
+  `min(calc(${span} * 1cqw / ${fitWidth(text)}), ${max})`;

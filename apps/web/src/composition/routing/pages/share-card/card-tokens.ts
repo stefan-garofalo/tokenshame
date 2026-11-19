@@ -1,3 +1,5 @@
+import type { KpiId } from "../../../../server/roast";
+
 // The Share Card draws no stylesheet, so it copies the dark (Omarchy Matte Black) tokens of
 // `src/index.css` (the `--ts-*` custom properties). `share-card.test.tsx` fails when a value drifts from the Share Page's.
 
@@ -11,6 +13,18 @@ export const colors = {
   raised: "#1e1e1e",
   surface: "#121212",
 } as const;
+
+/** The ink on the Wrapped fields (`--ts-field-ink`). */
+export const fieldInk = "#100f0f";
+
+/** The Wrapped field of each KPI tile (`--ts-field-<id>`). */
+export const fields = {
+  glacier: "#92bfdb",
+  ice: "#87d3c3",
+  land: "#879a39",
+  ocean: "#3aa99f",
+  water: "#4385be",
+} as const satisfies Record<KpiId, string>;
 
 export const family = "JetBrains Mono";
 

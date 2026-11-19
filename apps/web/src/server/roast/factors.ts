@@ -25,6 +25,9 @@ const factor = (
 /** The day the comparisons added on 2026-11-18 were read and checked. */
 const added = "2026-11-18";
 
+/** The day the Wrapped comparisons (ice, glacier, ocean, land, drought) were read and checked. */
+const wrapped = "2026-11-19";
+
 export const factors = {
   cacheReadWeight: factor(
     0.1,
@@ -80,25 +83,47 @@ export const factors = {
     "https://www.odyssee-mure.eu/publications/efficiency-by-sector/households/household-eu.pdf",
     "EU average, 0.74 toe per dwelling (ODYSSEE-MURE, from Eurostat), at 11,630 kWh per toe. The range across member states is about 700 to 16,500 kWh. All GPU electricity ends up as heat.",
   ),
-  waterPerPerson: factor(
-    20,
-    "litres per person per day",
-    "https://iris.who.int/server/api/core/bitstreams/c1461987-2c3f-4e63-8f4c-7e44498e5644/content",
-    "WHO basic access to water: at least 20 L per person per day, for drinking and basic hygiene. WHO calls it a guide, not a formal guideline.",
+  seaIcePerTon: factor(
+    3,
+    "m² of September Arctic sea ice lost per ton of CO2",
+    "https://doi.org/10.1126/science.aag2345",
+    "Notz and Stroeve, Science 354(6313), 2016: a sustained loss of 3 ± 0.3 m² of September sea-ice area per ton of CO2, from observations 1953 to 2015.",
+    wrapped,
   ),
-  wordsPerToken: factor(
-    0.75,
-    "English words per token",
-    "https://developers.openai.com/api/docs/concepts",
-    "OpenAI's rule of thumb: a token is about 4 characters or 0.75 words of English text. Anthropic puts it near 3.5 characters, and newer Claude models make about 30% more tokens for the same text. Code differs from prose.",
-    added,
+  henCageCm2: factor(
+    432,
+    "cm² of cage floor per battery hen",
+    "https://uepcertified.com/wp-content/uploads/2020/02/Caged-UEP-Guidelines_17.pdf",
+    "United Egg Producers guidelines: at least 67 square inches (432 cm²) of usable space per caged white hen. Less than a letter-size sheet of paper. The page uses it as the unit of melted sea ice.",
+    wrapped,
   ),
-  wikipediaWords: factor(
-    5_125_583_368,
-    "words in the articles of English Wikipedia",
-    "https://en.wikipedia.org/wiki/Wikipedia:Size_of_Wikipedia",
-    "The last measured count, from 1 March 2026. The same page gives a larger running estimate that is not a measurement.",
-    added,
+  glacierPerKgCo2: factor(
+    15,
+    "kg of glacier ice eventually melted per kg of CO2",
+    "https://www.fona.de/en/glacier-mass-loss-past-the-point-of-no-return",
+    "Marzeion, Kaser, Maussion and Champollion, Nature Climate Change, 2018, as summarised by the German research ministry: every kg of CO2 emitted today causes about 15 kg of glacier melt in the long term. Glaciers outside Greenland and Antarctica only. Carbon Brief reports about 16 kg.",
+    wrapped,
+  ),
+  oceanShare: factor(
+    0.29,
+    "share of emitted CO2 taken up by the ocean",
+    "https://essd.copernicus.org/articles/18/3211/2026/",
+    "Global Carbon Budget 2025: the ocean took up 29% of total CO2 emissions over the last decade. Dissolved CO2 makes seawater more acidic.",
+    wrapped,
+  ),
+  droughtShare: factor(
+    0.2,
+    "share of data center water from water-stressed watersheds",
+    "https://iopscience.iop.org/article/10.1088/1748-9326/abfba1",
+    "Siddik, Shehabi and Marston, Environmental Research Letters 16(6), 2021: one-fifth of the direct water footprint of US data center servers comes from moderately to highly water-stressed watersheds. US data, applied to all usage.",
+    wrapped,
+  ),
+  landPerMw: factor(
+    9105,
+    "m² of data center land per MW of capacity",
+    "https://andymasley.com/writing/data-center-land-use-issues-are-fake/",
+    "Midpoint of 1,500 to 3,000 acres per GW of new hyperscale build-out (2,250 acres per GW). Industry guides say 0.5 to 1.5 acres per MW. The line spreads the month's energy evenly over 30 days and counts the land that much power needs.",
+    wrapped,
   ),
   schoolMealUsd: factor(
     0.12,

@@ -2,13 +2,15 @@ import { useRouter } from "@tanstack/react-router";
 
 import { ENV } from "../../../../env";
 import type { Roast } from "../../../../server/roast";
+import { Bento } from "./components/bento";
 import { CopyImageButton } from "./components/copy-image-button";
 import { CopyImageSlot } from "./components/copy-image-slot";
 import { Credits } from "./components/credits";
 import { Hours } from "./components/hours";
 import { HowWeCalculated } from "./components/how-we-calculated";
+import { KpiSlide } from "./components/kpi-slide";
 import { Lockup } from "./components/lockup";
-import { MonthFile } from "./components/month-file";
+import { NextLink } from "./components/next-link";
 import { PostOnXButton } from "./components/post-on-x-button";
 import { PostOnXSlot } from "./components/post-on-x-slot";
 import { Prompt } from "./components/prompt";
@@ -19,7 +21,7 @@ import { repoUrl } from "./links";
 import "./share.css";
 
 /** What the Share Page needs from the roast engine. */
-export type ShareView = Pick<Roast, "cost" | "headline" | "lines" | "month">;
+export type ShareView = Pick<Roast, "cost" | "headline" | "kpis" | "month" | "rest">;
 
 // The Share Page is the page the visitor is on. Without a router (a bare render) there is nothing to share yet.
 const useSharePath = () => useRouter({ warn: false })?.state.location.pathname;
@@ -37,51 +39,77 @@ export const Nav = () => (
   </nav>
 );
 
+/** What the Post on X button writes: the water, if there is any, said like a villain. */
+const postText = ({ headline, kpis }: ShareView): string => {
+  const water = kpis.find(({ id }) => id === "water");
+  return water
+    ? `I made AI drink ${water.figure} ${water.unit} of water this month. Cry about it 💧`
+    : `My AI processed ${headline.figure} tokens in 30 days. Suspiciously clean.`;
+};
+
 /**
- * The Share Page of one Share Link: the month's token count beside the month as a source file,
- * the cost in hours of the visitor's pay, the Roast Lines, and the command to run your own.
+ * The Share Page of one Share Link, as a Wrapped: one full-screen slide per chapter, snapped as
+ * the visitor scrolls. The token count, a slide per KPI, the rest of the damage, the hours of pay,
+ * and the bento to post. Every "Next" is an anchor, so it works without script.
  */
 export const SharePage = ({ roast }: { roast: ShareView }) => {
   const sharePath = useSharePath();
   const { figure, label } = roast.headline;
-  const hasLines = roast.lines.length > 0;
+  const hasLines = roast.kpis.length > 0 || roast.rest.length > 0;
+  const order = [
+    ...roast.kpis.map(({ id }) => id),
+    ...(roast.rest.length > 0 ? ["damage"] : []),
+    ...(hasLines ? ["hours"] : []),
+    "receipt",
+  ];
+  const after = (index: number) => `#${order[index] ?? "receipt"}`;
 
   return (
-    <main className="share">
-      <Nav />
-      <section className="hero">
-        <div className="hero-text">
+    <main className="share wrapped">
+      <div aria-hidden="true" className="progress" />
+      <section aria-label="Your month" className="slide slide-start">
+        <Nav />
+        <div className="start-body">
           <Prompt />
-          <Lockup lines={[figure, label]} />
           <p className="statement">
             {hasLines
-              ? "Your coding agents, last 30 days. No judgment. Some judgment."
+              ? "Your last 30 days with AI, wrapped. Scroll if you can take it."
               : "Nothing to roast: no usage in the last 30 days. Suspiciously clean."}
           </p>
-          <div className="actions">
-            <PostOnXSlot>
-              {sharePath && (
-                <PostOnXButton
-                  pageUrl={`${ENV.SITE_ORIGIN}${sharePath}`}
-                  text={`My coding agents burned through ${figure} tokens in 30 days. I am not okay.`}
-                />
-              )}
-            </PostOnXSlot>
-            <CopyImageSlot>
-              {sharePath && <CopyImageButton imageUrl={`${sharePath}/og.png`} />}
-            </CopyImageSlot>
-          </div>
-        </div>
-        <div className="stage">
-          <MonthFile cost={roast.cost} headline={roast.headline} month={roast.month} />
+          <Lockup lines={[figure, label]} />
+          <p className="start-facts">
+            {roast.month.sessions.toLocaleString("en-US")} sessions. Zero regrets.
+          </p>
+          <NextLink href={after(0)} label={hasLines ? "Unwrap it" : "Get the image"} />
         </div>
       </section>
-      {hasLines && <Hours cost={roast.cost} />}
-      {hasLines && <RoastList lines={roast.lines} />}
-      <RunYourOwn />
-      <SiteFooter busiestHour={hasLines ? roast.month.busiestHour : undefined}>
-        {hasLines && <Credits />}
-      </SiteFooter>
+      {roast.kpis.map((kpi, index) => (
+        <KpiSlide key={kpi.id} kpi={kpi} next={after(index + 1)} />
+      ))}
+      {roast.rest.length > 0 && <RoastList lines={roast.rest} next="#hours" />}
+      {hasLines && <Hours cost={roast.cost} next="#receipt" />}
+      <section aria-labelledby="receipt-title" className="slide slide-receipt" id="receipt">
+        <h2 className="receipt-title" id="receipt-title">
+          Your month in one picture.
+        </h2>
+        <Bento headline={roast.headline} kpis={roast.kpis} />
+        <div className="actions">
+          <PostOnXSlot>
+            {sharePath && (
+              <PostOnXButton pageUrl={`${ENV.SITE_ORIGIN}${sharePath}`} text={postText(roast)} />
+            )}
+          </PostOnXSlot>
+          <CopyImageSlot>
+            {sharePath && <CopyImageButton imageUrl={`${sharePath}/og.png`} />}
+          </CopyImageSlot>
+        </div>
+      </section>
+      <div className="close">
+        <RunYourOwn />
+        <SiteFooter busiestHour={hasLines ? roast.month.busiestHour : undefined}>
+          {hasLines && <Credits />}
+        </SiteFooter>
+      </div>
     </main>
   );
 };

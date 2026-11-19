@@ -10,16 +10,18 @@ import type { Summary } from "@tokenshame/share-link/summary";
 import { tokensProcessed } from "@tokenshame/share-link/summary";
 
 import { impactsOf, weightedTokens } from "./impacts";
-import type { ImpactId } from "./impacts";
+import type { ImpactId, KpiId } from "./impacts";
 import { formatCount, formatUsd, render } from "./lines";
-import { cardSize, dreadOf, keyOf, rank } from "./pick";
+import type { Tile } from "./lines";
+import { dreadOf, keyOf, rank } from "./pick";
 import { costOf, fallbackPrice, priceOf } from "./prices";
 
 export { factors } from "./factors";
 export type { Factor } from "./factors";
 export { prices } from "./prices";
 export type { Price } from "./prices";
-export type { ImpactId } from "./impacts";
+export type { ImpactId, KpiId } from "./impacts";
+export type { Tile } from "./lines";
 
 /** One Roast Line. `text` is the sentence, `figure` and `unit` are the number inside it. */
 export interface RoastLine {
@@ -32,6 +34,12 @@ export interface RoastLine {
   dread: number;
 }
 
+/** A KPI of the bento: a Roast Line with a tile. Only the KPI templates have one. */
+export interface Kpi extends RoastLine {
+  id: KpiId;
+  tile: Tile;
+}
+
 export interface Roast {
   headline: { tokens: number; figure: string; label: "tokens processed" };
   /** Tokens that cost compute: what the impacts are computed from. */
@@ -42,11 +50,13 @@ export interface Roast {
   cost: { usd: number; figure: string };
   /** Cost per model in link order, with the model's name when we know it. */
   models: readonly { name: string; known: boolean; usd: number }[];
-  /** Every line for the Share Page, most dreadful first. */
-  lines: readonly RoastLine[];
-  /** The first three of `lines`, for the Share Card. */
-  cardLines: readonly RoastLine[];
+  /** The KPIs of the bento, in its fixed order: water, sea ice, glacier, ocean, land. */
+  kpis: readonly Kpi[];
+  /** Every other Roast Line, most dreadful first. */
+  rest: readonly RoastLine[];
 }
+
+const isKpi = (line: RoastLine & { tile?: Tile }): line is Kpi => line.tile !== undefined;
 
 export const roast = (summary: Summary): Roast => {
   const models = summary.models.map((tokens) => {
@@ -63,13 +73,10 @@ export const roast = (summary: Summary): Roast => {
   const weighted = weightedTokens(summary);
   const tokens = tokensProcessed(summary);
 
-  const lines = rank(
-    impactsOf({ costUsd: usd, tokens, weighted }).map(({ id, amount }) => {
-      const { severity, ...line } = render(id, amount);
-      return { ...line, dread: dreadOf(severity, line.value) };
-    }),
-    keyOf(summary),
-  );
+  const lines = impactsOf({ costUsd: usd, weighted }).map(({ id, amount }) => {
+    const { severity, ...line } = render(id, amount);
+    return { ...line, dread: dreadOf(severity, line.value) };
+  });
 
   return {
     headline: { tokens, figure: formatCount(tokens), label: "tokens processed" },
@@ -77,7 +84,10 @@ export const roast = (summary: Summary): Roast => {
     month: { sessions: summary.sessions, busiestHour: summary.busiestHour },
     cost: { usd, figure: formatUsd(usd) },
     models,
-    lines,
-    cardLines: lines.slice(0, cardSize),
+    kpis: lines.filter(isKpi),
+    rest: rank(
+      lines.filter((line) => !isKpi(line)),
+      keyOf(summary),
+    ),
   };
 };
