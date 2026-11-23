@@ -746,6 +746,13 @@
   scroll-snap-type: y proximity;
 }
 
+/* Next is a plain anchor: the jump to the next slide glides instead of cutting. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:has(.wrapped) {
+    scroll-behavior: smooth;
+  }
+}
+
 .share.wrapped {
   padding: 0;
 }
