@@ -1,0 +1,4 @@
+{"type":"session","id":"g1","timestamp":"2026-03-05T08:00:00.000Z","cwd":"/work"}
+{"type":"service_tier_change","id":"t1","timestamp":"2026-03-05T08:00:00.500Z"}
+{"type":"message","id":"m1","timestamp":"2026-03-05T08:00:01.000Z","message":{"role":"assistant","model":"gpt-4o","provider":"openai","api":"openai-responses","timestamp":1772697601000,"usage":{"input":300,"output":30,"cacheRead":0,"cacheWrite":0,"totalTokens":330,"cost":{"total":0.001}}}}
+{"type":"message","id":"m2","timestamp":"2026-03-05T08:00:02.000Z","message":{"role":"assistant","model":"gpt-4o","provider":"openai","usage":{"input":200,"output":20,"cacheRead":100,"cacheWrite":0,"totalTokens":320}}}

@@ -1,0 +1,13 @@
+[
+ {
+  "type": "say",
+  "say": "api_req_started",
+  "ts": "2026-01-02T00:00:00.000Z",
+  "text": "{\"tokensIn\": 300, \"tokensOut\": 30, \"cacheReads\": 50, \"cacheWrites\": 0}",
+  "modelInfo": {
+   "providerId": "anthropic",
+   "modelId": "claude-sonnet-4-5",
+   "mode": "act"
+  }
+ }
+]

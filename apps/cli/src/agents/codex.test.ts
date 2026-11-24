@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import * as NodePath from "@effect/platform-node/NodePath";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, describe, it } from "@effect/vitest";
+import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
@@ -15,8 +16,13 @@ import type { ReadResult } from "./types";
 const fixtureHome = (name: string): string =>
   fileURLToPath(new URL(`fixtures/codex/${name}`, import.meta.url));
 
+// An empty environment, so a real `CODEX_HOME` never moves the fixture home.
 const read = (name: string) =>
-  readCodex(fixtureHome(name)).pipe(Effect.provide(NodeServices.layer));
+  readCodex(fixtureHome(name)).pipe(
+    Effect.provide(
+      Layer.merge(NodeServices.layer, ConfigProvider.layer(ConfigProvider.fromEnv({ env: {} }))),
+    ),
+  );
 
 const sessionOne = "codex:2026-01-02T03-04-05-00000000-0000-4000-8000-000000000001";
 const sessionTwo = "codex:2026-01-03T10-00-00-00000000-0000-4000-8000-000000000002";

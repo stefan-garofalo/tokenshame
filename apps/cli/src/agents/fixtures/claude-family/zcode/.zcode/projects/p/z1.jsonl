@@ -1,0 +1,2 @@
+{"role":"user","sessionId":"z1","timestamp":"2026-01-11T11:59:00Z","content":"synthetic prompt"}
+{"role":"assistant","model":"glm-5.2","sessionId":"z1","timestamp":"2026-01-11T12:00:00Z","usage":{"input_tokens":1000,"output_tokens":100,"cache_read_tokens":400,"total":1100}}

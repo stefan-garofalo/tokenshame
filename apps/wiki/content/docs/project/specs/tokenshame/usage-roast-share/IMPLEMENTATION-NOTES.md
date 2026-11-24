@@ -286,3 +286,14 @@ Owner direction: it was not clear enough that tokenshame is a rage-bait meme aim
 - Share Card: the same bento in flex layout for takumi. The X post text says "I made AI drink N bottles of water this month. Cry about it 💧".
 - Design: the composition was fixed by the owner, so no new direction was drawn; brand colours and type kept. Pictures added from Wikimedia Commons, credited in the footer: a polar bear (Hannes Grobe, AWI, CC BY 2.5), Fox Glacier retreat (Rod Waddington, CC BY-SA 2.0), bleached coral (Oregon State University, CC BY-SA 2.0), Google's Council Bluffs data center (chaddavis.photography, CC BY 2.0); the hand-pump picture returns for water.
 - Inspector on the production build, fixture link: 0 FAIL. WARN palette-cream (Flexoki Light, as before), size-count (each fitted figure gets its own size), no-footage (no honest clip found).
+
+## Revision: every agent with real local counts (2026-11-24)
+
+Owner direction: a user's GLM usage was not counted because their harnesses were not read. Support every harness that keeps real token counts on the machine.
+
+- Sources: 14 to 59 readers. Formats were taken from tokscale (`junhoyeo/tokscale`, MIT) and codeburn (`getagentseal/codeburn`, MIT), and checked against both where both read the same source. The README lists all 59.
+- log#Q16 still holds ("all agents with local data"). Its exclusion of Cursor, Kiro and Devin was a fact that is no longer true: Devin CLI and Desktop, Kiro CLI sessions and some Cursor builds now write real counts locally. They are read. Cursor and Kiro's Auto agent often write zeros, which count nothing.
+- Rule kept: real counts only. No reader estimates from text, context size, credits or cost. Not read for that reason: Freebuff, cursor-agent, Kiro IDE, Grok Bot, Crush (last-call figures only), CodeWhale (no input/output split). Not read because the data is server-side: Trae, Warp, Windsurf. Not read to avoid double counting: Open Design, Claude desktop usage ledger, Copilot OpenTelemetry export.
+- Existing readers now read the env vars and extra folders their tools use: `CLAUDE_CONFIG_DIR` and the Claude desktop app's sessions, `CODEX_HOME` and `archived_sessions` (also zstd), opencode `XDG_DATA_HOME` and channel databases, `GEMINI_CLI_HOME`, `GROK_HOME`, `PI_CODING_AGENT_DIR`, Goose `GOOSE_PATH_ROOT`, Copilot desktop `data.db`. opencode output now includes reasoning tokens, which were dropped before.
+- File readers parse in path order after reading in parallel, so a reader that keeps the first copy of a duplicated call gives the same records on every run.
+- Known gaps, not fixed: a forked Codex rollout repeats its parent's running total (counted twice); Claude `/btw` side files repeat a parent message with a new request id (counted twice); Claude transcripts that opencode's `claude-agent` provider also logs (counted twice).

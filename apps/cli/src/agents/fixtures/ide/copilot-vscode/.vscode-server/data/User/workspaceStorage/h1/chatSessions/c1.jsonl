@@ -1,0 +1,5 @@
+{"kind": 0, "v": {"version": 3, "sessionId": "c1", "creationDate": 1767225500000, "requests": []}}
+{"kind": 2, "k": ["requests"], "v": [{"requestId": "r1", "timestamp": 1767225600000, "modelId": "copilot/gpt-4.1", "message": {"text": "hi"}}]}
+{"kind": 1, "k": ["requests", 0, "result"], "v": {"metadata": {"promptTokens": 900, "outputTokens": 40, "resolvedModel": "gpt-4.1-2025-04-14"}}}
+{"kind": 1, "k": ["requests", 0, "completionTokens"], "v": 60}
+{"kind": 2, "k": ["requests"], "v": [{"requestId": "r2", "timestamp": 1767225700000, "modelId": "copilot/claude-sonnet-4", "modelTotals": [{"inputTokens": 5000, "cachedTokens": 4000, "outputTokens": 300}, {"inputTokens": 1000, "cachedTokens": 500, "outputTokens": 50}]}]}

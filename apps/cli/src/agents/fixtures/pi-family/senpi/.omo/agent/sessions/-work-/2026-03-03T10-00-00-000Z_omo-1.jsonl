@@ -1,0 +1,3 @@
+{"type":"session","version":3,"id":"omo-1","timestamp":"2026-03-03T10:00:00.000Z","cwd":"/work"}
+{"type":"session_info","id":"i1","parentId":null,"timestamp":"2026-03-03T10:00:00.500Z","name":"Fake session title"}
+{"type":"message","id":"o1","parentId":"i1","timestamp":"2026-03-03T10:00:01.000Z","message":{"role":"assistant","model":"kimi-k2","usage":{"input":10,"output":5,"cacheRead":0,"cacheWrite":0,"totalTokens":15}}}

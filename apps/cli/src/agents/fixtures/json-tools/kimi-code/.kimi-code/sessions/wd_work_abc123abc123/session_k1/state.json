@@ -1,0 +1,11 @@
+{
+  "workDir": "/work",
+  "agents": {
+    "main": {
+      "parentAgentId": null
+    },
+    "sub1": {
+      "parentAgentId": "main"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{"type":"session","version":3,"id":"cc-1"}
+{"type":"model_change","timestamp":"2026-01-11T11:59:00.000Z","model":"deepseek/deepseek-v4-flash"}
+{"type":"message","id":"u0","timestamp":"2026-01-11T11:59:30.000Z","message":{"role":"user","content":"synthetic prompt"}}
+{"type":"message","id":"a1b2c3d4","timestamp":"2026-01-11T12:00:00.000Z","message":{"role":"assistant","content":[{"type":"text","text":"ok"}],"meta":{"messageId":"uuid-1"}},"usage":{"inputTokens":28534,"outputTokens":205,"cacheReadTokens":7424,"cacheWriteTokens":0,"costUsd":0.01}}
+{"type":"message","id":"e5f6a7b8","timestamp":"2026-01-11T12:01:00.000Z","model":"anthropic/claude-sonnet-4-5","message":{"role":"assistant","content":[{"type":"text","text":"ok"}]},"usage":{"inputTokens":100,"outputTokens":10,"cacheReadTokens":0,"cacheWriteTokens":50,"costUsd":0.01}}

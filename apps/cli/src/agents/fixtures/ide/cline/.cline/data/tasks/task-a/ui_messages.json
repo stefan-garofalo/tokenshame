@@ -1,0 +1,31 @@
+[
+ {
+  "type": "say",
+  "say": "text",
+  "ts": 1767225599000,
+  "text": "fix it"
+ },
+ {
+  "type": "say",
+  "say": "api_req_started",
+  "ts": 1767225600000,
+  "text": "{\"tokensIn\": 100, \"tokensOut\": 50, \"cacheReads\": 1000, \"cacheWrites\": 200, \"cost\": 0.01}",
+  "modelInfo": {
+   "providerId": "anthropic",
+   "modelId": "claude-sonnet-4-5",
+   "mode": "act"
+  }
+ },
+ {
+  "type": "say",
+  "say": "api_req_started",
+  "ts": 1767225660000,
+  "text": "{\"tokensIn\": 10, \"tokensOut\": 5, \"cacheReads\": 0, \"cacheWrites\": 0}"
+ },
+ {
+  "type": "say",
+  "say": "api_req_started",
+  "ts": 1767225670000,
+  "text": "{\"request\": \"<task>fix it</task>\"}"
+ }
+]

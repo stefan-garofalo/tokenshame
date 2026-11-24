@@ -1,0 +1,15 @@
+[
+ {
+  "role": "user",
+  "content": [
+   {
+    "type": "text",
+    "text": "<task>fix it</task>"
+   },
+   {
+    "type": "text",
+    "text": "<environment_details>\n# Current Mode\n<slug>code</slug>\n<model>anthropic/claude-sonnet-4</model>\n</environment_details>"
+   }
+  ]
+ }
+]

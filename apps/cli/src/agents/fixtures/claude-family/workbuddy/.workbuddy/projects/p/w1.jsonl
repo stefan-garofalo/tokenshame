@@ -1,0 +1,1 @@
+{"id":"a-a","timestamp":1768132800000,"type":"message","role":"assistant","sessionId":"w1","providerData":{"model":"hunyuan-t1","messageId":"a"},"message":{"usage":{"input_tokens":500,"output_tokens":50}}}

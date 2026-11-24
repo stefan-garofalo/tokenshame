@@ -1,0 +1,2 @@
+{"type":"session","version":2,"id":"legacy-1","timestamp":"2026-03-13T11:00:00.000Z","cwd":"/tmp"}
+{"type":"message","id":"l1","timestamp":"2026-03-13T11:00:00.000Z","message":{"role":"assistant","model":"claude-sonnet-4-5","usage":{"input":30,"output":3,"cacheRead":0,"cacheWrite":0},"timestamp":1773399600000}}

@@ -1,0 +1,2 @@
+{"type":"llm.request","model":"__kimi_env_model__","time":1767225604000}
+{"type":"usage.record","usageScope":"turn","model":"kimi-k2-turbo","agentId":"sub1","time":1767225605000,"usage":{"inputOther":10,"output":2}}

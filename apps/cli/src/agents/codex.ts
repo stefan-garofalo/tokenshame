@@ -1,12 +1,16 @@
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
+import type { PlatformError } from "effect/PlatformError";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 
+import { environmentFolder } from "./env";
 import type { Reader, SkippedSource, UsageRecord } from "./types";
+import { zstdDecompress, zstdMissing } from "./zstd";
 
 const Count = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0));
 
@@ -97,56 +101,101 @@ const toRecord = (session: string, { at, model, usage }: Scan): UsageRecord | un
   };
 };
 
-const rolloutFile = /^rollout-.*\.jsonl$/u;
+const rolloutFile = /^rollout-.*\.jsonl(?:\.zst)?$/u;
+
+/** A compressed rollout that could not be decompressed, or a Node without zstd. */
+class ZstdError extends Data.TaggedError("ZstdError")<{ readonly message: string }> {}
+
+const decompress = (data: Uint8Array) => {
+  const decode = zstdDecompress;
+  return decode === undefined
+    ? Effect.fail(new ZstdError({ message: zstdMissing }))
+    : Effect.try({
+        catch: (error) => new ZstdError({ message: String(error) }),
+        try: () => new TextDecoder().decode(decode(data)),
+      });
+};
+
+const recordTotal = (record: UsageRecord): number =>
+  record.input + record.output + record.cacheRead + record.cacheWrite;
 
 /**
- * Reads `~/.codex/sessions/**\/rollout-*.jsonl`. Each file keeps cumulative
- * `token_count` totals, so only its last non-null total counts. Lines that
- * fail to parse are skipped.
+ * Codex CLI. Reads `rollout-*.jsonl` session files below `sessions/` (`YYYY/MM/DD/`) and
+ * `archived_sessions/` (where Codex moves archived sessions) of the Codex home: `CODEX_HOME`
+ * when set, else `~/.codex`. Codex may compress a rollout to `rollout-*.jsonl.zst`; those are
+ * read when Node has zstd (22.15+), else they count as unreadable files.
+ *
+ * Each file keeps cumulative `token_count` totals, so only its last non-null total counts.
+ * Lines that fail to parse are skipped. The session id is the file name without `rollout-`
+ * and its suffix; a rollout that exists more than once (in both folders, or plain and
+ * compressed) counts once, with its largest total, since Codex totals only grow.
  */
 export const readCodex: Reader = Effect.fn("readCodex")(function* readSessions(home: string) {
   const fs = yield* FileSystem.FileSystem;
   const path = yield* Path.Path;
-  const root = path.join(home, ".codex", "sessions");
+  const codexHome = Option.getOrElse(yield* environmentFolder("CODEX_HOME"), () =>
+    path.join(home, ".codex"),
+  );
+  const roots = [path.join(codexHome, "sessions"), path.join(codexHome, "archived_sessions")];
   const skipped = (reason: SkippedSource["reason"], detail: string): SkippedSource => ({
     _tag: "Skipped",
     agent: "Codex",
     detail,
-    path: root,
+    path: roots[0] ?? codexHome,
     reason,
   });
 
-  const listed = yield* Effect.result(fs.readDirectory(root, { recursive: true }));
-  if (Result.isFailure(listed)) {
-    return listed.failure.reason._tag === "NotFound"
-      ? skipped("no-data", "")
-      : skipped("unreadable", listed.failure.message);
-  }
+  const listRoot = (root: string) =>
+    fs.readDirectory(root, { recursive: true }).pipe(
+      Effect.map((entries) =>
+        entries
+          .filter((entry) => rolloutFile.test(path.basename(entry)))
+          .toSorted()
+          .map((entry) => path.join(root, entry)),
+      ),
+      // A missing folder holds no sessions; any other listing failure is kept.
+      Effect.catchIf(
+        (error) => error.reason._tag === "NotFound",
+        () => Effect.succeed<string[]>([]),
+      ),
+      Effect.result,
+    );
 
-  const files = listed.success.filter((file) => rolloutFile.test(path.basename(file))).toSorted();
+  const readLines = (file: string): Stream.Stream<string, PlatformError | ZstdError> =>
+    file.endsWith(".zst")
+      ? Stream.fromEffect(Effect.flatMap(fs.readFile(file), decompress)).pipe(Stream.splitLines)
+      : fs.stream(file).pipe(Stream.decodeText(), Stream.splitLines);
+
   const readSession = (file: string) => {
-    const session = `codex:${path.basename(file, ".jsonl").replace(/^rollout-/u, "")}`;
-    return fs.stream(path.join(root, file)).pipe(
-      Stream.decodeText(),
-      Stream.splitLines,
+    const name = path.basename(file).replace(/\.zst$/u, "");
+    const session = `codex:${path.basename(name, ".jsonl").replace(/^rollout-/u, "")}`;
+    return readLines(file).pipe(
       Stream.runFold(() => emptyScan, scanLine),
       Effect.map((scan) => toRecord(session, scan)),
       Effect.result,
     );
   };
+
   // The unicorn rules mistake `Effect.forEach` for `Array#forEach`.
+  // oxlint-disable-next-line unicorn/no-array-for-each, unicorn/no-array-method-this-argument
+  const listed = yield* Effect.forEach(roots, listRoot);
+  const files = listed.flatMap((result) => (Result.isSuccess(result) ? result.success : []));
   // oxlint-disable-next-line unicorn/no-array-for-each, unicorn/no-array-method-this-argument
   const results = yield* Effect.forEach(files, readSession);
 
-  const records = results.flatMap((result) => {
+  const bySession = new Map<string, UsageRecord>();
+  for (const result of results) {
     const record = Result.getOrUndefined(result);
-    return record === undefined ? [] : [record];
-  });
-  if (records.length > 0) {
-    return { _tag: "Read", records };
+    const kept = record === undefined ? undefined : bySession.get(record.session);
+    if (record !== undefined && (kept === undefined || recordTotal(record) > recordTotal(kept))) {
+      bySession.set(record.session, record);
+    }
   }
-  const failed = results.find(Result.isFailure);
-  return failed === undefined
+  if (bySession.size > 0) {
+    return { _tag: "Read", records: [...bySession.values()] };
+  }
+  const [failure] = [...listed.filter(Result.isFailure), ...results.filter(Result.isFailure)];
+  return failure === undefined
     ? skipped("no-data", "")
-    : skipped("unreadable", failed.failure.message);
+    : skipped("unreadable", failure.failure.message);
 });

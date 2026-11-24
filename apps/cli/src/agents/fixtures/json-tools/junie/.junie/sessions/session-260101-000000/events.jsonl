@@ -1,0 +1,5 @@
+{"kind":"UserPromptEvent","prompt":"fake prompt"}
+{"event":{"agentEvent":{"kind":"AgentStateUpdatedEvent","state":{"steps":[]}}}}
+{"timestampMs":1767225602000,"event":{"agentEvent":{"kind":"LlmResponseMetadataEvent","modelUsage":[{"model":"claude-sonnet-4-5","provider":"anthropic","inputTokens":100,"outputTokens":10,"cacheInputTokens":50,"cacheCreateTokens":5,"cost":0.01,"time":900},{"model":"gpt-5","inputTokens":20,"outputTokens":2}]}}}
+{"timestampMs":1767225602000,"event":{"agentEvent":{"kind":"LlmResponseMetadataEvent","modelUsage":[{"model":"claude-sonnet-4-5","provider":"anthropic","inputTokens":100,"outputTokens":10,"cacheInputTokens":50,"cacheCreateTokens":5,"cost":0.01,"time":900},{"model":"gpt-5","inputTokens":20,"outputTokens":2}]}}}
+{"timestampMs":1767225603000,"event":{"agentEvent":{"kind":"LlmResponseMetadataEvent","modelUsage":[{"model":"claude-sonnet-4-5","provider":"anthropic","inputTokens":100,"outputTokens":10,"cacheInputTokens":50,"cacheCreateTokens":5,"cost":0.01,"time":900}]}}}

@@ -4,6 +4,7 @@ import * as Path from "effect/Path";
 
 import { hasColumns, readUsageDatabase, uncachedInput } from "./copilot";
 import type { BuildQuery } from "./copilot";
+import { environmentFolder } from "./env";
 import { unknownModel } from "./pi";
 import type { Reader } from "./types";
 
@@ -80,12 +81,14 @@ const buildQuery: BuildQuery = (columns) => {
 
 /**
  * Goose keeps sessions in a SQLite database (since Goose 1.10; schema from
- * `crates/goose/src/session/session_manager.rs` in block/goose). The folder is Goose's data
- * folder, then `sessions/sessions.db`:
- * - `~/.local/share/goose` (XDG data folder, macOS and Linux);
- * - `~/Library/Application Support/Block/goose` (older macOS installs);
+ * `crates/goose/src/session/session_manager.rs` in block/goose): `sessions/sessions.db` in
+ * Goose's data folder. When `GOOSE_PATH_ROOT` is an absolute folder, Goose uses only
+ * `<root>/data`. Otherwise the first of these that holds the database:
+ * - `$XDG_DATA_HOME/goose`, else `~/.local/share/goose` (macOS and Linux);
+ * - `~/Library/Application Support/goose`, then `~/Library/Application Support/Block/goose`
+ *   (macOS installs);
+ * - `~/.local/share/Block/goose` (older Linux installs);
  * - `~/AppData/Roaming/Block/goose/data` (Windows).
- * `GOOSE_PATH_ROOT` (an absolute folder that replaces them) is not read.
  *
  * Mapping, from `usage_ledger` (one row per model call): `session` = `goose:` +
  * `session_id`, `model` = `model` (else `sessions.model_config_json.model_name`, else
@@ -96,21 +99,23 @@ const buildQuery: BuildQuery = (columns) => {
 export const readGoose: Reader = (home) =>
   Effect.gen(function* readFromHome() {
     const path = yield* Path.Path;
-    return yield* readUsageDatabase(
-      "Goose",
-      [
-        path.join(home, ".local", "share", "goose", "sessions", "sessions.db"),
-        path.join(
-          home,
-          "Library",
-          "Application Support",
-          "Block",
-          "goose",
-          "sessions",
-          "sessions.db",
-        ),
-        path.join(home, "AppData", "Roaming", "Block", "goose", "data", "sessions", "sessions.db"),
-      ],
-      buildQuery,
+    const database = ["sessions", "sessions.db"];
+    const root = (yield* environmentFolder("GOOSE_PATH_ROOT")).pipe(
+      Option.filter((folder) => path.isAbsolute(folder)),
     );
+    const dataHome = Option.getOrElse(yield* environmentFolder("XDG_DATA_HOME"), () =>
+      path.join(home, ".local", "share"),
+    );
+    const supportFolder = path.join(home, "Library", "Application Support");
+    const files = Option.match(root, {
+      onNone: () => [
+        path.join(dataHome, "goose", ...database),
+        path.join(supportFolder, "goose", ...database),
+        path.join(supportFolder, "Block", "goose", ...database),
+        path.join(home, ".local", "share", "Block", "goose", ...database),
+        path.join(home, "AppData", "Roaming", "Block", "goose", "data", ...database),
+      ],
+      onSome: (folder) => [path.join(folder, "data", ...database)],
+    });
+    return yield* readUsageDatabase("Goose", files, buildQuery);
   });

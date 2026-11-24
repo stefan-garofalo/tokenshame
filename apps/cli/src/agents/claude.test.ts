@@ -2,14 +2,19 @@ import { fileURLToPath } from "node:url";
 
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import { assert, describe, it } from "@effect/vitest";
+import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 
 import { readClaude } from "./claude";
 import type { ReadResult, SkippedSource, UsageRecord } from "./types";
 
 const read = (name: string): Effect.Effect<ReadResult> =>
   readClaude(fileURLToPath(new URL(`fixtures/claude/${name}`, import.meta.url))).pipe(
-    Effect.provide(NodeServices.layer),
+    // An empty environment, so a real `CLAUDE_CONFIG_DIR` cannot move the source.
+    Effect.provide(
+      Layer.mergeAll(NodeServices.layer, ConfigProvider.layer(ConfigProvider.fromEnv({ env: {} }))),
+    ),
   );
 
 /** The records of a `Read` result; fails the test on `Skipped`. */

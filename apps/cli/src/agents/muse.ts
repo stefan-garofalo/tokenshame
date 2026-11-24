@@ -1,10 +1,10 @@
-import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Predicate from "effect/Predicate";
 import * as Schema from "effect/Schema";
 
+import { environmentFolder } from "./env";
 import { decodeLines, readFiles, toCount } from "./pi";
 import type { ParseFile } from "./pi";
 import type { Reader, UsageRecord } from "./types";
@@ -88,11 +88,6 @@ const makeParse = (): ParseFile => {
       (lines) => lines.flat(),
     );
 };
-
-const environmentFolder = (name: string) =>
-  Config.option(Config.NonEmptyString(name)).pipe(
-    Effect.orElseSucceed(() => Option.none<string>()),
-  );
 
 /**
  * Muse (Meta's Muse Code CLI) keeps one event log per session, `<home>/sessions/YYYY/MM/DD/<id>/session.jsonl`,

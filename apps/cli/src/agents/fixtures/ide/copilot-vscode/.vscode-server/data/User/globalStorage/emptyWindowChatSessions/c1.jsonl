@@ -1,0 +1,1 @@
+{"kind": 0, "v": {"version": 3, "sessionId": "c1", "creationDate": 1767225500000, "requests": [{"requestId": "r1", "timestamp": 1767225600000, "modelId": "copilot/gpt-4.1", "promptTokens": 100, "completionTokens": 1}]}}

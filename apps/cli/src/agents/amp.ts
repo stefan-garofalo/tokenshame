@@ -1,9 +1,12 @@
+import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
+import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
+import { environmentFolder } from "./env";
 import { readFiles, stemOf, toCount, toEpochMs, unknownModel } from "./pi";
 import type { ParseFile } from "./pi";
-import type { Reader } from "./types";
+import type { ReadResult, Reader } from "./types";
 
 const Count = Schema.optionalKey(Schema.Finite);
 const Text = Schema.optionalKey(Schema.String);
@@ -90,7 +93,9 @@ const parseAmp: ParseFile = (file) => {
 };
 
 /**
- * Amp. Reads thread files `~/.local/share/amp/threads/T-*.json`, one session per thread.
+ * Amp. Reads thread files `<data folder>/threads/T-*.json`, one session per thread. The data
+ * folder is each folder of `AMP_DATA_DIR` (comma-separated) when set, else
+ * `$XDG_DATA_HOME/amp`, else `~/.local/share/amp`.
  * Each assistant message with `usage` gives `model`, `inputTokens`, `outputTokens`,
  * `cacheReadInputTokens`, `cacheCreationInputTokens` (Amp keeps cache out of `inputTokens`);
  * `at` is `usage.timestamp`, else the thread `created` time (epoch ms), else the file time.
@@ -99,10 +104,39 @@ const parseAmp: ParseFile = (file) => {
  * only threads a local Amp client wrote or cached exist here, so a missing folder is normal.
  */
 export const readAmp: Reader = (home) =>
-  readFiles(
-    "Amp",
-    home,
-    [".local", "share", "amp", "threads"],
-    (segments) => segments.length === 1 && segments[0]?.endsWith(".json") === true,
-    parseAmp,
-  );
+  Effect.gen(function* readFromHome() {
+    const path = yield* Path.Path;
+    const listed = yield* environmentFolder("AMP_DATA_DIR");
+    const dataHome = yield* environmentFolder("XDG_DATA_HOME");
+    const folders = Option.match(listed, {
+      onNone: () => [
+        Option.match(dataHome, {
+          onNone: () => path.join(home, ".local", "share", "amp"),
+          onSome: (data) => path.join(data, "amp"),
+        }),
+      ],
+      onSome: (list) =>
+        list
+          .split(",")
+          .map((folder) => folder.trim())
+          .filter((folder) => folder !== ""),
+    });
+    // oxlint-disable-next-line unicorn/no-array-for-each, unicorn/no-array-method-this-argument
+    const results = yield* Effect.forEach(new Set(folders), (folder) =>
+      readFiles(
+        "Amp",
+        folder,
+        ["threads"],
+        (segments) => segments.length === 1 && segments[0]?.endsWith(".json") === true,
+        parseAmp,
+      ),
+    );
+    const records = results.flatMap((result) => (result._tag === "Read" ? result.records : []));
+    if (records.length > 0) {
+      return { _tag: "Read", records } satisfies ReadResult;
+    }
+    return (
+      results.find((result) => result._tag === "Skipped" && result.reason === "unreadable") ??
+      results[0] ?? { _tag: "Skipped", agent: "Amp", detail: "", path: home, reason: "no-data" }
+    );
+  });

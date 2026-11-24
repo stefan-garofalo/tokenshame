@@ -1,6 +1,8 @@
+import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
+import { environmentFolder } from "./env";
 import { decodeLines, exclusive, readFiles, toCount, unknownModel } from "./pi";
 import type { ParseFile } from "./pi";
 import type { Reader, UsageRecord } from "./types";
@@ -72,21 +74,23 @@ const parseGrok: ParseFile = (file) => {
 };
 
 /**
- * Grok Build (xAI). Reads `~/.grok/sessions/<workspace>/<session>/updates.jsonl`, one
- * session per folder. Each `turn_completed` update carries `usage`: `inputTokens` (with
- * `cachedReadTokens` inside it) gives `input` = `inputTokens` - `cachedReadTokens` and
- * `cacheRead`; `outputTokens` (reasoning included) gives `output`. When `usage.modelUsage`
- * lists models, each gives one record under its id; otherwise the turn uses the last
- * `_meta.modelId` the log named. `at` is `params._meta.agentTimestampMs`. Older logs keep only a
- * running `totalTokens` with no split, so those turns count nothing. The global
- * `~/.grok/logs/unified.jsonl` repeats the same inferences and is not read, to avoid counting
- * twice. Grok logs no cache writes.
+ * Grok Build (xAI). Reads `<grok home>/sessions/<workspace>/<session>/updates.jsonl`, one
+ * session per folder. The Grok home is `GROK_HOME` when set, else `~/.grok`. Each
+ * `turn_completed` update carries `usage`: `inputTokens` (with `cachedReadTokens` inside it)
+ * gives `input` = `inputTokens` - `cachedReadTokens` and `cacheRead`; `outputTokens`
+ * (reasoning included) gives `output`. When `usage.modelUsage` lists models, each gives one
+ * record under its id; otherwise the turn uses the last `_meta.modelId` the log named. `at` is
+ * `params._meta.agentTimestampMs`. Older logs keep only a running `totalTokens` with no split,
+ * so those turns count nothing. The global `<grok home>/logs/unified.jsonl` repeats the same
+ * inferences and is not read, to avoid counting twice. Grok logs no cache writes.
  */
 export const readGrok: Reader = (home) =>
-  readFiles(
-    "Grok",
-    home,
-    [".grok", "sessions"],
-    (segments) => segments.length === 3 && segments[2] === "updates.jsonl",
-    parseGrok,
+  Effect.flatMap(environmentFolder("GROK_HOME"), (grokHome) =>
+    readFiles(
+      "Grok",
+      Option.getOrElse(grokHome, () => home),
+      Option.isSome(grokHome) ? ["sessions"] : [".grok", "sessions"],
+      (segments) => segments.length === 3 && segments[2] === "updates.jsonl",
+      parseGrok,
+    ),
   );

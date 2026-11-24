@@ -1,0 +1,2 @@
+{"seq":0,"type":"session","id":"s2","cwd":"/work"}
+{"seq":1,"type":"assistant/message","time":1767225602000,"data":{"message":{"id":"old-generation"},"usage":{"inputTokens":9999,"outputTokens":9999}}}

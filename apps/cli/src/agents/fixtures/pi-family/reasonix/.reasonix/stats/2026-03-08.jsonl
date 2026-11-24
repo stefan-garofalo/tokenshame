@@ -1,0 +1,3 @@
+{"ts":"2026-03-08T09:10:11Z","model":"deepseek/deepseek-chat","prompt":100,"completion":20,"reasoning":5,"cache_hit":30,"cache_miss":70,"total":120,"requests":1}
+{"ts":"2026-03-08T09:11:11Z","model":"deepseek/deepseek-chat","prompt":10,"completion":2,"total":12,"requests":1}
+{"ts":"2026-03-08T09:12:11Z","model":"deepseek/deepseek-chat","prompt":110,"completion":22,"cache_hit":30,"total":132,"requests":2,"turn":true}

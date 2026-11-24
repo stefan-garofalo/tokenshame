@@ -1,0 +1,14 @@
+[
+  {
+    "id": "m1",
+    "role": "assistant",
+    "timestamp": 1767312000000,
+    "metadata": {
+      "model": "gpt-5",
+      "usage": {
+        "input_tokens": 10,
+        "output_tokens": 5
+      }
+    }
+  }
+]

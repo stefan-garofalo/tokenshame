@@ -1,0 +1,9 @@
+{"seq":0,"type":"session","id":"s1","cwd":"/work","createdAt":1767225600000}
+{"seq":1,"type":"request/header","time":1767225601000,"data":{"header":{"config":{"provider":"deepseek","model":"deepseek-v4"}}}}
+{"seq":2,"type":"step/start","time":1767225601500,"data":{"turn":1,"step":1}}
+{"seq":3,"type":"assistant/message","time":1767225602000,"data":{"turn":1,"step":1,"message":{"id":"m1","source":{"provider":"deepseek","model":"deepseek-v4"}},"usage":{"inputTokens":100,"outputTokens":50,"cacheReadTokens":400,"reasoningTokens":20}}}
+{"seq":4,"type":"assistant/message","time":1767225603000,"data":{"turn":1,"step":1,"message":{"id":"m1","source":{"provider":"deepseek","model":"deepseek-v4"}},"usage":{"inputTokens":120,"outputTokens":60,"cacheReadTokens":400,"reasoningTokens":20}}}
+{"seq":5,"type":"llm/retry-started","time":1767225603500,"data":{"turn":1,"step":1}}
+{"seq":6,"type":"assistant/message","time":1767225604000,"data":{"turn":1,"step":1,"message":{"id":"m2","source":{"provider":"deepseek","model":"deepseek-v4"}},"usage":{"inputTokens":10,"outputTokens":5}}}
+{"seq":7,"type":"assistant/attempt","time":1767225605000,"data":{"turn":2,"step":1,"attemptId":"a1","stream":[{"type":"chunk","time":1767225604800,"chunk":{"type":"usage","usage":{"inputTokens":1,"outputTokens":1}}},{"type":"chunk","time":1767225604900,"chunk":{"type":"text","text":"fake"}},{"type":"chunk","time":1767225604950,"chunk":{"type":"usage","usage":{"inputTokens":30,"outputTokens":3}}}]}}
+{"seq":8,"type":"compaction/summary","time":1767225606000,"data":{"compactionId":"c1","message":{"source":{"provider":"deepseek","model":"deepseek-v4-flash","replayState":{"response":{"responseModel":"deepseek-v4-flash-0601"}}}},"usage":{"inputTokens":500,"outputTokens":40}}}

@@ -1,0 +1,25 @@
+[
+ {
+  "type": "say",
+  "say": "api_req_started",
+  "ts": 1748038758034,
+  "text": "{\"tokensIn\": 1000, \"tokensOut\": 10, \"cacheReads\": 600, \"cacheWrites\": 100, \"apiProtocol\": \"anthropic\"}"
+ },
+ {
+  "type": "say",
+  "say": "api_req_started",
+  "ts": 1748038758035,
+  "text": "{\"tokensIn\": 1000, \"tokensOut\": 10, \"cacheReads\": 600, \"cacheWrites\": 100, \"apiProtocol\": \"openai\"}"
+ },
+ {
+  "type": "say",
+  "say": "api_req_started",
+  "ts": 1767225600000,
+  "text": "{\"tokensIn\": 1000, \"tokensOut\": 10, \"cacheReads\": 600, \"cacheWrites\": 100, \"apiProtocol\": \"anthropic\"}",
+  "modelInfo": {
+   "providerId": "anthropic",
+   "modelId": "claude-sonnet-4-5",
+   "mode": "act"
+  }
+ }
+]

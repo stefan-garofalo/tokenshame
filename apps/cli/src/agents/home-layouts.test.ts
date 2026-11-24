@@ -25,23 +25,33 @@ interface OsStyle {
   readonly home: readonly string[];
   /** Where Goose keeps its database on this OS. */
   readonly goose: readonly string[];
+  /** The per-user app data folder of this OS, below home: where Electron apps such as VS Code keep data. */
+  readonly appData: readonly string[];
+  /** Where Zed keeps its data folder on this OS. */
+  readonly zed: readonly string[];
 }
 
 const osStyles: readonly OsStyle[] = [
   {
+    appData: ["Library", "Application Support"],
     goose: ["Library", "Application Support", "Block", "goose", "sessions", "sessions.db"],
     home: ["Users", "stefan"],
     name: "macOS",
+    zed: ["Library", "Application Support", "Zed"],
   },
   {
+    appData: [".config"],
     goose: [".local", "share", "goose", "sessions", "sessions.db"],
     home: ["home", "stefan"],
     name: "Linux",
+    zed: [".local", "share", "zed"],
   },
   {
+    appData: ["AppData", "Roaming"],
     goose: ["AppData", "Roaming", "Block", "goose", "data", "sessions", "sessions.db"],
     home: ["Users", "Stefan"],
     name: "Windows",
+    zed: ["AppData", "Local", "Zed"],
   },
 ];
 
@@ -64,6 +74,22 @@ const database = (home: string, parts: readonly string[], sql: string): void => 
   } finally {
     db.close();
   }
+};
+
+/** One MiMo Code assistant turn, as `message.data` stores it. */
+const mimoTurn = (id: string, input: number): string =>
+  `{"id":"${id}","role":"assistant","modelID":"mimo-v2","tokens":{"input":${input},"output":5},"time":{"created":1772359200000}}`;
+
+/** A MiMo Code store with one CLI session and one Xiaomi MiMo AI desktop session. */
+const mimoDatabase = (home: string): void => {
+  database(
+    home,
+    [".local", "share", "mimocode", "mimocode.db"],
+    `CREATE TABLE session (id TEXT PRIMARY KEY, version TEXT, time_created INTEGER);
+     CREATE TABLE message (id TEXT PRIMARY KEY, session_id TEXT NOT NULL, data TEXT NOT NULL);
+     INSERT INTO session VALUES ('s1', '1.0.0', 1772359200000), ('s2', 'desktop-1.0.0', 1772359200000);
+     INSERT INTO message VALUES ('m1', 's1', '${mimoTurn("m1", 10)}'), ('m2', 's2', '${mimoTurn("m2", 20)}');`,
+  );
 };
 
 const varint = (value: number): number[] => {
@@ -138,8 +164,33 @@ const plants = {
        INSERT INTO steps (idx, metadata) VALUES (0, x'${antigravityStepTime()}');`,
     );
   },
+  Aside: copyFixture("json-tools/aside"),
+  "Augment Code": copyFixture("json-tools/augment"),
+  BB: (home) => {
+    database(
+      home,
+      [".bb", "bb.db"],
+      `CREATE TABLE threads (id TEXT PRIMARY KEY, project_id TEXT, provider_id TEXT NOT NULL, model_override TEXT, created_at INTEGER NOT NULL);
+       CREATE TABLE events (id TEXT PRIMARY KEY, thread_id TEXT NOT NULL, turn_id TEXT, sequence INTEGER NOT NULL, type TEXT NOT NULL, data TEXT NOT NULL, created_at INTEGER NOT NULL);
+       INSERT INTO threads VALUES ('b1', 'p1', 'pi', 'claude-x', 1772359200000);
+       INSERT INTO events VALUES ('e1', 'b1', 'u1', 1, 'thread/tokenUsage/updated', '{"tokenUsage":{"last":{"inputTokens":10,"outputTokens":5}}}', 1772359200000);`,
+    );
+  },
+  "Cherry Studio": (home, os) => {
+    cpSync(
+      fixture("claude-family/cherrystudio/Library/Application Support/CherryStudio"),
+      path.join(home, ...os.appData, "CherryStudio"),
+      { preserveTimestamps: true, recursive: true },
+    );
+  },
   "Claude Code": copyFixture("claude/duplicates"),
+  Cline: copyFixture("ide/cline"),
+  "Cline CLI": copyFixture("ide/cline-cli"),
+  CodeBuddy: copyFixture("claude-family/codebuddy"),
+  Codebuff: copyFixture("json-tools/codebuff"),
   Codex: copyFixture("codex/last-total"),
+  "Command Code": copyFixture("claude-family/commandcode"),
+  "Copilot (VS Code)": copyFixture("ide/copilot-vscode"),
   "Copilot CLI": (home) => {
     database(
       home,
@@ -152,7 +203,34 @@ const plants = {
          VALUES ('c1', 'model-a', 1000, 50, 300, 200, 5, '2026-03-01T10:00:00.000Z');`,
     );
   },
+  Cursor: (home, os) => {
+    database(
+      home,
+      [...os.appData, "Cursor", "User", "globalStorage", "state.vscdb"],
+      `CREATE TABLE cursorDiskKV (key TEXT UNIQUE ON CONFLICT REPLACE, value BLOB);
+       INSERT INTO cursorDiskKV VALUES ('bubbleId:comp-1:b1', '{"createdAt":"2026-03-01T10:00:00.000Z","modelInfo":{"modelName":"model-a"},"tokenCount":{"inputTokens":100,"outputTokens":20}}');`,
+    );
+  },
+  "DeepSeek Harness": copyFixture("json-tools/dsh"),
+  Devin: (home) => {
+    database(
+      home,
+      [".local", "share", "devin", "cli", "sessions.db"],
+      `CREATE TABLE sessions (id TEXT PRIMARY KEY, model TEXT, title TEXT);
+       CREATE TABLE message_nodes (row_id INTEGER PRIMARY KEY, session_id TEXT NOT NULL, chat_message TEXT NOT NULL, created_at INTEGER NOT NULL);
+       INSERT INTO sessions VALUES ('d1', 'claude-x', NULL);
+       INSERT INTO message_nodes (session_id, chat_message, created_at) VALUES ('d1', '{"role":"assistant","metadata":{"metrics":{"input_tokens":10,"output_tokens":5}}}', 1772359200);`,
+    );
+  },
   Droid: copyFixture("json-agents/droid"),
+  Forge: (home) => {
+    database(
+      home,
+      [".forge", ".forge.db"],
+      `CREATE TABLE conversations (conversation_id TEXT PRIMARY KEY NOT NULL, title TEXT, workspace_id BIGINT NOT NULL, context TEXT, created_at TIMESTAMP NOT NULL, updated_at TIMESTAMP);
+       INSERT INTO conversations VALUES ('c1', NULL, 1, '{"messages":[{"message":{"text":{"role":"Assistant","model":"model-f","content":""}},"usage":{"prompt_tokens":{"actual":10},"completion_tokens":{"actual":5},"cached_tokens":{"actual":2}}}]}', '2026-03-01 09:00:00', '2026-03-01 10:00:00');`,
+    );
+  },
   "Gemini CLI": copyFixture("json-agents/gemini"),
   Goose: (home, os) => {
     database(
@@ -172,7 +250,40 @@ const plants = {
     );
   },
   Grok: copyFixture("json-agents/grok"),
+  "Hermes Agent": (home) => {
+    database(
+      home,
+      [".hermes", "state.db"],
+      `CREATE TABLE sessions (id TEXT PRIMARY KEY, model TEXT, started_at REAL NOT NULL, input_tokens INTEGER, output_tokens INTEGER, cache_read_tokens INTEGER, cache_write_tokens INTEGER, reasoning_tokens INTEGER);
+       INSERT INTO sessions VALUES ('h1', 'model-a', 1772359200, 10, 5, 0, 0, 0);`,
+    );
+  },
+  "IBM Bob": (home, os) => {
+    cpSync(fixture("ide/ibm-bob/Library/Application Support"), path.join(home, ...os.appData), {
+      preserveTimestamps: true,
+      recursive: true,
+    });
+  },
+  Jcode: copyFixture("pi-family/jcode"),
+  Junie: copyFixture("json-tools/junie"),
+  "Kilo CLI": (home) => {
+    database(
+      home,
+      [".local", "share", "kilo", "kilo.db"],
+      `CREATE TABLE message (id TEXT PRIMARY KEY, session_id TEXT NOT NULL, data TEXT NOT NULL);
+       INSERT INTO message VALUES ('m1', 's1', '{"role":"assistant","modelID":"claude-x","tokens":{"input":10,"output":5,"reasoning":1,"cache":{"read":2,"write":0}},"time":{"created":1772359200000}}');`,
+    );
+  },
+  "Kilo Code": copyFixture("ide/kilo-code"),
+  Kimchi: copyFixture("pi-family/kimchi"),
   Kimi: copyFixture("json-agents/kimi"),
+  "Kimi Code": copyFixture("json-tools/kimi-code"),
+  Kiro: copyFixture("ide/kiro"),
+  "LingTai TUI": copyFixture("pi-family/lingtai"),
+  "MiMo Code": (home) => {
+    mimoDatabase(home);
+  },
+  "Mistral Vibe": copyFixture("json-tools/vibe"),
   Muse: (home) => {
     const file = path.join(
       home,
@@ -189,8 +300,42 @@ const plants = {
     mkdirSync(path.dirname(file), { recursive: true });
     writeFileSync(file, `${museLine}\n`);
   },
+  Mux: copyFixture("json-tools/mux"),
+  "Oh My Pi": copyFixture("pi-family/omp"),
+  OpenClaude: copyFixture("claude-family/openclaude"),
+  OpenClaw: copyFixture("pi-family/openclaw"),
+  OpenCodeReview: copyFixture("claude-family/opencodereview"),
   Pi: copyFixture("json-agents/pi"),
+  "Prime Agent": copyFixture("pi-family/prime"),
+  Proma: copyFixture("json-tools/proma"),
+  Qoder: copyFixture("claude-family/qoder"),
+  "Quick Desktop": (home) => {
+    const file = path.join(home, ".quickwork", "metrics", "metrics-2026-03-01.jsonl");
+    mkdirSync(path.dirname(file), { recursive: true });
+    writeFileSync(
+      file,
+      `${JSON.stringify({ InputTokens: 10, Model: "claude-x", OutputTokens: 5, session_id: "q1" })}\n`,
+    );
+  },
   Qwen: copyFixture("json-agents/qwen"),
+  Reasonix: copyFixture("pi-family/reasonix"),
+  "Roo Code": copyFixture("ide/roo-code"),
+  Senpi: copyFixture("pi-family/senpi"),
+  WorkBuddy: copyFixture("claude-family/workbuddy"),
+  "Xiaomi MiMo AI": (home) => {
+    mimoDatabase(home);
+  },
+  ZCode: copyFixture("claude-family/zcode"),
+  "Zed Agent": (home, os) => {
+    database(
+      home,
+      [...os.zed, "threads", "threads.db"],
+      `CREATE TABLE threads (id TEXT PRIMARY KEY, summary TEXT, updated_at TEXT NOT NULL, data_type TEXT NOT NULL, data BLOB NOT NULL);
+       INSERT INTO threads VALUES ('t1', '', '2026-03-01T10:00:00Z', 'json', CAST('{"model":{"provider":"zed.dev","model":"claude-x"},"cumulative_token_usage":{"input_tokens":10,"output_tokens":5}}' AS BLOB));`,
+    );
+  },
+  fx: copyFixture("json-tools/fx"),
+  "gajae-code": copyFixture("pi-family/gjc"),
   opencode: (home) => {
     database(
       home,
@@ -203,6 +348,7 @@ const plants = {
        INSERT INTO session VALUES ('s1', 1700000000000, '{"id":"model-a"}', 10, 20, 30, 40);`,
     );
   },
+  zerostack: copyFixture("pi-family/zerostack"),
 } satisfies Record<string, Plant>;
 
 const plantFor = (agent: string): Plant =>

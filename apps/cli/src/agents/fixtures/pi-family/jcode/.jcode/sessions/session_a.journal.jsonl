@@ -1,0 +1,2 @@
+{"append_messages":[{"id":"m2","role":"assistant","timestamp":"2026-03-07T12:00:02Z","token_usage":{"input_tokens":100,"output_tokens":20}}]}
+{"meta":{"model":"gpt-5","provider_key":"openai","working_dir":"/work/demo"},"append_messages":[{"id":"m3","role":"assistant","timestamp":"2026-03-07T12:00:03Z","token_usage":{"input_tokens":500,"output_tokens":40,"cache_read_input_tokens":200}}]}

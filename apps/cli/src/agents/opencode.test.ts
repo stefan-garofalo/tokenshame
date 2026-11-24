@@ -1,7 +1,9 @@
 import { assert, describe, it } from "@effect/vitest";
 import * as NodeServices from "@effect/platform-node/NodeServices";
+import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import { DatabaseSync } from "node:sqlite";
 
@@ -146,6 +148,14 @@ const records = (result: ReadResult): readonly UsageRecord[] => {
 };
 
 const expectedTotals = { cacheRead: 333, cacheWrite: 444, input: 111, output: 222 };
+/** Message rows add each turn's 5 reasoning tokens to output: opencode keeps them out of it. */
+const messageTotals = { ...expectedTotals, output: 237 };
+
+/** The real file system and an empty environment, so no test reads `XDG_DATA_HOME`. */
+const layer = Layer.merge(
+  NodeServices.layer,
+  ConfigProvider.layer(ConfigProvider.fromEnv({ env: {} })),
+);
 
 describe(readOpencode, () => {
   it.effect("counts a database whose session and message rows agree once, not twice", () =>
@@ -155,8 +165,8 @@ describe(readOpencode, () => {
         insertMessages(db, turns);
       });
       const result = yield* readOpencode(home);
-      assert.deepStrictEqual(totals(records(result)), expectedTotals);
-    }).pipe(Effect.provide(NodeServices.layer)),
+      assert.deepStrictEqual(totals(records(result)), messageTotals);
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("gives one record per model turn with an agent-prefixed session key", () =>
@@ -173,7 +183,7 @@ describe(readOpencode, () => {
           cacheWrite: 40,
           input: 10,
           model: "model-a",
-          output: 20,
+          output: 25,
           session: "opencode:s1",
         },
         {
@@ -182,7 +192,7 @@ describe(readOpencode, () => {
           cacheWrite: 4,
           input: 1,
           model: "model-a",
-          output: 2,
+          output: 7,
           session: "opencode:s1",
         },
         {
@@ -191,11 +201,11 @@ describe(readOpencode, () => {
           cacheWrite: 400,
           input: 100,
           model: "model-b",
-          output: 200,
+          output: 205,
           session: "opencode:s2",
         },
       ]);
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("falls back to session totals when no message holds usage", () =>
@@ -209,7 +219,7 @@ describe(readOpencode, () => {
         rows.map((row) => row.session),
         ["opencode:s1", "opencode:s2"],
       );
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("ignores user messages, messages without usage, and malformed message data", () =>
@@ -222,8 +232,8 @@ describe(readOpencode, () => {
         insert.run("bad", "s1", 3, "{not json");
       });
       const result = yield* readOpencode(home);
-      assert.deepStrictEqual(totals(records(result)), expectedTotals);
-    }).pipe(Effect.provide(NodeServices.layer)),
+      assert.deepStrictEqual(totals(records(result)), messageTotals);
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("reads a database with a live write-ahead log and an open writer", () =>
@@ -236,8 +246,8 @@ describe(readOpencode, () => {
       writer.exec("BEGIN");
       const result = yield* readOpencode(home);
       writer.exec("ROLLBACK");
-      assert.deepStrictEqual(totals(records(result)), expectedTotals);
-    }).pipe(Effect.provide(NodeServices.layer)),
+      assert.deepStrictEqual(totals(records(result)), messageTotals);
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("skips with no-data when the database is missing", () =>
@@ -251,7 +261,7 @@ describe(readOpencode, () => {
         assert.strictEqual(result.reason, "no-data");
         assert.isTrue(result.path.endsWith("opencode.db"));
       }
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("skips with no-data when the database holds no usage", () =>
@@ -262,7 +272,7 @@ describe(readOpencode, () => {
       if (result._tag === "Skipped") {
         assert.strictEqual(result.reason, "no-data");
       }
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("skips with unreadable, and never throws, when the file is not a database", () =>
@@ -282,7 +292,7 @@ describe(readOpencode, () => {
         assert.strictEqual(result.reason, "unreadable");
         assert.isAbove(result.detail.length, 0);
       }
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(layer)),
   );
 
   it.effect("skips with unreadable while another connection locks the database", () =>
@@ -297,6 +307,6 @@ describe(readOpencode, () => {
       if (result._tag === "Skipped") {
         assert.strictEqual(result.reason, "unreadable");
       }
-    }).pipe(Effect.provide(NodeServices.layer)),
+    }).pipe(Effect.provide(layer)),
   );
 });

@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 import { afterAll, assert, beforeAll, describe, it } from "@effect/vitest";
 import * as Schema from "effect/Schema";
 
+import { registry } from "./agents/registry";
+
 // The test packs the CLI exactly as `npm publish` would, then inspects the tarball a user downloads.
 
 const PackedFile = Schema.Struct({ mode: Schema.Int, path: Schema.String });
@@ -130,7 +132,8 @@ describe("packed CLI package", () => {
     assert.strictEqual(manifest.name, "tokenshame");
     assert.isUndefined(manifest.private);
     assert.match(manifest.version, /^\d+\.\d+\.\d+$/u);
-    assert.include(manifest.description, "14 coding agents");
+    // The count follows the registry, so adding a reader without updating the text fails here.
+    assert.include(manifest.description, `${registry.length} coding agents`);
     assert.include(manifest.description, "Usage Summary");
     assert.include(manifest.description, "Share Link");
     assert.include(manifest.description, "press Enter");

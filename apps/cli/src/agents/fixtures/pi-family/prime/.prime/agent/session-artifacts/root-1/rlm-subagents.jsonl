@@ -1,0 +1,1 @@
+{"type":"message","id":"x","timestamp":"2026-03-06T00:00:01.000Z","message":{"role":"assistant","model":"not-a-session","usage":{"input":999,"output":999}}}

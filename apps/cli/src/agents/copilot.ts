@@ -6,6 +6,8 @@ import * as Schema from "effect/Schema";
 
 import { openReadOnly } from "./sqlite";
 import type { Row, SqliteError } from "./sqlite";
+import { columnsOf, readDatabases, usageRows } from "./databases";
+import { unknownModel } from "./pi";
 import type { Reader, ReadResult, SkippedSource, UsageRecord } from "./types";
 
 const Count = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0));
@@ -145,27 +147,74 @@ const usageEvents = `
   FROM assistant_usage_events
   ORDER BY id`;
 
+const desktopColumns = [
+  "created_at",
+  "id",
+  "model",
+  "total_cached_tokens",
+  "total_input_tokens",
+  "total_output_tokens",
+];
+
+// One row per session: lifetime totals, dated when the session started.
+const desktopSessions = `
+  SELECT
+    'copilot:' || id AS session,
+    COALESCE(NULLIF(model, ''), '${unknownModel}') AS model,
+    CAST(unixepoch(created_at, 'subsec') * 1000 AS INTEGER) AS at,
+    ${uncachedInput("total_input_tokens", "total_cached_tokens", "0")} AS input,
+    COALESCE(total_output_tokens, 0) AS output,
+    COALESCE(total_cached_tokens, 0) AS cacheRead,
+    0 AS cacheWrite
+  FROM sessions
+  ORDER BY created_at, id`;
+
 /**
- * GitHub Copilot CLI keeps usage in `~/.copilot/session-store.db`, table
- * `assistant_usage_events`, one row per model call (sub-agent calls too). Schema read from
- * a real install (schema and numeric columns only). Mapping:
+ * GitHub Copilot CLI. Reads two SQLite databases in `~/.copilot`:
+ *
+ * `session-store.db`, table `assistant_usage_events`, one row per model call (sub-agent calls
+ * too). Schema read from a real install (schema and numeric columns only). Mapping:
  * - `session` = `copilot:` + `session_id`, `model` = `model`;
  * - `at` = `created_at`, an ISO text time, read by SQLite's `unixepoch`;
  * - `input_tokens` counts cache inside it (it equals uncached + `cache_read_tokens` +
  *   `cache_write_tokens`, checked against the row's `token_details_json`), so
  *   `input` = `input_tokens` - cache reads - cache writes;
  * - `output` = `output_tokens` (`reasoning_tokens` is part of it, not added).
- * A store without that table (an older Copilot CLI) is `no-data`.
+ * A store without that table (an older Copilot CLI) gives nothing.
+ *
+ * `data.db` (the Copilot desktop app), table `sessions`, one row of lifetime totals per
+ * session: `session` = `copilot:` + `id`, `model` = `model`, `at` = `created_at`,
+ * `input` = `total_input_tokens` - `total_cached_tokens` (cache reads are inside it),
+ * `cacheRead` = `total_cached_tokens`, `output` = `total_output_tokens`. A session the store
+ * already has per call is skipped here, so it counts once.
+ *
+ * Copilot's OpenTelemetry file export (`~/.copilot/otel/*.jsonl`) is opt-in, repeats the
+ * store's calls, and is not read.
  */
 export const readCopilot: Reader = (home) =>
   Effect.gen(function* readFromHome() {
     const path = yield* Path.Path;
-    return yield* readUsageDatabase(
-      "Copilot CLI",
-      [path.join(home, ".copilot", "session-store.db")],
-      (columns) =>
-        hasColumns(columns, "assistant_usage_events", usageColumns)
-          ? Option.some(usageEvents)
-          : Option.none(),
+    const store = path.join(home, ".copilot", "session-store.db");
+    const desktop = path.join(home, ".copilot", "data.db");
+    // `readDatabases` reads in order, so the store's sessions are known before `data.db`.
+    const storeSessions = new Set<string>();
+    return yield* readDatabases("Copilot CLI", [store, desktop], (db, source) =>
+      Effect.gen(function* readOne() {
+        const columns = yield* columnsOf(db);
+        if (source.file === store) {
+          const calls = hasColumns(columns, "assistant_usage_events", usageColumns)
+            ? usageRows(yield* db.all(usageEvents))
+            : [];
+          for (const call of calls) {
+            storeSessions.add(call.session);
+          }
+          return calls;
+        }
+        return hasColumns(columns, "sessions", desktopColumns)
+          ? usageRows(yield* db.all(desktopSessions)).filter(
+              (session) => !storeSessions.has(session.session),
+            )
+          : [];
+      }),
     );
   });

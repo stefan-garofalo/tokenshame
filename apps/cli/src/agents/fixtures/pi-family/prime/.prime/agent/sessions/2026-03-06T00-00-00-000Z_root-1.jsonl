@@ -1,0 +1,4 @@
+{"type":"session","version":3,"id":"root-1","timestamp":"2026-03-06T00:00:00.000Z","cwd":"/tmp/project","rlmDepth":0}
+{"type":"message","id":"p1","parentId":null,"timestamp":"2026-03-06T00:00:02.000Z","message":{"role":"assistant","provider":"anthropic","model":"claude-opus-5","responseId":"resp-p1","usage":{"input":150,"output":70,"cacheRead":20,"cacheWrite":10,"totalTokens":250}}}
+{"type":"child_usage_attributed","id":"usage-1","parentId":"p1","timestamp":"2026-03-06T00:00:02.500Z","targetId":"p1","childUsage":{"input":50,"output":20,"cacheRead":0,"cacheWrite":0,"totalTokens":70},"aggregateUsage":{"input":150,"output":70,"cacheRead":20,"cacheWrite":10,"totalTokens":250},"origin":"spawn_task"}
+{"type":"message","id":"p2","parentId":"usage-1","timestamp":"2026-03-06T00:00:03.000Z","message":{"role":"assistant","provider":"anthropic","model":"claude-opus-5","responseId":"resp-p2","usage":{"input":10,"output":5,"cacheRead":0,"cacheWrite":0,"totalTokens":15}}}

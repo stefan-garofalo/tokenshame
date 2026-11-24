@@ -1,0 +1,1 @@
+{"type":"message","id":"zz","timestamp":"2026-01-11T12:00:00.000Z","model":"x","message":{"role":"assistant","content":[{"type":"text","text":"ok"}]},"usage":{"inputTokens":999,"outputTokens":999,"cacheReadTokens":0,"cacheWriteTokens":0,"costUsd":0.01}}

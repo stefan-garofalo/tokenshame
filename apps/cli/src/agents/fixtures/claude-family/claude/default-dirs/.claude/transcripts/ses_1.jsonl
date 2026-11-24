@@ -1,0 +1,2 @@
+{"type":"user","timestamp":"2026-01-11T11:59:00.000Z","message":{"content":"synthetic prompt"}}
+{"type":"assistant","timestamp":"2026-01-11T12:00:00.000Z","requestId":"r-t","message":{"id":"m-t","model":"claude-sonnet-4-5","usage":{"input_tokens":123,"output_tokens":45,"cache_read_input_tokens":67,"cache_creation_input_tokens":8}}}

@@ -1,0 +1,5 @@
+{"id":"user-1","timestamp":1768132790000,"type":"message","role":"user","sessionId":"session-1","content":"synthetic prompt"}
+{"id":"assistant-0","timestamp":1768132799000,"type":"message","role":"assistant","status":"completed","sessionId":"session-1","providerData":{"model":"glm-5.2","messageId":"msg-1"},"message":{"usage":{"input_tokens":100,"output_tokens":1,"total_tokens":101}}}
+{"id":"assistant-1","timestamp":1768132800000,"type":"message","role":"assistant","status":"completed","sessionId":"session-1","providerData":{"model":"glm-5.2","messageId":"msg-1"},"message":{"usage":{"input_tokens":24486,"output_tokens":3,"total_tokens":24489,"cache_read_input_tokens":14720}}}
+{"id":"call-1","timestamp":1768132801000,"type":"function_call","sessionId":"session-1","providerData":{"requestModelId":"minimax-m3","messageId":"msg-2","rawUsage":{"prompt_tokens":10,"completion_tokens":2,"prompt_cache_hit_tokens":3}}}
+{"id":"assistant-2","timestamp":1768132802000,"type":"message","role":"assistant","status":"in_progress","sessionId":"session-1","providerData":{"model":"glm-5.2","messageId":"msg-3"},"message":{"usage":{"input_tokens":5000,"output_tokens":500}}}

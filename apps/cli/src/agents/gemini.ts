@@ -1,6 +1,8 @@
+import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 
+import { environmentFolder } from "./env";
 import { decodeLines, exclusive, readFiles, stemOf, toCount, toEpochMs, unknownModel } from "./pi";
 import type { ParseFile, SourceFile } from "./pi";
 import type { Reader, UsageRecord } from "./types";
@@ -62,9 +64,10 @@ const parseGemini: ParseFile = (file) => {
 };
 
 /**
- * Gemini CLI. Reads the chat recordings `~/.gemini/tmp/<project hash>/chats/*.json`
+ * Gemini CLI. Reads the chat recordings `<gemini home>/.gemini/tmp/<project hash>/chats/*.json`
  * (one JSON document with `messages`) and `*.jsonl` (one message per line), one session
- * per file. Each `gemini` message carries `model` and `tokens`:
+ * per file. The Gemini home is `GEMINI_CLI_HOME` when set (Gemini CLI puts its `.gemini`
+ * folder inside it), else the user's home. Each `gemini` message carries `model` and `tokens`:
  * `input` is the whole prompt with `cached` inside it, so `input` = `input` - `cached`
  * + `tool` (tool-use prompt), `cacheRead` = `cached`, `output` = `output` + `thoughts`
  * (thinking is billed as output). `at` is the message `timestamp`.
@@ -72,13 +75,16 @@ const parseGemini: ParseFile = (file) => {
  * Gemini CLI telemetry is off by default and is not read.
  */
 export const readGemini: Reader = (home) =>
-  readFiles(
-    "Gemini CLI",
-    home,
-    [".gemini", "tmp"],
-    (segments) =>
-      segments.length >= 3 &&
-      segments[1] === "chats" &&
-      (segments.at(-1)?.endsWith(".json") === true || segments.at(-1)?.endsWith(".jsonl") === true),
-    parseGemini,
+  Effect.flatMap(environmentFolder("GEMINI_CLI_HOME"), (geminiHome) =>
+    readFiles(
+      "Gemini CLI",
+      Option.getOrElse(geminiHome, () => home),
+      [".gemini", "tmp"],
+      (segments) =>
+        segments.length >= 3 &&
+        segments[1] === "chats" &&
+        (segments.at(-1)?.endsWith(".json") === true ||
+          segments.at(-1)?.endsWith(".jsonl") === true),
+      parseGemini,
+    ),
   );

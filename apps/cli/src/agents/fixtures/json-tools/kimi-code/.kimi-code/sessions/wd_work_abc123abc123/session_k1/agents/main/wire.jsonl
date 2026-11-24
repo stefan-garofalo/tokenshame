@@ -1,0 +1,6 @@
+{"type":"turn.prompt","input":"fake prompt","time":1767225600000}
+{"type":"llm.request","model":"kimi-k2.6","modelAlias":"kimi-code/kimi-for-coding","turnStep":"1.1","time":1767225601000}
+{"type":"usage.record","usageScope":"turn","model":"kimi-code/kimi-for-coding","agentId":"main","time":1767225602000,"usage":{"inputOther":100,"output":20,"inputCacheRead":300,"inputCacheCreation":5}}
+{"type":"usage.record","usageScope":"session","model":"kimi-code/kimi-for-coding","time":1767225603000,"usage":{"inputOther":5000,"output":500}}
+{"type":"usage.record","usageScope":"turn","agentId":"sub1","time":1767225604000,"usage":{"inputOther":777,"output":77}}
+{"type":"context.append_loop_event","event":{"type":"tool.call","name":"Bash"}}

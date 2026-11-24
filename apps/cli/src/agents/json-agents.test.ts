@@ -2,8 +2,10 @@ import { fileURLToPath } from "node:url";
 
 import { assert, describe, it } from "@effect/vitest";
 import * as NodeServices from "@effect/platform-node/NodeServices";
+import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Path from "effect/Path";
 
@@ -118,6 +120,12 @@ const cases: readonly Case[] = [
   },
 ];
 
+/** The real file system and an empty environment, so no folder override leaks into a test. */
+const layer = Layer.merge(
+  NodeServices.layer,
+  ConfigProvider.layer(ConfigProvider.fromEnv({ env: {} })),
+);
+
 const fixtureHome = (fixture: string): string =>
   fileURLToPath(new URL(`fixtures/json-agents/${fixture}`, import.meta.url));
 
@@ -158,7 +166,7 @@ const readTempHome = (
       yield* prepare(home, fs, path);
       return yield* reader(home);
     }),
-  ).pipe(Effect.provide(NodeServices.layer));
+  ).pipe(Effect.provide(layer));
 
 const writeCorruptFile = (
   home: string,
@@ -175,9 +183,7 @@ const writeCorruptFile = (
 describe.each(cases)("$agent reader", (c) => {
   it.effect("returns the known per-model totals of its fixture", () =>
     Effect.gen(function* fixtureTotals() {
-      const result = yield* c
-        .reader(fixtureHome(c.fixture))
-        .pipe(Effect.provide(NodeServices.layer));
+      const result = yield* c.reader(fixtureHome(c.fixture)).pipe(Effect.provide(layer));
       const records = usageOf(result);
       assert.deepStrictEqual(totalsByModel(records), c.expected);
       assert.strictEqual(new Set(records.map((record) => record.session)).size, c.sessions);

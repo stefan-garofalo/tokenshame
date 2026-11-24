@@ -6,7 +6,7 @@ Your coding agents have been busy. Run one command to see how many tokens they b
 npx tokenshame
 ```
 
-It reads the usage logs that 14 coding agents already keep on your machine, keeps the last 30 days, prints a short summary, and on Enter opens a page with the roast, wrapped like a year-in-review. The page has its own link and its own preview image, so you can post it on X.
+It reads the usage logs that 59 coding agents already keep on your machine, keeps the last 30 days, prints a short summary, and on Enter opens a page with the roast, wrapped like a year-in-review. The page has its own link and its own preview image, so you can post it on X.
 
 ## It's a meme
 
@@ -16,28 +16,22 @@ The numbers are real enough to be funny and rough enough that you should not cit
 
 ## What it reads
 
-The CLI reads the local usage data of 14 agents:
+The CLI reads the local usage data of 59 coding agents:
 
-- Claude Code
-- Codex
-- opencode
-- GitHub Copilot CLI
-- Pi
-- Gemini CLI
-- Grok
-- Qwen
-- Amp
-- Droid
-- Kimi
-- Goose
-- Antigravity
-- Muse
+| Kind                          | Agents                                                                                                                                                                                                                                                                                                                             |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Terminal agents               | Claude Code, Codex, opencode, GitHub Copilot CLI, Gemini CLI, Grok, Qwen, Amp, Droid, Kimi, Kimi Code, Goose, Muse, Cline CLI, Kilo CLI, Devin, Forge, Junie, Augment Code (Auggie), Codebuff, Mistral Vibe, DeepSeek Harness, Mux, fx, Hermes Agent, Command Code, OpenCodeReview, ZCode, Qoder, CodeBuddy, WorkBuddy, OpenClaude |
+| Pi and its forks              | Pi, Oh My Pi, Senpi, Kimchi, gajae-code, Prime Agent                                                                                                                                                                                                                                                                               |
+| Editors and editor extensions | Cursor, Zed Agent, Kiro, Copilot (VS Code), Cline, Roo Code, Kilo Code, IBM Bob, Antigravity                                                                                                                                                                                                                                       |
+| Desktop apps and other agents | Cherry Studio, Xiaomi MiMo AI, MiMo Code, Quick Desktop, Proma, Aside, BB, OpenClaw, Jcode, Reasonix, LingTai TUI, zerostack                                                                                                                                                                                                       |
 
-Muse is read from its default folder `~/.local/share/muse`, or from the folder in `MUSE_HOME` if you set it. The CLI never starts Muse.
+Each agent is read from the folder it uses by default on macOS, Linux and Windows. Where the agent lets you move that folder with an environment variable, the CLI reads the variable too: for example `CLAUDE_CONFIG_DIR`, `CODEX_HOME`, `XDG_DATA_HOME`, `GEMINI_CLI_HOME`, `GROK_HOME`, `PI_CODING_AGENT_DIR`, `KIMI_CODE_HOME`, `MUSE_HOME` or `HERMES_HOME`. Claude Code is also read from the sessions that the Claude desktop app runs. The CLI never starts an agent.
 
 Only usage from the last 30 days counts. Claude Code deletes its own logs after 30 days by default, so a longer window would come up short anyway. Codex logs a session as one total, so a Codex session counts on the day it started.
 
-Cursor, Kiro and Devin are not supported. They keep usage data on their own servers, so there is nothing on your machine to read. A source that fails to open is named in the output and skipped, and the others still count. If no source has data, the CLI lists the folders it checked and prints no link.
+Only real token counts are read. The CLI never estimates tokens from text length, context size or cost. An agent that does not write real counts gives nothing, even when it is installed. This is often true for Cursor, which leaves its counts at zero on current builds, and for Kiro's Auto agent. Agents that keep usage only on their own servers (Trae, Warp, Windsurf) cannot be read, and neither can tools that only run other agents, because those agents already log the same calls.
+
+A call that an agent copies into a forked, resumed or archived session counts once. A source that fails to open is named in the output and skipped, and the others still count. If no source has data, the CLI lists the folders it checked and prints no link.
 
 ## What leaves your machine
 

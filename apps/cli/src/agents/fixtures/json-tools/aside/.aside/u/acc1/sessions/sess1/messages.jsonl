@@ -1,0 +1,4 @@
+{"role":"user","content":"fake prompt","timestamp":"2026-01-01T00:00:01.000Z"}
+{"role":"assistant","model":"claude-sonnet-4","provider":"claude-code","responseId":"resp1","timestamp":"2026-01-01T00:00:02.000Z","usage":{"input":100,"output":40,"cacheRead":30,"cacheWrite":5,"reasoning":10,"cost":{"total":0.2}}}
+{"role":"assistant","model":"claude-sonnet-4","provider":"claude-code","responseId":"resp1","timestamp":"2026-01-01T00:00:02.000Z","usage":{"input":100,"output":40,"cacheRead":30,"cacheWrite":5,"reasoning":10}}
+{"role":"assistant","model":"gpt-5","timestamp":1767225603,"usage":{"input":10,"output":1}}

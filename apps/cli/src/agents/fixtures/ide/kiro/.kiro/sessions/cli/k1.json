@@ -1,0 +1,38 @@
+{
+ "session_id": "k1",
+ "cwd": "/tmp/project",
+ "session_state": {
+  "rts_model_state": {
+   "model_info": {
+    "model_id": "claude-sonnet-4.5",
+    "context_window_tokens": 200000
+   }
+  },
+  "conversation_metadata": {
+   "user_turn_metadatas": [
+    {
+     "input_token_count": 321,
+     "output_token_count": 654,
+     "cache_read_input_token_count": 111,
+     "cache_write_input_token_count": 22,
+     "end_timestamp": 1767225600,
+     "total_request_count": 3,
+     "message_ids": [
+      "m1"
+     ]
+    },
+    {
+     "input_token_count": 0,
+     "output_token_count": 0,
+     "user_prompt_length": 20,
+     "context_usage_percentage": 5.0,
+     "assistant_response_length": 398,
+     "end_timestamp": 1767225700,
+     "message_ids": [
+      "m2"
+     ]
+    }
+   ]
+  }
+ }
+}

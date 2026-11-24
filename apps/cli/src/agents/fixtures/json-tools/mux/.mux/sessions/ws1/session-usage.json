@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "byModel": {
+    "anthropic:claude-opus-4-6": {
+      "input": {
+        "tokens": 300
+      },
+      "output": {
+        "tokens": 70
+      }
+    }
+  }
+}

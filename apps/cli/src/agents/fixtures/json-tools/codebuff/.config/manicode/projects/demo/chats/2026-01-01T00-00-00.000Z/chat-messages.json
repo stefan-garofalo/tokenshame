@@ -1,0 +1,92 @@
+[
+  {
+    "id": "u1",
+    "variant": "user",
+    "content": "fake prompt"
+  },
+  {
+    "id": "m1",
+    "variant": "ai",
+    "timestamp": "2026-01-01T00:00:05.000Z",
+    "metadata": {
+      "model": "claude-sonnet-4-5",
+      "usage": {
+        "inputTokens": 100,
+        "outputTokens": 20,
+        "cacheReadInputTokens": 300,
+        "cacheCreationInputTokens": 10
+      }
+    }
+  },
+  {
+    "id": "m1",
+    "variant": "ai",
+    "timestamp": "2026-01-01T00:00:05.000Z",
+    "metadata": {
+      "model": "claude-sonnet-4-5",
+      "usage": {
+        "inputTokens": 100,
+        "outputTokens": 20,
+        "cacheReadInputTokens": 300,
+        "cacheCreationInputTokens": 10
+      }
+    }
+  },
+  {
+    "id": "m2",
+    "variant": "agent",
+    "credits": 3,
+    "metadata": {
+      "runState": {
+        "sessionState": {
+          "mainAgentState": {
+            "agentType": "base2",
+            "messageHistory": [
+              {
+                "role": "user",
+                "content": "fake"
+              },
+              {
+                "role": "assistant",
+                "providerOptions": {
+                  "usage": {
+                    "prompt_tokens": 10,
+                    "completion_tokens": 1
+                  }
+                }
+              },
+              {
+                "role": "assistant",
+                "providerOptions": {
+                  "codebuff": {
+                    "model": "gpt-5"
+                  },
+                  "usage": {
+                    "prompt_tokens": 500,
+                    "completion_tokens": 50,
+                    "prompt_tokens_details": {
+                      "cached_tokens": 200
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "m3",
+    "variant": "ai",
+    "credits": 2,
+    "metadata": {
+      "model": "claude-sonnet-4-5"
+    }
+  },
+  {
+    "id": "d1",
+    "variant": "ai",
+    "mode": "divider"
+  }
+]

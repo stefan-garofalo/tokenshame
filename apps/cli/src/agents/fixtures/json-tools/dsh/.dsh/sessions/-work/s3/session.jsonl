@@ -1,0 +1,4 @@
+{"seq":0,"type":"session","id":"s3","cwd":"/work","version":2,"isSeeded":true,"seedLength":99}
+{"seq":1,"type":"assistant/message","time":1767225601000,"data":{"usage":{"inputTokens":800,"outputTokens":800}}}
+{"seq":2,"type":"session/end-seed","time":1767225601000,"data":{"inherited":true}}
+{"seq":3,"type":"assistant/message","time":1767225608000,"data":{"message":{"source":{"model":"deepseek-v4"}},"usage":{"inputTokens":4,"outputTokens":4}}}

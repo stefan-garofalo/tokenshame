@@ -5,6 +5,7 @@ import * as Path from "effect/Path";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 
+import { environmentFolder } from "./env";
 import { decodeMessage, messageOf, textOf, varintOf, varintsOf } from "./protobuf";
 import type { Message } from "./protobuf";
 import { unknownModel } from "./pi";
@@ -154,8 +155,9 @@ const appFolders: readonly string[] = ["antigravity", "antigravity-cli", "antigr
 
 /**
  * Antigravity keeps one SQLite database per conversation, `<id>.db`, in
- * `~/.gemini/{antigravity,antigravity-cli,antigravity-ide}/conversations` (and its
- * `implicit` subfolder). Older conversations are `.pb` files readable only through
+ * `<gemini home>/.gemini/{antigravity,antigravity-cli,antigravity-ide}/conversations`. The
+ * Gemini home is `GEMINI_CLI_HOME` when set, as for Gemini CLI, else the user's home. Older
+ * conversations (and the sibling `implicit` folders) are `.pb` files readable only through
  * Antigravity itself; they are not read.
  *
  * Table `gen_metadata` (`idx`, `data` blob) has one protobuf row per model call. Field
@@ -173,7 +175,10 @@ export const readAntigravity: Reader = (home) =>
   Effect.gen(function* readFromHome() {
     const fs = yield* FileSystem.FileSystem;
     const path = yield* Path.Path;
-    const roots = appFolders.map((folder) => path.join(home, ".gemini", folder, "conversations"));
+    const geminiHome = Option.getOrElse(yield* environmentFolder("GEMINI_CLI_HOME"), () => home);
+    const roots = appFolders.map((folder) =>
+      path.join(geminiHome, ".gemini", folder, "conversations"),
+    );
 
     const listFiles = (root: string) =>
       fs.readDirectory(root, { recursive: true }).pipe(
